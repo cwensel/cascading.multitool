@@ -1,0 +1,100 @@
+name	id	content
+Justin Hamilton	/guid/9202a8c04000641f8000000009d54826	
+Ted Blackman	/guid/9202a8c04000641f8000000000f27dc8	
+Ed Doolan	/guid/9202a8c04000641f8000000000b7af7d	
+Jim Connors	/guid/9202a8c04000641f8000000000dd9f6a	
+Nancy Skinner	/guid/9202a8c04000641f8000000000e1323f	
+Gene Klavan	/guid/9202a8c04000641f8000000006b80e95	
+Jérôme Tissot	/guid/9202a8c04000641f8000000006d3476d	Teklab.FM
+Brian Hayes	/guid/9202a8c04000641f8000000006b5212e	
+Elisabeth Withers	/guid/9202a8c04000641f8000000006cfe557	radioIO Nusoul,radioIO Smooth Jazz
+Colette	/guid/9202a8c04000641f8000000006d22870	DI.fm Deep House
+Scruff Connors	/guid/9202a8c04000641f8000000006f2073c	
+Ijahman Levi	/guid/9202a8c04000641f8000000006d00b55	1.FM Reggaetrade
+Randy Bachman	/guid/9202a8c04000641f8000000000097087	
+Hanna-McEuen	/guid/9202a8c04000641f8000000000883bc4	1Club.FM: Hit Kicker
+Traveling Wilburys	/guid/9202a8c04000641f800000000003d42c	radioIO History of Rock,WXRT,Paradise Tunes
+Edwin McCain	/guid/9202a8c04000641f800000000017d009	1Club.FM: AtWork,Big R Radio - Warm 101.6,WZGC,KOIT,Fresh 102.7,KYMX,WEAT Sunny 104.3,Big R Radio - 107.7 The Mix
+Loreena McKennitt	/guid/9202a8c04000641f80000000001911c5	Green Mist Radio,Mostly Classical on Sky.fm,New Age on Sky.fm,Radio Paradise,1Club.FM: 95 The Lite
+Rebecca St. James	/guid/9202a8c04000641f8000000000281978	Big R Radio - Christian Top 40,Bigloo Christian Radio
+Phil Collins	/guid/9202a8c04000641f8000000000120327	Big R Radio - Soft Hits,WCBS 101.1 HD2,WVMV,WOMC,CRIK FM - The Lynx Classic Hits,Big R Radio - Warm 101.6,WZPT,Hits 80s 90s and Now,WZLX,KJKK-FM,Best of the '80s on Sky.fm,WLIF,KZOK,Rock & Roll.fm,radio ffn,WKQC,1Club.FM: AtWork,CRIK FM - The Lynx Retro 80s,KLUV,1Club.FM: 80s (Pop),107 WANS,KKJJ-FM,KOIT,radioIO Lovesongs,radioIO 80s POP,radioIO 90s POP,Living Legends Music,Pop Rock 80's,Radio Rouge,KJAQ-FM,80s And More,WDOK,1Club.FM: 80s (Lite),The Mix Online,KYMX,Atlantic Sound Factory,WEAT Sunny 104.3,.977 The '80s Channel
+Janet Parshall	/guid/9202a8c04000641f8000000000922a86	
+System of a Down	/guid/9202a8c04000641f8000000000038dd6	Chronix Grit,1.FM X,NETROCK101,WPBZ,KUFO,181-buzz,Retro FM,Big R Radio - Alternative Rock,KROQ,WBCN,WKRK,WHFS 2 HD Radio,1.FM High Voltage,radioIO Todays Rock,ChroniX Aggression
+Vicki Sue Robinson	/guid/9202a8c04000641f80000000002a7603	WOMC,Disco Hits,WLIF,1Club.FM: Jammin' Oldies,CRIK FM - The Lynx Disco Classics
+ATC	/guid/9202a8c04000641f800000000037c81a	Planet Hits Radio,Playdio
+The Band	/guid/9202a8c04000641f800000000003cc8b	WZLX,93.1 Jack FM Los Angeles,1Club.FM: Folk,Technicolor Web of Sound,1.FM 50's & 60's,radioIO Classic Rock,radioIO AltCountry,NeverEndingWonder Radio,2NG - Two Nations Gold
+Diana Krall	/guid/9202a8c04000641f8000000000235701	Acoustic Caf.,1Club.FM: 95 The Lite,DaTempo Lounge - SKY.fm,radioIO Vocal Jazz,radioIO Real Jazz
+Chuck Blair	/guid/9202a8c04000641f800000000081e9a9	
+Peter Warren	/guid/9202a8c04000641f80000000002cf68e	
+Crazy Town	/guid/9202a8c04000641f800000000016bddd	207 Live - My90's
+Shawn Cosgrove	/guid/9202a8c04000641f80000000009bfdd1	
+Steve Inskeep	/guid/9202a8c04000641f800000000060b3cf	
+Ray Price	/guid/9202a8c04000641f80000000006d8033	Humboldt 101,radioIO Classic Country,Radio Country,1Club.FM: Classic Country
+Dru Hill	/guid/9202a8c04000641f8000000000462f4d	Heaven 1580am,1Club.FM: V101,WZMX
+Jim Eason	/guid/9202a8c04000641f800000000062f94e	
+Derek Rath	/guid/9202a8c04000641f8000000000ab6fd3	
+Soundgarden	/guid/9202a8c04000641f80000000000505fb	Chronix Grit,WXRK,Indie 103.1,KUFO,1.FM X,WQSR,Big R Radio - 90s Alternative,Nvasion Radio,radioIO Grunge,WHFS 2 HD Radio,WKRK,radioIO Rock Mix,Pop Rock 80's,radioIO Todays Rock,WBCN,Live 105 - KITS,WSR Leashed
+Spyro Gyra	/guid/9202a8c04000641f800000000022daf9	radioIO Smooth Jazz,GotRadio - Jazz So Smooth,SoulfulSmoothJazz.com
+Shalamar	/guid/9202a8c04000641f800000000043eac5	107 WANS,1.FM Euro 80's,radioIO 80s POP,WVEE,Disco Hits,1Club.FM: Studio 54,radioIO Disco Hits,WBAV,CRIK FM - The Lynx Disco Classics
+Was (Not Was)	/guid/9202a8c04000641f80000000003f4a36	.977 The '80s Channel,WWRW . The World Wide Radio Web
+Richard Blackwood	/guid/9202a8c04000641f8000000000a11b15	
+Cool For August	/guid/9202a8c04000641f8000000000a6bad2	Big R Radio - 90s Alternative
+Sam Cooke	/guid/9202a8c04000641f8000000000116925	radioIO Roots of Rock,Malt Shop Radio,ACB Radio Interactive,GotRadio - RnB Classics,radioIO Classic RNB,1.FM 50's & 60's,Classic Soul Network,WFE,Ultimate Oldies Channel
+Dream Theater	/guid/9202a8c04000641f8000000000085068	ORSRADIO.COM Rock,Big R Radio - 80s Metal FM
+Meshuggah	/guid/9202a8c04000641f80000000001ce373	ChroniX Metal,RockRadio1,ChroniX Aggression
+Bob Newhart	/guid/9202a8c04000641f8000000000113ac6	Broadband Comedy Network (BCN)
+Sophie Ellis-Bextor	/guid/9202a8c04000641f8000000000266648	DeeGay,Hits 80s 90s and Now,iPartyRadio.com: The #1 Party Authority
+Brian Culbertson	/guid/9202a8c04000641f80000000007a05cc	GotRadio - Jazz So Smooth,WSJT,Absolutely Smooth Jazz on Sky.fm,Smooth Jazz Tampa Bay,Humboldt 101,SoulfulSmoothJazz.com,The Source: Smooth Jazz and More Radio,radioIO Smooth Jazz
+John A. Gambling	/guid/9202a8c04000641f80000000002420f7	
+Levitation	/guid/9202a8c04000641f80000000003cb3c5	Groove Salad on SomaFM
+Anna Nalick	/guid/9202a8c04000641f800000000054ed66	KGRL,Fresh 102.7,KIMN,GotRadio - Womens Alternative,1Club.FM: Mix 106,Sophie @ 103.7 KSCF,WTIC-FM
+Art Brut	/guid/9202a8c04000641f800000000063e085	Whiskey From A Wire
+Death from Above 1979	/guid/9202a8c04000641f8000000000535dbf	Gimme Noise!,WOXY artrocker
+Biffy Clyro	/guid/9202a8c04000641f80000000003d5fb4	QT FM,Zeilsteen Radio,radioIO ALT ROCK
+Fez Whatley	/guid/9202a8c04000641f8000000000747744	Ron and Fez
+Charles Correll	/guid/9202a8c04000641f800000000014cdb4	
+Michelangelo Signorile	/guid/9202a8c04000641f80000000001b4b7e	
+Alan Berg	/guid/9202a8c04000641f8000000000289d70	
+Gabriel & Dresden	/guid/9202a8c04000641f8000000000a76a6b	Switch 1197
+The Dismemberment Plan	/guid/9202a8c04000641f80000000004ce8f5	Gimme Noise!
+Taking Back Sunday	/guid/9202a8c04000641f80000000001c2994	1.FM X,181-buzz,idobi Radio
+The Agony Scene	/guid/9202a8c04000641f80000000004e0a66	ChroniX Aggression
+David Mattingly	/guid/9202a8c04000641f8000000009ef44f9	
+Jay Jacobs	/guid/9202a8c04000641f8000000008765c0c	
+Jerry Blavat	/guid/9202a8c04000641f800000000879fb62	
+Malikha Mallette	/guid/9202a8c04000641f8000000000cb0da1	
+Stephen Stills	/guid/9202a8c04000641f800000000013b49d	WXRT,Living Legends Music,radioIO Rock Mix,KLUV,radioIO Classic Acoustic Rock,ORSRADIO.COM Oldies,KLTH,WOGL
+System 7	/guid/9202a8c04000641f80000000005d5eaa	Space Station Soma on SomaFM
+Frank Zappa	/guid/9202a8c04000641f8000000000016df0	radioIO Progressive Rock,radioIO 80s NEW WAVE,radioIO Classic Rock,radioIO History of Rock
+The Mavericks	/guid/9202a8c04000641f80000000006087b8	1Club.FM: Bar Rockin' Country,radioIO shuffle,radioIO Todays Country,1.FM Disco Ball
+Max Falkenstein	/guid/9202a8c04000641f8000000000ac2cb1	
+Jill Pike	/guid/9202a8c04000641f80000000009fa8ed	
+Rob Weingarten	/guid/9202a8c04000641f8000000000ba6b2a	
+Burning Spear	/guid/9202a8c04000641f800000000007c854	1.FM Reggaetrade,RightOnReggae,Live ReggaeCast,Roots Reggae on Sky.fm
+Celine Dion	/guid/9202a8c04000641f800000000015edf5	Big R Radio - Warm 101.6,KOIT,TunzRadio.com,All Top Hits on Sky.fm,radioIO 90s POP,radioIO Lovesongs,WDOK,radioIO Todays POP,WEAT Sunny 104.3,WSR Leashed,KYMX,Planet Hits Radio,1Club.FM: 95 The Lite,Planet Hits Radio . The Mix,LG73,Hits 80s 90s and Now,EYE97,Fresh 102.7,1.FM Always Christmas,WLTE,Humboldt 101,Soundic Radio,Radio Rouge
+Lee Marshall	/guid/9202a8c04000641f8000000000a2c8c0	
+George Balcan	/guid/9202a8c04000641f800000000044a4ad	
+Joe Burke	/guid/9202a8c04000641f80000000008db8c9	Green Mist Radio
+Pretty Poison	/guid/9202a8c04000641f80000000006c4cda	Movin 99.7,1Club.FM: Jammin' Oldies
+Terry Gross	/guid/9202a8c04000641f80000000002203c3	Fresh Air
+Tammy Wynette	/guid/9202a8c04000641f80000000001618fc	Radio Country,radioIO Classic Country,1.FM Classic Country,1.FM Luxuria Music,.997 Radiostorm Oldies
+Tom T. Hall	/guid/9202a8c04000641f800000000030d6c3	radioIO Classic Country,1Club.FM: Classic Country
+100 Demons	/guid/9202a8c04000641f8000000000a6e6c4	525 Power Tracks
+The Time	/guid/9202a8c04000641f80000000005dfe4c	radioIO 80s POP,1.FM Back To The 80's,CRIK FM - The Lynx Retro 80s
+Pedro the Lion	/guid/9202a8c04000641f8000000000311d09	WOXY artrocker
+George Thorogood	/guid/9202a8c04000641f800000000015de2e	radioIO Blues,KJKK-FM,radioIO Top 100 Classic Rock Hits,KZJK,GotRadio - Bit O Blues,radioIO Classic Rock,WZLX,WTGB,radioIO Rock Mix,radioIO History of Rock,radioIO History,WJMK
+Abandoned Pools	/guid/9202a8c04000641f800000000021b3df	Pop Rock 80's
+Bobby Vee	/guid/9202a8c04000641f8000000000445bcb	Ultimate Oldies Channel
+Rilo Kiley	/guid/9202a8c04000641f80000000001b918a	Gimme Noise!,radioIO Women in Rock,radioIO ALT ROCK
+Mike Harding	/guid/9202a8c04000641f800000000042a9ed	
+Sun Ra	/guid/9202a8c04000641f80000000000a8f0d	DI.fm Modern Jazz
+Harry Chapin	/guid/9202a8c04000641f8000000000137877	181-greatoldies,WKQC,1Club.FM: Folk
+Azure Ray	/guid/9202a8c04000641f800000000049705e	Whiskey From A Wire
+Jimmy Tapp	/guid/9202a8c04000641f80000000004780e2	
+Paul Burnett	/guid/9202a8c04000641f8000000000706d0f	
+Tasmin Archer	/guid/9202a8c04000641f80000000003aa9df	BNN.FM,Playdio
+Clear Light	/guid/9202a8c04000641f8000000000af1268	radioIO Progressive Rock,1Club.FM: Folk
+Röyksopp	/guid/9202a8c04000641f80000000001f5f80	Pop Rock 80's,WOXY artrocker,radioIO CHILL,1.FM Afterbeat Electronica,Groove Salad on SomaFM
+Cousin Creep	/guid/9202a8c04000641f80000000006d238f	
+The Swinging Blue Jeans	/guid/9202a8c04000641f80000000008b86c7	WFE
+Paloma San Basilio	/guid/9202a8c04000641f800000000072bbe5	ORSRADIO.COM Spanish Oldies

@@ -1,0 +1,100 @@
+name	id	length	artist	album	lyrics	acquire_webpage	song	date	place	contributions
+Chasing a Ghost	/guid/9202a8c04000641f800000000929d073			Talking Through Tin Cans						
+Child Meat	/guid/9202a8c04000641f80000000086e7b62		Mind Necrosis Factor	Cruel Emulator						
+Raspberry Beret	/guid/9202a8c04000641f80000000098b7fa6			That Skinny Motherfucker With the High Voice?						
+Born Under A Bad Sign	/guid/9202a8c04000641f8000000007c66b32		The Smashing Pumpkins							
+“From House to House”	/guid/9202a8c04000641f8000000008926f81			Sing Praises to Jehovah						
+Jehovah’s Attributes	/guid/9202a8c04000641f8000000008927106			Sing Praises to Jehovah						
+Our Paradise: Present and Future	/guid/9202a8c04000641f8000000008927414			Sing Praises to Jehovah						
+Mini-Skirt Minnie	/guid/9202a8c04000641f80000000091cf8d6		Rockin' Paradox	Fix Up the Drinks and Bring on the Heartache						
+The Dance	/guid/9202a8c04000641f80000000080fc6b0		Royal Noise Brigade	Music to Cruise To						
+Nobody	/guid/9202a8c04000641f80000000013748c2	0.0		Breaking Point						
+Knights of Cydonia	/guid/9202a8c04000641f8000000000c744a1	368.0	Muse	Smack!,Black Holes and Revelations						
+Wrong Way	/guid/9202a8c04000641f8000000001209ef4	259.333	Creed	Human Clay,End of Days,Alternative Collection						
+Intro	/guid/9202a8c04000641f800000000120a235	68.76		LP						
+Bennie and the Jets	/guid/9202a8c04000641f800000000120a72f	313.24								
+Over My Shoulder	/guid/9202a8c04000641f800000000120aad2	220.64		Tomorrow the Green Grass						
+The Geometry of Shadows, Part 2	/guid/9202a8c04000641f800000000120ad33	207.533		Babylon 5						
+Train Tour to Rainbow City	/guid/9202a8c04000641f800000000120afcc	0.0	The Pyramids	Original Ska: All the Hits						
+Scavenger Type	/guid/9202a8c04000641f800000000120b12e	432.906		Punk in Drublic						
+Television Man	/guid/9202a8c04000641f800000000120b2a1	371.866		Little Creatures						
+Tribute to Johnny	/guid/9202a8c04000641f800000000120b502	158.16	The Smashing Pumpkins	Zero						
+Take the Long Way Home	/guid/9202a8c04000641f800000000120b985	246.573		The Autobiography of Supertramp						
+From Now On	/guid/9202a8c04000641f800000000120b9a8	371.666		The Autobiography of Supertramp						
+No Spill Blood	/guid/9202a8c04000641f800000000120bc2c	221.893		Anthology						
+La mort n'est qu'une étape (le testament)	/guid/9202a8c04000641f800000000120be39	0.0		Le Testament						
+Metamorphose (DJ X remix)	/guid/9202a8c04000641f800000000120c608	0.0	Rick West	Funky Breakz 2 (DJ X)						
+Path Finder	/guid/9202a8c04000641f800000000120c9f1	0.0	Crude Infinity	Trancespotting II						
+Send It to Me	/guid/9202a8c04000641f800000000120ce82	223.0		Emotional Rescue						
+Come Together	/guid/9202a8c04000641f800000000120cea5	225.733	Aerosmith	Greatest Hits,Armageddon,Basement Days,Hits in the Attic (disc 2),Sgt. Pepper's Lonely Hearts Club Band,Pandora's Box,Greatest Hits 1973-1988,The Best of Aerosmith: The Millennium Collection,Greatest Ballads						
+Raincry	/guid/9202a8c04000641f800000000120d24f	471.333	Scott Hardkiss	Northern Exposure						
+Train	/guid/9202a8c04000641f800000000120d3c2	0.0	Jah Wobble	Chemical Warfare (Mix Mix Bang Bang)						
+Artificial Red	/guid/9202a8c04000641f800000000120d623	377.173		Above						
+Pretty	/guid/9202a8c04000641f800000000120d8bc	136.2		Everybody Else Is Doing It, So Why Can't We?						
+Private Idaho	/guid/9202a8c04000641f800000000120daec	214.573		Time Capsule: Songs for a Future Generation						
+Kill the Child	/guid/9202a8c04000641f800000000120dcf9	3745.173		Kill the Child: 1985/1986/1987 Live						
+Symphony No. 99 in E flat major:  Adagio	/guid/9202a8c04000641f800000000120e022	368.44		Symphonies 99 and 101 \\"Die Uhr\\"						
+I Started a Joke	/guid/9202a8c04000641f800000000120e2bb	187.04	Bee Gees	Their Greatest Hits: The Record,Bee Gees,Tales From the Brothers Gibb: A History in Song 1967-1990,Time-Life Music: Classic Rock: 1969 Shakin' All Over,Best of Bee Gees,Love Hits,Number Ones,Greatest Hits,Bee Gees Story,A History of Song 1967-1990 (disc 1),Idea						
+Poppies	/guid/9202a8c04000641f800000000120e4c8	171.826		Marcy Playground						
+Behind the Fool	/guid/9202a8c04000641f800000000120e51c	198.44		Change Everything						
+Crawl Away	/guid/9202a8c04000641f800000000120e729	329.773		Undertow						
+Don't Tell Me	/guid/9202a8c04000641f800000000120e99f	280.0		Music						
+Man in Me	/guid/9202a8c04000641f800000000120eb20	341.8		World Falling Down						
+Not the Same	/guid/9202a8c04000641f800000000120efc6	174.56		Science Faire						
+Regenerate	/guid/9202a8c04000641f800000000120f4e3	328.92		Transmissions From the Chemical Land						
+Caravan	/guid/9202a8c04000641f800000000120f744	152.0		Shaken Not Stirred						
+Far From Home	/guid/9202a8c04000641f800000000120f9dd	296.0		P.M.						
+Karuna	/guid/9202a8c04000641f800000000120fe6e	549.44		Star of the Sea						
+Bongo Bop	/guid/9202a8c04000641f800000000120ffe1	163.0		The Best of The Bird						
+Mosquito Machine	/guid/9202a8c04000641f800000000121035a	204.0	Isabelle's Gift	Southern Slam						
+Some Other Spring	/guid/9202a8c04000641f8000000001210567	251.0		On the Sunny Side of the Strip						
+I Can Rely	/guid/9202a8c04000641f8000000001211582	189.0		Elf: Gulf Bore Waltz						
+Bad Vibrations	/guid/9202a8c04000641f80000000012115a5	161.0		Elf: Gulf Bore Waltz						
+Ithica 27 ø 9	/guid/9202a8c04000641f8000000001211806	178.0		Ten Rapid: Collected Recordings 1996-1997						
+Automatic	/guid/9202a8c04000641f8000000001211a36	108.733								
+Greed Motivates	/guid/9202a8c04000641f8000000001211ccf	104.0	Straight Faced	Punk-O-Rama, Volume 3						
+Sqlxzm	/guid/9202a8c04000641f80000000012121ec	256.0		Mold						
+Everyone Smiles	/guid/9202a8c04000641f80000000012123f9	159.0		Pour Another Drink						
+The 2nd	/guid/9202a8c04000641f800000000121244d	323.0		Another One I'm Not on or Under						
+He's My Guy	/guid/9202a8c04000641f80000000012125c0	160.0	Beverly	We Had The Beat!						
+It's My Life	/guid/9202a8c04000641f8000000001212821	251.0	The Apollos	Battle of the Bands Live!						
+Cold	/guid/9202a8c04000641f8000000001212a51	255.0		Frédérique Spigt con la Piccola Orchestra						
+Airwolf	/guid/9202a8c04000641f8000000001212cea	173.0		Greatest Science Fiction Hits IV						
+Red Alert	/guid/9202a8c04000641f8000000001212ef7	137.0		Star Trek: First Contact						
+Star Trek Main Title	/guid/9202a8c04000641f8000000001212f4b	53.0		Star Trek, Volume 3: Shore Leave / The Naked Time						
+Transporter Energize	/guid/9202a8c04000641f8000000001213675	11.0		Star Trek: Original TV Series Sound Effects						
+Suite From Heroes and Demons: Dr. Schweitzer	/guid/9202a8c04000641f8000000001213b29	79.466	Dennis McCarthy	The Best of Star Trek:  30th Anniversary Special						
+Late Hours at Midnight	/guid/9202a8c04000641f8000000001213d9f	192.0	Baby Face Leroy	Blues Is Killin' Me						
+Times are Tough	/guid/9202a8c04000641f8000000001214046	274.0	Lee 'Shot' Williams	Southern Soul Volume One						
+Draw Me Nearer	/guid/9202a8c04000641f80000000012142df	150.0		Golden Jubilee						
+I Wanna Walk You Home	/guid/9202a8c04000641f8000000001214690	143.0		The Fat Man Sings Live						
+Walking to New Orleans	/guid/9202a8c04000641f80000000012146b3	136.0		The Fat Man Sings Live						
+My Tomorrow	/guid/9202a8c04000641f8000000001214914	231.0	Little Joe Blue	Super Soul Blues, Volume I						
+Last Goodbye	/guid/9202a8c04000641f8000000001214b44	130.0		Last of the Sharpshooters						
+Darkside	/guid/9202a8c04000641f8000000001214ddd	142.0		Pulley						
+Another Year Goes By	/guid/9202a8c04000641f8000000001215061	178.226		Insider						
+Motel Six	/guid/9202a8c04000641f80000000012152fa	197.773		Baile de los Locos						
+Detatchment	/guid/9202a8c04000641f8000000001215768	463.0	Ambush	Sonics Everywhere						
+Pain in My Belly	/guid/9202a8c04000641f8000000001215a0f	152.0	Prince Buster & The Maytals	Skankin' Ska						
+We Nu Like	/guid/9202a8c04000641f8000000001215bb0	193.0	Spraga Benz	Dancehall Rhythm: The Total Mix						
+Open URL	/guid/9202a8c04000641f8000000001215e11	978.0		Web						
+My Lie	/guid/9202a8c04000641f8000000001216167	154.0		Voice of America						
+Electronic Pop #5 (3)	/guid/9202a8c04000641f80000000012167d4	11.0		The Fantasy Worlds of Irwin Allen						
+[silence]	/guid/9202a8c04000641f8000000001216c65	4.0		A Maggot in Their Heads						
+House of Defeat	/guid/9202a8c04000641f8000000001216efe	149.0		Elevator Music for Non-Claustrophobic People						
+Each Whining Thing	/guid/9202a8c04000641f8000000001217182	70.213		Baptism of Solitude						
+A Distant Episode	/guid/9202a8c04000641f80000000012171a5	223.106		Baptism of Solitude						
+Auto Hag	/guid/9202a8c04000641f8000000001217406	284.2		Fook						
+Excerpt	/guid/9202a8c04000641f800000000121767c	103.0	Spasm	In Dust We Trust						
+The Lord Will Make a Way	/guid/9202a8c04000641f8000000001217889	210.0		The Heritage						
+Electric Newspaper (Issue 4) 83	/guid/9202a8c04000641f8000000001217c80	18.0		Electric Newspaper: Issue 4						
+Electric Newspaper (Issue 4) 88	/guid/9202a8c04000641f8000000001217ca3	6.0		Electric Newspaper: Issue 4						
+[silence]	/guid/9202a8c04000641f8000000001217f04	5.0		Fanning the Flames of Fire						
+Bedazzled	/guid/9202a8c04000641f800000000121804d	419.0	The Love Interest	Can You See It Yet?						
+Habit	/guid/9202a8c04000641f80000000012181c0	502.853		Lounge						
+C Is for Sleep	/guid/9202a8c04000641f8000000001218421	421.0	CoH	Interiors						
+Backbiter	/guid/9202a8c04000641f80000000012186ba	292.0		Spider Sex and Car Wrecks						
+Clothes Hoist	/guid/9202a8c04000641f80000000012188c7	282.0								
+The Nothing Song (live)	/guid/9202a8c04000641f8000000001218af7	524.826		Origin of the Species						
+Aboriginal	/guid/9202a8c04000641f8000000001218b4b	189.506		A New High in Low						
+Nothin'	/guid/9202a8c04000641f8000000001218d58	141.0		A Man And His Beliefs						
