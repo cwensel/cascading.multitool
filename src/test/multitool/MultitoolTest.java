@@ -58,7 +58,7 @@ public class MultitoolTest extends CascadingTestCase
 
     flow.complete();
 
-    validateLength( flow, 99 ); // we removed one line
+    validateLength( flow, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){11}$" ) ); // we removed one line
     }
 
   public void testCut() throws IOException
@@ -78,6 +78,26 @@ public class MultitoolTest extends CascadingTestCase
     flow.complete();
 
     validateLength( flow, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
+    }
+
+  public void testSelectReject() throws IOException
+    {
+    List<String[]> params = new LinkedList<String[]>();
+
+    params.add( new String[]{"source", trackData} );
+    params.add( new String[]{"source.skipheader", "true"} );
+
+    params.add( new String[]{"select", "w"} );
+    params.add( new String[]{"reject", "o"} );
+
+    params.add( new String[]{"sink", outputPath + "/selectreject"} );
+    params.add( new String[]{"sink.replace", "true"} );
+
+    Flow flow = new Main( params ).plan( new Properties() );
+
+    flow.complete();
+
+    validateLength( flow, 2, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){11}$" ) ); // we removed one line
     }
 
   }

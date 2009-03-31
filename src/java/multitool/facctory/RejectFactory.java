@@ -23,7 +23,10 @@ package multitool.facctory;
 
 import java.util.Map;
 
+import cascading.operation.regex.RegexFilter;
+import cascading.pipe.Each;
 import cascading.pipe.Pipe;
+import cascading.tuple.Fields;
 
 /**
  *
@@ -52,6 +55,6 @@ public class RejectFactory extends PipeFactory
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
-    return null;
+    return new Each( pipe, Fields.ALL, new RegexFilter( value, true ) );
     }
   }
