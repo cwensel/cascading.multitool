@@ -23,6 +23,8 @@ package multitool.facctory;
 
 import java.util.Map;
 
+import cascading.tuple.Fields;
+
 /**
  *
  */
@@ -59,10 +61,28 @@ public abstract class Factory
 
   public abstract String[] getParametersUsage();
 
+  protected Fields asFields( String fields )
+    {
+    String[] split = fields.split( "," );
+    Comparable[] comparables = new Comparable[split.length];
+
+    for( int i = 0; i < split.length; i++ )
+      comparables[ i ] = Integer.parseInt( split[ i ] );
+
+    return new Fields( comparables );
+    }
+
   protected boolean getBoolean( Map<String, String> params, String key )
     {
     String replace = params.get( key );
 
     return replace != null && Boolean.parseBoolean( replace );
+    }
+
+  protected String getString( Map<String, String> params, String key, String defaultValue )
+    {
+    String replace = params.get( key );
+
+    return replace != null ? replace : defaultValue;
     }
   }

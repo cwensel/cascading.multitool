@@ -23,7 +23,10 @@ package multitool.facctory;
 
 import java.util.Map;
 
+import cascading.operation.regex.RegexSplitter;
+import cascading.pipe.Each;
 import cascading.pipe.Pipe;
+import cascading.tuple.Fields;
 
 /**
  *
@@ -52,6 +55,9 @@ public class CutFactory extends PipeFactory
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
-    return null;
+    Fields fields = asFields( value );
+    String delim = getString( subParams, "delim", "\t" );
+
+    return new Each( pipe, Fields.ALL, new RegexSplitter( delim ), fields );
     }
   }

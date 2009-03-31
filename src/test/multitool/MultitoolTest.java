@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import cascading.CascadingTestCase;
 import cascading.flow.Flow;
@@ -44,9 +45,8 @@ public class MultitoolTest extends CascadingTestCase
     super( "basic tests" );
     }
 
-  public void testParser() throws IOException
+  public void testCopy() throws IOException
     {
-
     List<String[]> params = new LinkedList<String[]>();
 
     params.add( new String[]{"source", trackData} );
@@ -54,16 +54,30 @@ public class MultitoolTest extends CascadingTestCase
     params.add( new String[]{"sink", outputPath + "/simple"} );
     params.add( new String[]{"sink.replace", "true"} );
 
-
-    Main main = new Main( params );
-
-    Properties properties = new Properties();
-
-    Flow flow = main.plan( properties );
+    Flow flow = new Main( params ).plan( new Properties() );
 
     flow.complete();
 
     validateLength( flow, 99 ); // we removed one line
+    }
+
+  public void testCut() throws IOException
+    {
+    List<String[]> params = new LinkedList<String[]>();
+
+    params.add( new String[]{"source", trackData} );
+    params.add( new String[]{"source.skipheader", "true"} );
+
+    params.add( new String[]{"cut", "2,3"} );
+
+    params.add( new String[]{"sink", outputPath + "/cut"} );
+    params.add( new String[]{"sink.replace", "true"} );
+
+    Flow flow = new Main( params ).plan( new Properties() );
+
+    flow.complete();
+
+    validateLength( flow, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
     }
 
   }
