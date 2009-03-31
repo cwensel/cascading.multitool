@@ -50,13 +50,13 @@ public class CutFactory extends PipeFactory
 
   public String[] getParametersUsage()
     {
-    return new String[]{"regex delimiter, defaut: TAB"};
+    return new String[]{"regex delimiter, defaut: '\\t' (TAB)"};
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
     Fields fields = asFields( value );
-    String delim = getString( subParams, "delim", "\t" );
+    String delim = getString( subParams, "delim", "\\t" );
 
     return new Each( pipe, Fields.ALL, new RegexSplitter( delim ), fields );
     }
