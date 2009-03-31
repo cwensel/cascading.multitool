@@ -22,18 +22,12 @@
 package multitool;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
 
 import cascading.CascadingTestCase;
 import cascading.flow.Flow;
-import cascading.flow.FlowConnector;
-import cascading.pipe.Pipe;
-import cascading.scheme.TextLine;
-import cascading.tap.Hfs;
-import cascading.tap.SinkMode;
-import cascading.tap.Tap;
-import multitool.assembly.ArtistParser;
-import multitool.assembly.TrackParser;
 
 /**
  *
@@ -52,18 +46,24 @@ public class MultitoolTest extends CascadingTestCase
 
   public void testParser() throws IOException
     {
-    Tap source = new Hfs( new TextLine(), trackData );
-    Tap sink = new Hfs( new TextLine(), outputPath + "/trackparser", SinkMode.REPLACE );
 
-    Pipe pipe = new Pipe( "trackparser" );
+    List<String[]> params = new LinkedList<String[]>();
 
-//    pipe = new TrackParser( pipe );
+    params.add( new String[]{"source", trackData} );
+    params.add( new String[]{"source.skipheader", "true"} );
+    params.add( new String[]{"sink", outputPath + "/simple"} );
+    params.add( new String[]{"sink.replace", "true"} );
 
-    Flow flow = new FlowConnector().connect( "trackparser", source, sink, pipe );
+
+    Main main = new Main( params );
+
+    Properties properties = new Properties();
+
+    Flow flow = main.plan( properties );
 
     flow.complete();
 
-    validateLength( flow, 99, 2, Pattern.compile( "[\\d]*(\\t[^\\t]*){11}" ) ); // we removed one line
+    validateLength( flow, 99 ); // we removed one line
     }
 
   }
