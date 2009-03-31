@@ -131,17 +131,19 @@ public class Main
 
   private void validateParams()
     {
-//    for( String[] param : params )
-//      {
-//      if( !factoryMap.keySet().contains( param[ 0 ] ) )
-//        throw new IllegalArgumentException( "error: invalid argument: " + param[ 0 ] );
-//      }
+    for( String[] param : params )
+      {
+      String alias = param[ 0 ].replaceFirst( "^([^.]+).*$", "$1" );
 
-//    if( !params.containsKey( "source" ) )
-//      throw new IllegalArgumentException( "error: 'source' is required" );
-//
-//    if( !params.containsKey( "sink" ) )
-//      throw new IllegalArgumentException( "error: 'sink' is required" );
+      if( !factoryMap.keySet().contains( alias ) )
+        throw new IllegalArgumentException( "error: invalid argument: " + param[ 0 ] );
+      }
+
+    if( !params.get( 0 )[ 0 ].equals( "source" ) )
+      throw new IllegalArgumentException( "error: first command must be source: " + params.get( 0 )[ 0 ] );
+
+    if( !params.get( params.size() - 1 )[ 0 ].startsWith( "sink" ) )
+      throw new IllegalArgumentException( "error: last command must be sink: " + params.get( params.size() - 1 ) );
     }
 
   public void execute()
@@ -158,6 +160,7 @@ public class Main
     Pipe pipe = new Pipe( name );
 
     ListIterator<String[]> iterator = params.listIterator();
+
     while( iterator.hasNext() )
       {
       String[] pair = iterator.next();
@@ -184,6 +187,12 @@ public class Main
         }
       }
 
+    if( sources.isEmpty() )
+      throw new IllegalArgumentException( "error: must have one source" );
+
+    if( sinks.isEmpty() )
+      throw new IllegalArgumentException( "error: must have one sink" );
+
     return new FlowConnector( properties ).connect( sources, sinks, pipe );
     }
 
@@ -200,11 +209,11 @@ public class Main
       if( dotIndex == -1 )
         break;
 
-      if( current.startsWith( key + "." ) )
-        {
-        subParams.put( current.substring( dotIndex + 1 ), params.get( i )[ 1 ] );
-        iterator.next();
-        }
+      if( !current.startsWith( key + "." ) )
+        throw new IllegalArgumentException( "error: param out of order: " + current + ", should follow: " + key );
+
+      subParams.put( current.substring( dotIndex + 1 ), params.get( i )[ 1 ] );
+      iterator.next();
       }
 
     return subParams;

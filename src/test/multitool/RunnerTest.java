@@ -33,14 +33,14 @@ import cascading.flow.Flow;
 /**
  *
  */
-public class MultitoolTest extends CascadingTestCase
+public class RunnerTest extends CascadingTestCase
   {
   public static final String artistData = "build/data/artist.100.txt";
   public static final String trackData = "build/data/track.100.txt";
 
   public static final String outputPath = "build/test/output";
 
-  public MultitoolTest()
+  public RunnerTest()
     {
     super( "basic tests" );
     }
