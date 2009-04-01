@@ -120,4 +120,25 @@ public class RunnerTest extends CascadingTestCase
     validateLength( flow, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){11}$" ) ); // we removed one line
     }
 
+  public void testConcat() throws IOException
+    {
+    List<String[]> params = new LinkedList<String[]>();
+
+    params.add( new String[]{"source", trackData} );
+    params.add( new String[]{"source.skipheader", "true"} );
+
+    params.add( new String[]{"cut", "2,3"} );
+    params.add( new String[]{"concat", null} );
+    params.add( new String[]{"concat.delim", "|"} );
+
+    params.add( new String[]{"sink", outputPath + "/concat"} );
+    params.add( new String[]{"sink.replace", "true"} );
+
+    Flow flow = new Main( params ).plan( new Properties() );
+
+    flow.complete();
+
+    validateLength( flow, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*)$" ) ); // we removed one line
+    }
+
   }
