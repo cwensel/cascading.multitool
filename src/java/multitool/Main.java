@@ -146,6 +146,9 @@ public class Main
 
   private void validateParams()
     {
+    if( params.size() == 0 )
+      throw new IllegalArgumentException( "error: no args given" );
+
     for( String[] param : params )
       {
       String alias = param[ 0 ].replaceFirst( "^([^.]+).*$", "$1" );
