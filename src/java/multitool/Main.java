@@ -34,9 +34,11 @@ import cascading.flow.FlowConnector;
 import cascading.pipe.Pipe;
 import cascading.tap.Tap;
 import multitool.facctory.ConcatFactory;
+import multitool.facctory.CountFactory;
 import multitool.facctory.CutFactory;
 import multitool.facctory.DebugFactory;
 import multitool.facctory.Factory;
+import multitool.facctory.GenFactory;
 import multitool.facctory.PipeFactory;
 import multitool.facctory.RejectFactory;
 import multitool.facctory.SelectFactory;
@@ -57,7 +59,8 @@ public class Main
   static TapFactory[] TAP_FACTORIES = new TapFactory[]{new SourceFactory( "source" ), new SinkFactory( "sink" )};
 
   static PipeFactory[] PIPE_FACTORIES = new PipeFactory[]{new RejectFactory( "reject" ), new SelectFactory( "select" ),
-    new CutFactory( "cut" ), new SortFactory( "sort" ), new ConcatFactory( "concat" ), new DebugFactory( "debug" )};
+    new CutFactory( "cut" ), new SortFactory( "sort" ), new ConcatFactory( "concat" ), new GenFactory( "gen" ),
+    new CountFactory( "count" ), new DebugFactory( "debug" )};
 
   static Map<String, Factory> factoryMap = new HashMap<String, Factory>();
 

@@ -141,4 +141,25 @@ public class RunnerTest extends CascadingTestCase
     validateLength( flow, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*)$" ) ); // we removed one line
     }
 
+  public void testWordCount() throws IOException
+    {
+    List<String[]> params = new LinkedList<String[]>();
+
+    params.add( new String[]{"source", trackData} );
+    params.add( new String[]{"source.skipheader", "true"} );
+
+    params.add( new String[]{"gen", "(?<!\\pL)(?=\\pL)[^\\s]*(?<=\\pL)(?!\\pL)"} );
+    params.add( new String[]{"sort", "0"} );
+    params.add( new String[]{"count", null} );
+
+    params.add( new String[]{"sink", outputPath + "/wordcount"} );
+    params.add( new String[]{"sink.replace", "true"} );
+
+    Flow flow = new Main( params ).plan( new Properties() );
+
+    flow.complete();
+
+    validateLength( flow, 570, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
+    }
+
   }
