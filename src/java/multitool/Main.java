@@ -34,11 +34,13 @@ import cascading.flow.FlowConnector;
 import cascading.pipe.Pipe;
 import cascading.tap.Tap;
 import multitool.facctory.CutFactory;
+import multitool.facctory.DebugFactory;
 import multitool.facctory.Factory;
 import multitool.facctory.PipeFactory;
 import multitool.facctory.RejectFactory;
 import multitool.facctory.SelectFactory;
 import multitool.facctory.SinkFactory;
+import multitool.facctory.SortFactory;
 import multitool.facctory.SourceFactory;
 import multitool.facctory.TapFactory;
 import org.slf4j.Logger;
@@ -54,7 +56,7 @@ public class Main
   static TapFactory[] TAP_FACTORIES = new TapFactory[]{new SourceFactory( "source" ), new SinkFactory( "sink" )};
 
   static PipeFactory[] PIPE_FACTORIES = new PipeFactory[]{new RejectFactory( "reject" ), new SelectFactory( "select" ),
-    new CutFactory( "cut" )};
+    new CutFactory( "cut" ), new SortFactory( "sort" ), new DebugFactory( "debug" )};
 
   static Map<String, Factory> factoryMap = new HashMap<String, Factory>();
 
@@ -78,13 +80,10 @@ public class Main
       {
       int index = arg.indexOf( "=" );
 
-      if( index == -1 )
-        {
-        System.out.println( "invalid argument, missing value: " + arg );
-        printUsage();
-        }
-
-      params.add( new String[]{arg.substring( 0, index ), arg.substring( index + 1 )} );
+      if( index != -1 )
+        params.add( new String[]{arg.substring( 0, index ), arg.substring( index + 1 )} );
+      else
+        params.add( new String[]{arg, null} );
       }
 
     try

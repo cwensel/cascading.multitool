@@ -100,4 +100,24 @@ public class RunnerTest extends CascadingTestCase
     validateLength( flow, 2, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){11}$" ) ); // we removed one line
     }
 
+  public void testSort() throws IOException
+    {
+    List<String[]> params = new LinkedList<String[]>();
+
+    params.add( new String[]{"source", trackData} );
+    params.add( new String[]{"source.skipheader", "true"} );
+
+    params.add( new String[]{"cut", null} );
+    params.add( new String[]{"sort", "0"} );
+
+    params.add( new String[]{"sink", outputPath + "/sort"} );
+    params.add( new String[]{"sink.replace", "true"} );
+
+    Flow flow = new Main( params ).plan( new Properties() );
+
+    flow.complete();
+
+    validateLength( flow, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){11}$" ) ); // we removed one line
+    }
+
   }

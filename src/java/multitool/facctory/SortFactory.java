@@ -23,44 +23,44 @@ package multitool.facctory;
 
 import java.util.Map;
 
-import cascading.operation.regex.RegexSplitter;
-import cascading.pipe.Each;
+import cascading.pipe.GroupBy;
 import cascading.pipe.Pipe;
 import cascading.tuple.Fields;
 
 /**
  *
  */
-public class CutFactory extends PipeFactory
+public class SortFactory extends PipeFactory
   {
-  public CutFactory( String alias )
+  public SortFactory( String alias )
     {
     super( alias );
     }
 
   public String getUsage()
     {
-    return "parse the first field, and return the given result fields, default RESULT fields";
+    return "what fields to group/sort on";
     }
 
   public String[] getParameters()
     {
-    return new String[]{"delim"};
+    return new String[]{"secondary", "secondary.reverse"};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[]{"regex delimiter, defaut: '\\t' (TAB)"};
+    return new String[]{"fields to secondary sort on", "set true to reverse secondary sort"};
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
-    Fields fields = asFields( value );
-    String delim = getString( subParams, "delim", "\\t" );
+    Fields groupFields = asFields( value );
+    Fields secondaryFields = asFields( getString( subParams, "secondary", null ) );
+    boolean isReverse = getBoolean( subParams, "secondary.reverse", false );
 
-    if( fields == null )
-      fields = Fields.RESULTS;
+    if( secondaryFields == null )
+      return new GroupBy( pipe, groupFields );
 
-    return new Each( pipe, Fields.ALL, new RegexSplitter( delim ), fields );
+    return new GroupBy( pipe, groupFields, secondaryFields, isReverse );
     }
   }

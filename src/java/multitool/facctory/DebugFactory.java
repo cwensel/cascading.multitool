@@ -23,7 +23,7 @@ package multitool.facctory;
 
 import java.util.Map;
 
-import cascading.operation.regex.RegexSplitter;
+import cascading.operation.Debug;
 import cascading.pipe.Each;
 import cascading.pipe.Pipe;
 import cascading.tuple.Fields;
@@ -31,36 +31,35 @@ import cascading.tuple.Fields;
 /**
  *
  */
-public class CutFactory extends PipeFactory
+public class DebugFactory extends PipeFactory
   {
-  public CutFactory( String alias )
+  public DebugFactory( String alias )
     {
     super( alias );
     }
 
   public String getUsage()
     {
-    return "parse the first field, and return the given result fields, default RESULT fields";
+    return "print tuples to stdout of task jvm";
     }
 
   public String[] getParameters()
     {
-    return new String[]{"delim"};
+    return new String[]{};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[]{"regex delimiter, defaut: '\\t' (TAB)"};
+    return new String[]{};
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
     Fields fields = asFields( value );
-    String delim = getString( subParams, "delim", "\\t" );
 
     if( fields == null )
-      fields = Fields.RESULTS;
+      fields = Fields.ALL;
 
-    return new Each( pipe, Fields.ALL, new RegexSplitter( delim ), fields );
+    return new Each( pipe, fields, new Debug() );
     }
   }

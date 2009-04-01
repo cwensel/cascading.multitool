@@ -63,6 +63,9 @@ public abstract class Factory
 
   protected Fields asFields( String fields )
     {
+    if( fields == null )
+      return null;
+
     String[] split = fields.split( "," );
     Comparable[] comparables = new Comparable[split.length];
 
@@ -74,9 +77,19 @@ public abstract class Factory
 
   protected boolean getBoolean( Map<String, String> params, String key )
     {
+    return getBoolean( params, key, false );
+    }
+
+  protected boolean getBoolean( Map<String, String> params, String key, boolean defaultValue )
+    {
     String replace = params.get( key );
 
-    return replace != null && Boolean.parseBoolean( replace );
+    return replace != null ? Boolean.parseBoolean( replace ) : defaultValue;
+    }
+
+  protected String getString( Map<String, String> params, String key )
+    {
+    return getString( params, key, null );
     }
 
   protected String getString( Map<String, String> params, String key, String defaultValue )
