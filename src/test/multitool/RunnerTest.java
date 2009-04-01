@@ -35,7 +35,7 @@ import cascading.flow.Flow;
  */
 public class RunnerTest extends CascadingTestCase
   {
-  public static final String trackData = "build/data/track.100.txt";
+  public static final String trackData = "data/track.100.txt";
 
   public static final String outputPath = "build/test/output";
 
