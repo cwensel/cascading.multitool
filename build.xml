@@ -187,6 +187,14 @@
 
   </target>
 
+  <target name="stamp-jar" depends="jar">
+    <tstamp>
+      <format property="TODAY" pattern="MM-dd-yy" locale="en,UK"/>
+    </tstamp>
+
+    <move file="${build.dir}/${ant.project.name}.jar" tofile="${build.dir}/${ant.project.name}-${TODAY}.jar"/>
+  </target>
+
   <target name="jar" depends="compile" description="creates a Hadoop ready jar will all dependencies">
 
     <!-- copy Cascading classes and libraries -->
