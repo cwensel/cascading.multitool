@@ -21,6 +21,7 @@
 
 package multitool;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -48,6 +49,10 @@ import multitool.facctory.SinkFactory;
 import multitool.facctory.SourceFactory;
 import multitool.facctory.SumFactory;
 import multitool.facctory.TapFactory;
+import org.apache.hadoop.io.compress.GzipCodec;
+import org.apache.hadoop.mapred.ClusterStatus;
+import org.apache.hadoop.mapred.JobClient;
+import org.apache.hadoop.mapred.JobConf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -151,9 +156,45 @@ public class Main
       throw new IllegalArgumentException( "error: last command must be sink: " + params.get( params.size() - 1 ) );
     }
 
+  private Properties getDefaultProperties()
+    {
+    Properties properties = new Properties();
+
+    FlowConnector.setApplicationJarClass( properties, Main.class );
+
+    properties.setProperty( "mapred.output.compression.codec", GzipCodec.class.getName() );
+    properties.setProperty( "mapred.child.java.opts", "-server -Xmx512m" );
+    properties.setProperty( "mapred.reduce.tasks.speculative.execution", "false" );
+    properties.setProperty( "mapred.map.tasks.speculative.execution", "false" );
+
+//    int trackers = getNumTaskTrackers();
+//    properties.setProperty( "mapred.map.tasks", "" );
+//    properties.setProperty( "mapred.reduce.tasks", "" );
+
+    return properties;
+    }
+
+  private int getNumTaskTrackers()
+    {
+    ClusterStatus status = null;
+
+    try
+      {
+      status = new JobClient( new JobConf() ).getClusterStatus();
+      }
+    catch( IOException exception )
+      {
+      LOG.warn( "failed getting cluster status", exception );
+
+      return 1;
+      }
+
+    return status.getTaskTrackers();
+    }
+
   public void execute()
     {
-    plan( new Properties() ).complete();
+    plan( getDefaultProperties() ).complete();
     }
 
   public Flow plan( Properties properties )

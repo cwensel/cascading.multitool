@@ -87,6 +87,18 @@ public abstract class Factory
     return replace != null ? Boolean.parseBoolean( replace ) : defaultValue;
     }
 
+  protected int getInteger( Map<String, String> params, String key )
+    {
+    return getInteger( params, key, 0 );
+    }
+
+  protected int getInteger( Map<String, String> params, String key, int defaultValue )
+    {
+    String replace = params.get( key );
+
+    return replace != null ? Integer.parseInt( replace ) : defaultValue;
+    }
+
   protected String getString( Map<String, String> params, String key )
     {
     return getString( params, key, null );

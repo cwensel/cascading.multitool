@@ -28,6 +28,7 @@ import cascading.scheme.TextLine;
 import cascading.tap.Hfs;
 import cascading.tap.SinkMode;
 import cascading.tap.Tap;
+import cascading.tuple.Fields;
 
 /**
  *
@@ -46,7 +47,12 @@ public class SinkFactory extends TapFactory
     if( getBoolean( params, "replace" ) )
       mode = SinkMode.REPLACE;
 
-    return new Hfs( new TextLine(), value, mode );
+    String compress = getString( params, "compress", TextLine.Compress.DEFAULT.toString() );
+    int sinkParts = getInteger( params, "parts", 0 );
+    TextLine.Compress compressEnum = TextLine.Compress.valueOf( compress.toUpperCase() );
+    TextLine textLine = new TextLine( new Fields( "offset", "line" ), Fields.ALL, compressEnum, sinkParts );
+
+    return new Hfs( textLine, value, mode );
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
@@ -61,11 +67,12 @@ public class SinkFactory extends TapFactory
 
   public String[] getParameters()
     {
-    return new String[]{"replace"};
+    return new String[]{"replace", "compress", "parts"};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[]{"set true of output should be overwritten"};
+    return new String[]{"set true of output should be overwritten", "compression: enable, disable, or default",
+      "number of sink file parts, default is number of reducers"};
     }
   }
