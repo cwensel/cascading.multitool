@@ -4,7 +4,7 @@ Welcome
 
  It provides a simple command line interface for building data processing jobs.
 
- For example the following command:
+ For example the following command,
 
    > hadoop jar multitool.jar source=input.txt select=Monday sink=outputDir
 
@@ -49,6 +49,15 @@ Using
   > hadoop jar multitool.jar <args>
 
   If no args are given, a comprehensive list of commands will be printed.
+
+  For example (see above for configuring environment):
+
+  > ant jar
+  > hadoop jar build/multitool.jar source=data/artist.100.txt cut=0 sink=output
+
+  This will compile a new jar, and cut the first fields out of the file 'artists.100.txt'
+  and save the results to 'output'.
+
 
 Examples
 

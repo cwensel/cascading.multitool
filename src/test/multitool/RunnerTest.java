@@ -35,7 +35,6 @@ import cascading.flow.Flow;
  */
 public class RunnerTest extends CascadingTestCase
   {
-  public static final String artistData = "build/data/artist.100.txt";
   public static final String trackData = "build/data/track.100.txt";
 
   public static final String outputPath = "build/test/output";
@@ -68,7 +67,7 @@ public class RunnerTest extends CascadingTestCase
     params.add( new String[]{"source", trackData} );
     params.add( new String[]{"source.skipheader", "true"} );
 
-    params.add( new String[]{"cut", "2,3"} );
+    params.add( new String[]{"cut", "1,2"} );
 
     params.add( new String[]{"sink", outputPath + "/cut"} );
     params.add( new String[]{"sink.replace", "true"} );

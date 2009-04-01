@@ -23,6 +23,7 @@ package multitool.facctory;
 
 import java.util.Map;
 
+import cascading.operation.Identity;
 import cascading.operation.regex.RegexSplitter;
 import cascading.pipe.Each;
 import cascading.pipe.Pipe;
@@ -40,7 +41,7 @@ public class CutFactory extends PipeFactory
 
   public String getUsage()
     {
-    return "parse the first field, and return the given result fields, default RESULT fields";
+    return "parse the first field, and return the given fields. 0 for first, -1 for last";
     }
 
   public String[] getParameters()
@@ -58,9 +59,12 @@ public class CutFactory extends PipeFactory
     Fields fields = asFields( value );
     String delim = getString( subParams, "delim", "\\t" );
 
-    if( fields == null )
-      fields = Fields.RESULTS;
+    // cut parses the first field and returns fields out of the results
+    pipe = new Each( pipe, Fields.FIRST, new RegexSplitter( delim ) );
 
-    return new Each( pipe, Fields.ALL, new RegexSplitter( delim ), fields );
+    if( fields != null )
+      pipe = new Each( pipe, fields, new Identity() );
+
+    return pipe;
     }
   }
