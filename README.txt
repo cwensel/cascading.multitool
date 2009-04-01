@@ -58,6 +58,13 @@ Using
   This will compile a new jar, and cut the first fields out of the file 'artists.100.txt'
   and save the results to 'output'.
 
+  For a more complex example:
+
+  > hadoop jar build/multitool.jar source=data/topic.100.txt cut=0 \
+    "pgen=(\b[12][09][0-9]{2}\b)" group=0 count=0 group=1 \
+    sink=output sink.replace=true sink.parts=1
+
+  This will find all years in the input file, count them, and sort them by counts.
 
 Examples
 
