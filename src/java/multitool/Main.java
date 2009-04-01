@@ -39,11 +39,11 @@ import multitool.facctory.CutFactory;
 import multitool.facctory.DebugFactory;
 import multitool.facctory.Factory;
 import multitool.facctory.GenFactory;
+import multitool.facctory.GroupByFactory;
 import multitool.facctory.PipeFactory;
 import multitool.facctory.RejectFactory;
 import multitool.facctory.SelectFactory;
 import multitool.facctory.SinkFactory;
-import multitool.facctory.SortFactory;
 import multitool.facctory.SourceFactory;
 import multitool.facctory.SumFactory;
 import multitool.facctory.TapFactory;
@@ -60,7 +60,7 @@ public class Main
   static TapFactory[] TAP_FACTORIES = new TapFactory[]{new SourceFactory( "source" ), new SinkFactory( "sink" )};
 
   static PipeFactory[] PIPE_FACTORIES = new PipeFactory[]{new RejectFactory( "reject" ), new SelectFactory( "select" ),
-    new CutFactory( "cut" ), new SortFactory( "sort" ), new ConcatFactory( "concat" ), new GenFactory( "gen" ),
+    new CutFactory( "cut" ), new GroupByFactory( "group" ), new ConcatFactory( "concat" ), new GenFactory( "gen" ),
     new CountFactory( "count" ), new SumFactory( "sum" ), new DebugFactory( "debug" )};
 
   static Map<String, Factory> factoryMap = new HashMap<String, Factory>();

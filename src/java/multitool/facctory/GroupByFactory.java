@@ -30,16 +30,16 @@ import cascading.tuple.Fields;
 /**
  *
  */
-public class SortFactory extends PipeFactory
+public class GroupByFactory extends PipeFactory
   {
-  public SortFactory( String alias )
+  public GroupByFactory( String alias )
     {
     super( alias );
     }
 
   public String getUsage()
     {
-    return "what fields to group/sort on";
+    return "what fields to group/sort on, grouped fields are sorted";
     }
 
   public String[] getParameters()

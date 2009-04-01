@@ -108,7 +108,7 @@ public class RunnerTest extends CascadingTestCase
     params.add( new String[]{"source.skipheader", "true"} );
 
     params.add( new String[]{"cut", null} );
-    params.add( new String[]{"sort", "0"} );
+    params.add( new String[]{"group", "0"} );
 
     params.add( new String[]{"sink", outputPath + "/sort"} );
     params.add( new String[]{"sink.replace", "true"} );
@@ -149,7 +149,7 @@ public class RunnerTest extends CascadingTestCase
     params.add( new String[]{"source.skipheader", "true"} );
 
     params.add( new String[]{"gen", "(?<!\\pL)(?=\\pL)[^\\s]*(?<=\\pL)(?!\\pL)"} );
-    params.add( new String[]{"sort", "0"} );
+    params.add( new String[]{"group", "0"} );
     params.add( new String[]{"count", null} );
 
     params.add( new String[]{"sink", outputPath + "/wordcount"} );
