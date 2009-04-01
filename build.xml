@@ -192,7 +192,8 @@
       <format property="TODAY" pattern="MM-dd-yy" locale="en,UK"/>
     </tstamp>
 
-    <move file="${build.dir}/${ant.project.name}.jar" tofile="${build.dir}/${ant.project.name}-${TODAY}.jar"/>
+    <move file="${build.dir}/${ant.project.name}.jar"
+          tofile="${build.dir}/${ant.project.name}-${cascading.hadoop.compatible.version}-${TODAY}.jar"/>
   </target>
 
   <target name="jar" depends="compile" description="creates a Hadoop ready jar will all dependencies">
