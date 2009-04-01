@@ -23,8 +23,8 @@ package multitool.facctory;
 
 import java.util.Map;
 
-import cascading.operation.Identity;
-import cascading.operation.regex.RegexSplitter;
+import cascading.operation.expression.ExpressionFilter;
+import cascading.operation.filter.Not;
 import cascading.pipe.Each;
 import cascading.pipe.Pipe;
 import cascading.tuple.Fields;
@@ -32,39 +32,35 @@ import cascading.tuple.Fields;
 /**
  *
  */
-public class CutFactory extends PipeFactory
+public class SelectExpressionFactory extends PipeFactory
   {
-  public CutFactory( String alias )
+  public SelectExpressionFactory( String alias )
     {
     super( alias );
     }
 
   public String getUsage()
     {
-    return "split the first field, and return the given fields. 0 for first, -1 for last";
+    return "use java expression as filter, e.g. $0 != null";
     }
 
   public String[] getParameters()
     {
-    return new String[]{"delim"};
+    return new String[]{"args"};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[]{"regex delimiter, defaut: '\\t' (TAB)"};
+    return new String[]{"the fields to use as arguments"};
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
-    Fields fields = asFields( value );
-    String delim = getString( subParams, "delim", "\\t" );
+    Fields fields = asFields( getString( subParams, "args", null ) );
 
-    // cut parses the first field and returns fields out of the results
-    pipe = new Each( pipe, Fields.FIRST, new RegexSplitter( delim ) );
+    if( fields == null )
+      fields = Fields.FIRST;
 
-    if( fields != null )
-      pipe = new Each( pipe, fields, new Identity() );
-
-    return pipe;
+    return new Each( pipe, fields, new Not( new ExpressionFilter( value, String.class ) ) );
     }
   }

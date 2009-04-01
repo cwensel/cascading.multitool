@@ -40,7 +40,7 @@ public class ExpressionFactory extends PipeFactory
 
   public String getUsage()
     {
-    return "use java expression as operation, e.g. $0.toLowerCase()";
+    return "use java expression as function, e.g. $0.toLowerCase()";
     }
 
   public String[] getParameters()

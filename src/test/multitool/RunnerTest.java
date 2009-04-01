@@ -36,6 +36,7 @@ import cascading.flow.Flow;
 public class RunnerTest extends CascadingTestCase
   {
   public static final String trackData = "data/track.100.txt";
+  public static final String topicData = "data/topic.100.txt";
 
   public static final String outputPath = "build/test/output";
 
@@ -161,6 +162,29 @@ public class RunnerTest extends CascadingTestCase
     flow.complete();
 
     validateLength( flow, 560, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
+    }
+
+  public void testParseValues() throws IOException
+    {
+    List<String[]> params = new LinkedList<String[]>();
+
+    params.add( new String[]{"source", topicData} );
+    params.add( new String[]{"source.skipheader", "true"} );
+
+    params.add( new String[]{"cut", "0"} );
+    params.add( new String[]{"pgen", "(\\b[12][09][0-9]{2}\\b)"} );
+    params.add( new String[]{"group", "0"} );
+    params.add( new String[]{"count", "0"} ); // adds count field
+    params.add( new String[]{"group", "1"} );
+
+    params.add( new String[]{"sink", outputPath + "/parsevalues"} );
+    params.add( new String[]{"sink.replace", "true"} );
+
+    Flow flow = new Main( params ).plan( new Properties() );
+
+    flow.complete();
+
+    validateLength( flow, 4, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
     }
 
   }

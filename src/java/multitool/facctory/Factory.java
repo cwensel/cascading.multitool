@@ -75,6 +75,20 @@ public abstract class Factory
     return new Fields( comparables );
     }
 
+  protected int[] getIntArray( String values )
+    {
+    if( values == null )
+      return null;
+
+    String[] split = values.split( "," );
+    int[] ints = new int[split.length];
+
+    for( int i = 0; i < split.length; i++ )
+      ints[ i ] = Integer.parseInt( split[ i ] );
+
+    return ints;
+    }
+
   protected boolean getBoolean( Map<String, String> params, String key )
     {
     return getBoolean( params, key, false );
