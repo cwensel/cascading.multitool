@@ -148,9 +148,11 @@ public class RunnerTest extends CascadingTestCase
     params.add( new String[]{"source", trackData} );
     params.add( new String[]{"source.skipheader", "true"} );
 
+    params.add( new String[]{"expr", "$0.toLowerCase()"} );
     params.add( new String[]{"gen", "(?<!\\pL)(?=\\pL)[^\\s]*(?<=\\pL)(?!\\pL)"} );
     params.add( new String[]{"group", "0"} );
     params.add( new String[]{"count", null} );
+    params.add( new String[]{"group", "1"} );
 
     params.add( new String[]{"sink", outputPath + "/wordcount"} );
     params.add( new String[]{"sink.replace", "true"} );
@@ -159,7 +161,7 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    validateLength( flow, 570, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
+    validateLength( flow, 560, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
     }
 
   }

@@ -37,6 +37,7 @@ import multitool.facctory.ConcatFactory;
 import multitool.facctory.CountFactory;
 import multitool.facctory.CutFactory;
 import multitool.facctory.DebugFactory;
+import multitool.facctory.ExpressionFactory;
 import multitool.facctory.Factory;
 import multitool.facctory.GenFactory;
 import multitool.facctory.GroupByFactory;
@@ -61,7 +62,7 @@ public class Main
 
   static PipeFactory[] PIPE_FACTORIES = new PipeFactory[]{new RejectFactory( "reject" ), new SelectFactory( "select" ),
     new CutFactory( "cut" ), new GroupByFactory( "group" ), new ConcatFactory( "concat" ), new GenFactory( "gen" ),
-    new CountFactory( "count" ), new SumFactory( "sum" ), new DebugFactory( "debug" )};
+    new CountFactory( "count" ), new SumFactory( "sum" ), new ExpressionFactory( "expr" ), new DebugFactory( "debug" )};
 
   static Map<String, Factory> factoryMap = new HashMap<String, Factory>();
 
