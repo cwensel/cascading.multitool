@@ -34,24 +34,24 @@ import cascading.flow.Flow;
 import cascading.flow.FlowConnector;
 import cascading.pipe.Pipe;
 import cascading.tap.Tap;
-import multitool.facctory.ConcatFactory;
-import multitool.facctory.CountFactory;
-import multitool.facctory.CutFactory;
-import multitool.facctory.DebugFactory;
-import multitool.facctory.ExpressionFactory;
-import multitool.facctory.Factory;
-import multitool.facctory.GenFactory;
-import multitool.facctory.GroupByFactory;
-import multitool.facctory.ParserFactory;
-import multitool.facctory.ParserGenFactory;
-import multitool.facctory.PipeFactory;
-import multitool.facctory.RejectFactory;
-import multitool.facctory.SelectExpressionFactory;
-import multitool.facctory.SelectFactory;
-import multitool.facctory.SinkFactory;
-import multitool.facctory.SourceFactory;
-import multitool.facctory.SumFactory;
-import multitool.facctory.TapFactory;
+import multitool.factory.ConcatFactory;
+import multitool.factory.CountFactory;
+import multitool.factory.CutFactory;
+import multitool.factory.DebugFactory;
+import multitool.factory.ExpressionFactory;
+import multitool.factory.Factory;
+import multitool.factory.GenFactory;
+import multitool.factory.GroupByFactory;
+import multitool.factory.ParserFactory;
+import multitool.factory.ParserGenFactory;
+import multitool.factory.PipeFactory;
+import multitool.factory.RejectFactory;
+import multitool.factory.SelectExpressionFactory;
+import multitool.factory.SelectFactory;
+import multitool.factory.SinkFactory;
+import multitool.factory.SourceFactory;
+import multitool.factory.SumFactory;
+import multitool.factory.TapFactory;
 import org.apache.hadoop.io.compress.GzipCodec;
 import org.apache.hadoop.mapred.ClusterStatus;
 import org.apache.hadoop.mapred.JobClient;
@@ -69,10 +69,13 @@ public class Main
   static TapFactory[] TAP_FACTORIES = new TapFactory[]{new SourceFactory( "source" ), new SinkFactory( "sink" )};
 
   static PipeFactory[] PIPE_FACTORIES = new PipeFactory[]{new RejectFactory( "reject" ), new SelectFactory( "select" ),
-    new CutFactory( "cut" ), new ParserFactory( "parse" ), new ParserGenFactory( "pgen" ),
-    new GroupByFactory( "group" ), new ConcatFactory( "concat" ), new GenFactory( "gen" ), new CountFactory( "count" ),
-    new SumFactory( "sum" ), new ExpressionFactory( "expr" ), new SelectExpressionFactory( "sexpr" ),
-    new DebugFactory( "debug" )};
+                                                          new CutFactory( "cut" ), new ParserFactory( "parse" ),
+                                                          new ParserGenFactory( "pgen" ),
+                                                          new GroupByFactory( "group" ), new ConcatFactory( "concat" ),
+                                                          new GenFactory( "gen" ), new CountFactory( "count" ),
+                                                          new SumFactory( "sum" ), new ExpressionFactory( "expr" ),
+                                                          new SelectExpressionFactory( "sexpr" ),
+                                                          new DebugFactory( "debug" )};
 
   static Map<String, Factory> factoryMap = new HashMap<String, Factory>();
 

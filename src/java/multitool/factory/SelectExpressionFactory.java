@@ -19,7 +19,7 @@
  * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package multitool.facctory;
+package multitool.factory;
 
 import java.util.Map;
 

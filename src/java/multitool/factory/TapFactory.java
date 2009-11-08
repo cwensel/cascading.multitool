@@ -19,21 +19,24 @@
  * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package multitool.facctory;
+package multitool.factory;
 
 import java.util.Map;
 
 import cascading.pipe.Pipe;
+import cascading.tap.Tap;
 
 /**
  *
  */
-public abstract class PipeFactory extends Factory
+public abstract class TapFactory extends Factory
   {
-  protected PipeFactory( String alias )
+  protected TapFactory( String alias )
     {
     super( alias );
     }
+
+  public abstract Tap getTap( String value, Map<String, String> params );
 
   public abstract Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe );
   }

@@ -19,48 +19,47 @@
  * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package multitool.facctory;
+package multitool.factory;
 
 import java.util.Map;
 
-import cascading.pipe.GroupBy;
+import cascading.operation.Debug;
+import cascading.pipe.Each;
 import cascading.pipe.Pipe;
 import cascading.tuple.Fields;
 
 /**
  *
  */
-public class GroupByFactory extends PipeFactory
+public class DebugFactory extends PipeFactory
   {
-  public GroupByFactory( String alias )
+  public DebugFactory( String alias )
     {
     super( alias );
     }
 
   public String getUsage()
     {
-    return "what fields to group/sort on, grouped fields are sorted";
+    return "print tuples to stdout of task jvm";
     }
 
   public String[] getParameters()
     {
-    return new String[]{"secondary", "secondary.reverse"};
+    return new String[]{};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[]{"fields to secondary sort on", "set true to reverse secondary sort"};
+    return new String[]{};
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
-    Fields groupFields = asFields( value );
-    Fields secondaryFields = asFields( getString( subParams, "secondary", null ) );
-    boolean isReverse = getBoolean( subParams, "secondary.reverse", false );
+    Fields fields = asFields( value );
 
-    if( secondaryFields == null )
-      return new GroupBy( pipe, groupFields );
+    if( fields == null )
+      fields = Fields.ALL;
 
-    return new GroupBy( pipe, groupFields, secondaryFields, isReverse );
+    return new Each( pipe, fields, new Debug() );
     }
   }

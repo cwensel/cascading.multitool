@@ -19,12 +19,11 @@
  * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package multitool.facctory;
+package multitool.factory;
 
 import java.util.Map;
 
-import cascading.operation.Identity;
-import cascading.operation.regex.RegexSplitter;
+import cascading.operation.regex.RegexGenerator;
 import cascading.pipe.Each;
 import cascading.pipe.Pipe;
 import cascading.tuple.Fields;
@@ -32,39 +31,30 @@ import cascading.tuple.Fields;
 /**
  *
  */
-public class CutFactory extends PipeFactory
+public class ParserGenFactory extends PipeFactory
   {
-  public CutFactory( String alias )
+  public ParserGenFactory( String alias )
     {
     super( alias );
     }
 
   public String getUsage()
     {
-    return "split the first field, and return the given fields. 0 for first, -1 for last";
+    return "parse the first field with given regex, return as new tuples";
     }
 
   public String[] getParameters()
     {
-    return new String[]{"delim"};
+    return new String[]{};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[]{"regex delimiter, defaut: '\\t' (TAB)"};
+    return new String[]{};
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
-    Fields fields = asFields( value );
-    String delim = getString( subParams, "delim", "\\t" );
-
-    // cut parses the first field and returns fields out of the results
-    pipe = new Each( pipe, Fields.FIRST, new RegexSplitter( delim ) );
-
-    if( fields != null )
-      pipe = new Each( pipe, fields, new Identity() );
-
-    return pipe;
+    return new Each( pipe, Fields.FIRST, new RegexGenerator( value ) );
     }
   }

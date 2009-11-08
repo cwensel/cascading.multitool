@@ -19,47 +19,56 @@
  * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package multitool.facctory;
+package multitool.factory;
 
 import java.util.Map;
 
-import cascading.operation.expression.ExpressionFunction;
+import cascading.operation.Identity;
+import cascading.operation.expression.ExpressionFilter;
 import cascading.pipe.Each;
 import cascading.pipe.Pipe;
+import cascading.scheme.TextLine;
+import cascading.tap.Hfs;
+import cascading.tap.Tap;
 import cascading.tuple.Fields;
 
 /**
  *
  */
-public class ExpressionFactory extends PipeFactory
+public class SourceFactory extends TapFactory
   {
-  public ExpressionFactory( String alias )
+  public SourceFactory( String alias )
     {
     super( alias );
     }
 
-  public String getUsage()
+  public Tap getTap( String value, Map<String, String> params )
     {
-    return "use java expression as function, e.g. $0.toLowerCase()";
-    }
-
-  public String[] getParameters()
-    {
-    return new String[]{"args"};
-    }
-
-  public String[] getParametersUsage()
-    {
-    return new String[]{"the fields to use as arguments"};
+    return new Hfs( new TextLine( new Fields( "offset", "line" ) ), value );
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
-    Fields fields = asFields( getString( subParams, "args", null ) );
+    if( getBoolean( subParams, "skipheader" ) )
+      pipe = new Each( pipe, new Fields( "offset" ), new ExpressionFilter( "offset == 0", Long.class ) );
 
-    if( fields == null )
-      fields = Fields.FIRST;
+    pipe = new Each( pipe, new Fields( "line" ), new Identity() );
 
-    return new Each( pipe, fields, new ExpressionFunction( Fields.size( 1 ), value, String.class ) );
+    return pipe;
+    }
+
+  public String getUsage()
+    {
+    return "an url to input data";
+    }
+
+  public String[] getParameters()
+    {
+    return new String[]{"skipheader"};
+    }
+
+  public String[] getParametersUsage()
+    {
+    return new String[]{"set true if the first line should be skipped"};
     }
   }

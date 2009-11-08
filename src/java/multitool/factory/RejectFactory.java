@@ -19,11 +19,11 @@
  * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package multitool.facctory;
+package multitool.factory;
 
 import java.util.Map;
 
-import cascading.operation.regex.RegexGenerator;
+import cascading.operation.regex.RegexFilter;
 import cascading.pipe.Each;
 import cascading.pipe.Pipe;
 import cascading.tuple.Fields;
@@ -31,30 +31,30 @@ import cascading.tuple.Fields;
 /**
  *
  */
-public class ParserGenFactory extends PipeFactory
+public class RejectFactory extends PipeFactory
   {
-  public ParserGenFactory( String alias )
+  public RejectFactory( String alias )
     {
     super( alias );
     }
 
   public String getUsage()
     {
-    return "parse the first field with given regex, return as new tuples";
+    return "regex, matches are discarded";
     }
 
   public String[] getParameters()
     {
-    return new String[]{};
+    return new String[0];
     }
 
   public String[] getParametersUsage()
     {
-    return new String[]{};
+    return new String[0];
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
-    return new Each( pipe, Fields.FIRST, new RegexGenerator( value ) );
+    return new Each( pipe, Fields.ALL, new RegexFilter( value, true ) );
     }
   }

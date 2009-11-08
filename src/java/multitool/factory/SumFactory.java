@@ -19,47 +19,47 @@
  * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package multitool.facctory;
+package multitool.factory;
 
 import java.util.Map;
 
-import cascading.operation.regex.RegexParser;
-import cascading.pipe.Each;
+import cascading.operation.aggregator.Sum;
+import cascading.pipe.Every;
 import cascading.pipe.Pipe;
 import cascading.tuple.Fields;
 
 /**
  *
  */
-public class ParserFactory extends PipeFactory
+public class SumFactory extends PipeFactory
   {
-  public ParserFactory( String alias )
+  public SumFactory( String alias )
     {
     super( alias );
     }
 
   public String getUsage()
     {
-    return "parse the first field with given regex";
+    return "sum the values in the grouping";
     }
 
   public String[] getParameters()
     {
-    return new String[]{"groups"};
+    return new String[]{};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[]{"regex groups, comma delimited"};
+    return new String[]{};
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
-    int[] groups = getIntArray( subParams.get( "groups" ) );
+    Fields fields = asFields( value );
 
-    if( groups == null )
-      return new Each( pipe, Fields.FIRST, new RegexParser( value ) );
+    if( fields == null )
+      fields = Fields.ALL;
 
-    return new Each( pipe, Fields.FIRST, new RegexParser( value, groups ) );
+    return new Every( pipe, fields, new Sum() );
     }
   }

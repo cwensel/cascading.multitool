@@ -19,56 +19,60 @@
  * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package multitool.facctory;
+package multitool.factory;
 
 import java.util.Map;
 
-import cascading.operation.Identity;
-import cascading.operation.expression.ExpressionFilter;
-import cascading.pipe.Each;
 import cascading.pipe.Pipe;
 import cascading.scheme.TextLine;
 import cascading.tap.Hfs;
+import cascading.tap.SinkMode;
 import cascading.tap.Tap;
 import cascading.tuple.Fields;
 
 /**
  *
  */
-public class SourceFactory extends TapFactory
+public class SinkFactory extends TapFactory
   {
-  public SourceFactory( String alias )
+  public SinkFactory( String alias )
     {
     super( alias );
     }
 
   public Tap getTap( String value, Map<String, String> params )
     {
-    return new Hfs( new TextLine( new Fields( "offset", "line" ) ), value );
+    SinkMode mode = SinkMode.KEEP;
+
+    if( getBoolean( params, "replace" ) )
+      mode = SinkMode.REPLACE;
+
+    String compress = getString( params, "compress", TextLine.Compress.DEFAULT.toString() );
+    int sinkParts = getInteger( params, "parts", 0 );
+    TextLine.Compress compressEnum = TextLine.Compress.valueOf( compress.toUpperCase() );
+    TextLine textLine = new TextLine( new Fields( "offset", "line" ), Fields.ALL, compressEnum, sinkParts );
+
+    return new Hfs( textLine, value, mode );
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
-    if( getBoolean( subParams, "skipheader" ) )
-      pipe = new Each( pipe, new Fields( "offset" ), new ExpressionFilter( "offset == 0", Long.class ) );
-
-    pipe = new Each( pipe, new Fields( "line" ), new Identity() );
-
     return pipe;
     }
 
   public String getUsage()
     {
-    return "an url to input data";
+    return "an url to ouput path";
     }
 
   public String[] getParameters()
     {
-    return new String[]{"skipheader"};
+    return new String[]{"replace", "compress", "parts"};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[]{"set true if the first line should be skipped"};
+    return new String[]{"set true of output should be overwritten", "compression: enable, disable, or default",
+                        "number of sink file parts, default is number of reducers"};
     }
   }

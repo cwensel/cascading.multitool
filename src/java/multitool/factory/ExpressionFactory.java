@@ -19,47 +19,47 @@
  * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package multitool.facctory;
+package multitool.factory;
 
 import java.util.Map;
 
-import cascading.operation.aggregator.Count;
-import cascading.pipe.Every;
+import cascading.operation.expression.ExpressionFunction;
+import cascading.pipe.Each;
 import cascading.pipe.Pipe;
 import cascading.tuple.Fields;
 
 /**
  *
  */
-public class CountFactory extends PipeFactory
+public class ExpressionFactory extends PipeFactory
   {
-  public CountFactory( String alias )
+  public ExpressionFactory( String alias )
     {
     super( alias );
     }
 
   public String getUsage()
     {
-    return "count the number of values in the grouping";
+    return "use java expression as function, e.g. $0.toLowerCase()";
     }
 
   public String[] getParameters()
     {
-    return new String[]{};
+    return new String[]{"args"};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[]{};
+    return new String[]{"the fields to use as arguments"};
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
-    Fields fields = asFields( value );
+    Fields fields = asFields( getString( subParams, "args", null ) );
 
     if( fields == null )
-      fields = Fields.ALL;
+      fields = Fields.FIRST;
 
-    return new Every( pipe, fields, new Count() );
+    return new Each( pipe, fields, new ExpressionFunction( Fields.size( 1 ), value, String.class ) );
     }
   }

@@ -19,28 +19,28 @@
  * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package multitool.facctory;
+package multitool.factory;
 
 import java.util.Map;
 
-import cascading.operation.regex.RegexGenerator;
-import cascading.pipe.Each;
+import cascading.operation.aggregator.Count;
+import cascading.pipe.Every;
 import cascading.pipe.Pipe;
 import cascading.tuple.Fields;
 
 /**
  *
  */
-public class GenFactory extends PipeFactory
+public class CountFactory extends PipeFactory
   {
-  public GenFactory( String alias )
+  public CountFactory( String alias )
     {
     super( alias );
     }
 
   public String getUsage()
     {
-    return "parse the first field, and return the given result fields as new tuples";
+    return "count the number of values in the grouping";
     }
 
   public String[] getParameters()
@@ -55,6 +55,11 @@ public class GenFactory extends PipeFactory
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
-    return new Each( pipe, Fields.ALL, new RegexGenerator( value ) );
+    Fields fields = asFields( value );
+
+    if( fields == null )
+      fields = Fields.ALL;
+
+    return new Every( pipe, fields, new Count() );
     }
   }

@@ -19,11 +19,11 @@
  * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package multitool.facctory;
+package multitool.factory;
 
 import java.util.Map;
 
-import cascading.operation.text.FieldJoiner;
+import cascading.operation.regex.RegexGenerator;
 import cascading.pipe.Each;
 import cascading.pipe.Pipe;
 import cascading.tuple.Fields;
@@ -31,36 +31,30 @@ import cascading.tuple.Fields;
 /**
  *
  */
-public class ConcatFactory extends PipeFactory
+public class GenFactory extends PipeFactory
   {
-  public ConcatFactory( String alias )
+  public GenFactory( String alias )
     {
     super( alias );
     }
 
   public String getUsage()
     {
-    return "join the given fields, will join ALL by default";
+    return "parse the first field, and return the given result fields as new tuples";
     }
 
   public String[] getParameters()
     {
-    return new String[]{"delim"};
+    return new String[]{};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[]{"delimiter, defaut: '\\t' (TAB)"};
+    return new String[]{};
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
-    Fields fields = asFields( value );
-    String delim = getString( subParams, "delim", "\\t" );
-
-    if( fields == null )
-      fields = Fields.ALL;
-
-    return new Each( pipe, fields, new FieldJoiner( delim ) );
+    return new Each( pipe, Fields.ALL, new RegexGenerator( value ) );
     }
   }

@@ -19,42 +19,21 @@
  * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package multitool.facctory;
+package multitool.factory;
 
 import java.util.Map;
 
-import cascading.operation.regex.RegexFilter;
-import cascading.pipe.Each;
 import cascading.pipe.Pipe;
-import cascading.tuple.Fields;
 
 /**
  *
  */
-public class SelectFactory extends PipeFactory
+public abstract class PipeFactory extends Factory
   {
-  public SelectFactory( String alias )
+  protected PipeFactory( String alias )
     {
     super( alias );
     }
 
-  public String getUsage()
-    {
-    return "regex, matches are kept";
-    }
-
-  public String[] getParameters()
-    {
-    return new String[0];
-    }
-
-  public String[] getParametersUsage()
-    {
-    return new String[0];
-    }
-
-  public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
-    {
-    return new Each( pipe, Fields.ALL, new RegexFilter( value, false ) );
-    }
+  public abstract Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe );
   }

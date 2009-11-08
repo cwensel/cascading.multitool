@@ -19,47 +19,48 @@
  * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package multitool.facctory;
+package multitool.factory;
 
 import java.util.Map;
 
-import cascading.operation.aggregator.Sum;
-import cascading.pipe.Every;
+import cascading.operation.text.FieldJoiner;
+import cascading.pipe.Each;
 import cascading.pipe.Pipe;
 import cascading.tuple.Fields;
 
 /**
  *
  */
-public class SumFactory extends PipeFactory
+public class ConcatFactory extends PipeFactory
   {
-  public SumFactory( String alias )
+  public ConcatFactory( String alias )
     {
     super( alias );
     }
 
   public String getUsage()
     {
-    return "sum the values in the grouping";
+    return "join the given fields, will join ALL by default";
     }
 
   public String[] getParameters()
     {
-    return new String[]{};
+    return new String[]{"delim"};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[]{};
+    return new String[]{"delimiter, defaut: '\\t' (TAB)"};
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
     Fields fields = asFields( value );
+    String delim = getString( subParams, "delim", "\\t" );
 
     if( fields == null )
       fields = Fields.ALL;
 
-    return new Every( pipe, fields, new Sum() );
+    return new Each( pipe, fields, new FieldJoiner( delim ) );
     }
   }

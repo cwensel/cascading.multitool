@@ -19,7 +19,7 @@
  * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package multitool.facctory;
+package multitool.factory;
 
 import java.util.Map;
 
@@ -31,16 +31,16 @@ import cascading.tuple.Fields;
 /**
  *
  */
-public class RejectFactory extends PipeFactory
+public class SelectFactory extends PipeFactory
   {
-  public RejectFactory( String alias )
+  public SelectFactory( String alias )
     {
     super( alias );
     }
 
   public String getUsage()
     {
-    return "regex, matches are discarded";
+    return "regex, matches are kept";
     }
 
   public String[] getParameters()
@@ -55,6 +55,6 @@ public class RejectFactory extends PipeFactory
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
-    return new Each( pipe, Fields.ALL, new RegexFilter( value, true ) );
+    return new Each( pipe, Fields.ALL, new RegexFilter( value, false ) );
     }
   }

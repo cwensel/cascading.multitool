@@ -19,24 +19,47 @@
  * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package multitool.facctory;
+package multitool.factory;
 
 import java.util.Map;
 
+import cascading.operation.regex.RegexParser;
+import cascading.pipe.Each;
 import cascading.pipe.Pipe;
-import cascading.tap.Tap;
+import cascading.tuple.Fields;
 
 /**
  *
  */
-public abstract class TapFactory extends Factory
+public class ParserFactory extends PipeFactory
   {
-  protected TapFactory( String alias )
+  public ParserFactory( String alias )
     {
     super( alias );
     }
 
-  public abstract Tap getTap( String value, Map<String, String> params );
+  public String getUsage()
+    {
+    return "parse the first field with given regex";
+    }
 
-  public abstract Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe );
+  public String[] getParameters()
+    {
+    return new String[]{"groups"};
+    }
+
+  public String[] getParametersUsage()
+    {
+    return new String[]{"regex groups, comma delimited"};
+    }
+
+  public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
+    {
+    int[] groups = getIntArray( subParams.get( "groups" ) );
+
+    if( groups == null )
+      return new Each( pipe, Fields.FIRST, new RegexParser( value ) );
+
+    return new Each( pipe, Fields.FIRST, new RegexParser( value, groups ) );
+    }
   }
