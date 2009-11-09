@@ -47,10 +47,15 @@ public class SinkFactory extends TapFactory
     if( getBoolean( params, "replace" ) )
       mode = SinkMode.REPLACE;
 
+    Fields sinkFields = asFields( getString( params, "select" ) );
+
+    if( sinkFields == null )
+      sinkFields = Fields.ALL;
+
     String compress = getString( params, "compress", TextLine.Compress.DEFAULT.toString() );
     int sinkParts = getInteger( params, "parts", 0 );
     TextLine.Compress compressEnum = TextLine.Compress.valueOf( compress.toUpperCase() );
-    TextLine textLine = new TextLine( new Fields( "offset", "line" ), Fields.ALL, compressEnum, sinkParts );
+    TextLine textLine = new TextLine( new Fields( "offset", "line" ), sinkFields, compressEnum, sinkParts );
 
     return new Hfs( textLine, value, mode );
     }
@@ -67,12 +72,13 @@ public class SinkFactory extends TapFactory
 
   public String[] getParameters()
     {
-    return new String[]{"replace", "compress", "parts"};
+    return new String[]{"select", "replace", "compress", "parts"};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[]{"set true of output should be overwritten", "compression: enable, disable, or default",
-                        "number of sink file parts, default is number of reducers"};
+    return new String[]{"fields to sink", "set true of output should be overwritten",
+                        "compression: enable, disable, or default",
+                        "number of sink file parts, default is number of reducers (not always honored)"};
     }
   }

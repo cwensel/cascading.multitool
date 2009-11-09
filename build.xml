@@ -123,7 +123,7 @@
     <mkdir dir="${build.classes}"/>
     <mkdir dir="${lib.dir}"/>
 
-    <javac srcdir="${src.dir}" destdir="${build.classes}" verbose="off">
+    <javac srcdir="${src.dir}" destdir="${build.classes}" verbose="off" debug="true">
       <classpath refid="project.class.path"/>
     </javac>
 
