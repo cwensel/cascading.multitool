@@ -23,7 +23,7 @@ package multitool.factory;
 
 import java.util.Map;
 
-import cascading.operation.regex.RegexGenerator;
+import cascading.operation.regex.RegexSplitGenerator;
 import cascading.pipe.Each;
 import cascading.pipe.Pipe;
 import cascading.tuple.Fields;
@@ -40,21 +40,23 @@ public class GenFactory extends PipeFactory
 
   public String getUsage()
     {
-    return "parse the first field, and return the given result fields as new tuples";
+    return "split the first field, and return the given result fields as new tuples";
     }
 
   public String[] getParameters()
     {
-    return new String[]{};
+    return new String[]{"delim"};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[]{};
+    return new String[]{"regex delimiter, defaut: '\\t' (TAB)"};
     }
 
-  public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
+  public Pipe addAssembly( String value, Map<String, String> subParams, Map<String, Pipe> pipes, Pipe pipe )
     {
-    return new Each( pipe, Fields.ALL, new RegexGenerator( value ) );
+    String delim = getString( subParams, "delim", "\\t" );
+
+    return new Each( pipe, Fields.FIRST, new RegexSplitGenerator( delim ) );
     }
   }

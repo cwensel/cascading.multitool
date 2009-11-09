@@ -63,7 +63,7 @@ public abstract class Factory
 
   protected Fields asFields( String fields )
     {
-    if( fields == null )
+    if( fields == null || fields.isEmpty() )
       return null;
 
     String[] split = fields.split( "," );

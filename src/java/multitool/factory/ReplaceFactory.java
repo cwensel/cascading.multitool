@@ -53,7 +53,7 @@ public class ReplaceFactory extends PipeFactory
     return new String[]{"replacement string", "true if pattern should be applied more than once"};
     }
 
-  public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
+  public Pipe addAssembly( String value, Map<String, String> subParams, Map<String, Pipe> pipes, Pipe pipe )
     {
     String replace = getString( subParams, "replace", "" );
     boolean replaceAll = getBoolean( subParams, "replaceAll", false );

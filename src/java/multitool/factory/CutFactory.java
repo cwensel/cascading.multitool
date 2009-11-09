@@ -41,7 +41,7 @@ public class CutFactory extends PipeFactory
 
   public String getUsage()
     {
-    return "split the first field, and return the given fields. 0 for first, -1 for last";
+    return "split the first field, and return the given fields, or all fields. 0 for first, -1 for last";
     }
 
   public String[] getParameters()
@@ -54,7 +54,7 @@ public class CutFactory extends PipeFactory
     return new String[]{"regex delimiter, defaut: '\\t' (TAB)"};
     }
 
-  public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
+  public Pipe addAssembly( String value, Map<String, String> subParams, Map<String, Pipe> pipes, Pipe pipe )
     {
     Fields fields = asFields( value );
     String delim = getString( subParams, "delim", "\\t" );

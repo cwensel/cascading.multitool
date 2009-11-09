@@ -53,7 +53,7 @@ public class ParserGenFactory extends PipeFactory
     return new String[]{};
     }
 
-  public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
+  public Pipe addAssembly( String value, Map<String, String> subParams, Map<String, Pipe> pipes, Pipe pipe )
     {
     return new Each( pipe, Fields.FIRST, new RegexGenerator( value ) );
     }

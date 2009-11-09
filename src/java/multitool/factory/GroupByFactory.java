@@ -52,7 +52,7 @@ public class GroupByFactory extends PipeFactory
     return new String[]{"fields to secondary sort on", "set true to reverse secondary sort"};
     }
 
-  public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
+  public Pipe addAssembly( String value, Map<String, String> subParams, Map<String, Pipe> pipes, Pipe pipe )
     {
     Fields groupFields = asFields( value );
     Fields secondaryFields = asFields( getString( subParams, "secondary", null ) );

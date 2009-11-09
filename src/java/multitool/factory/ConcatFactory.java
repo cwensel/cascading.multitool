@@ -53,7 +53,7 @@ public class ConcatFactory extends PipeFactory
     return new String[]{"delimiter, defaut: '\\t' (TAB)"};
     }
 
-  public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
+  public Pipe addAssembly( String value, Map<String, String> subParams, Map<String, Pipe> pipes, Pipe pipe )
     {
     Fields fields = asFields( value );
     String delim = getString( subParams, "delim", "\\t" );

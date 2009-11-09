@@ -35,5 +35,5 @@ public abstract class PipeFactory extends Factory
     super( alias );
     }
 
-  public abstract Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe );
+  public abstract Pipe addAssembly( String value, Map<String, String> subParams, Map<String, Pipe> pipes, Pipe pipe );
   }

@@ -32,8 +32,10 @@ import java.util.Properties;
 
 import cascading.flow.Flow;
 import cascading.flow.FlowConnector;
+import cascading.flow.PlannerException;
 import cascading.pipe.Pipe;
 import cascading.tap.Tap;
+import multitool.factory.CoGroupFactory;
 import multitool.factory.ConcatFactory;
 import multitool.factory.CountFactory;
 import multitool.factory.CutFactory;
@@ -73,7 +75,8 @@ public class Main
                                                           new CutFactory( "cut" ), new ParserFactory( "parse" ),
                                                           new ParserGenFactory( "pgen" ),
                                                           new ReplaceFactory( "replace" ),
-                                                          new GroupByFactory( "group" ), new ConcatFactory( "concat" ),
+                                                          new GroupByFactory( "group" ), new CoGroupFactory( "join" ),
+                                                          new ConcatFactory( "concat" ),
                                                           new GenFactory( "gen" ), new CountFactory( "count" ),
                                                           new SumFactory( "sum" ), new ExpressionFactory( "expr" ),
                                                           new SelectExpressionFactory( "sexpr" ),
@@ -90,26 +93,38 @@ public class Main
       factoryMap.put( factory.getAlias(), factory );
     }
 
+  private Map<String, String> options;
   private List<String[]> params;
 
   public static void main( String[] args )
     {
 
+    Map<String, String> options = new LinkedHashMap<String, String>();
     List<String[]> params = new LinkedList<String[]>();
 
     for( String arg : args )
       {
       int index = arg.indexOf( "=" );
 
-      if( index != -1 )
-        params.add( new String[]{arg.substring( 0, index ), arg.substring( index + 1 )} );
+      if( arg.startsWith( "-" ) )
+        {
+        if( index != -1 )
+          options.put( arg.substring( 0, index ), arg.substring( index + 1 ) );
+        else
+          options.put( arg, null );
+        }
       else
-        params.add( new String[]{arg, null} );
+        {
+        if( index != -1 )
+          params.add( new String[]{arg.substring( 0, index ), arg.substring( index + 1 )} );
+        else
+          params.add( new String[]{arg, null} );
+        }
       }
 
     try
       {
-      new Main( params ).execute();
+      new Main( options, params ).execute();
       }
     catch( IllegalArgumentException exception )
       {
@@ -144,6 +159,14 @@ public class Main
 
   public Main( List<String[]> params )
     {
+    this( new LinkedHashMap<String, String>(), params );
+    }
+
+  public Main( Map<String, String> options, List<String[]> params )
+    {
+    if( options != null )
+      this.options = options;
+
     this.params = params;
 
     validateParams();
@@ -207,16 +230,26 @@ public class Main
 
   public void execute()
     {
-    plan( getDefaultProperties() ).complete();
+    try
+      {
+      plan( getDefaultProperties() ).complete();
+      }
+    catch( PlannerException exception )
+      {
+      if( options.containsKey( "-dot" ) )
+        exception.writeDOT( options.get( "-dot" ) );
+
+      throw exception;
+      }
     }
 
   public Flow plan( Properties properties )
     {
 
+    Map<String, Pipe> pipes = new HashMap<String, Pipe>();
     Map<String, Tap> sources = new HashMap<String, Tap>();
     Map<String, Tap> sinks = new HashMap<String, Tap>();
-    String name = "multitool";
-    Pipe pipe = new Pipe( name );
+    Pipe currentPipe = null;
 
     ListIterator<String[]> iterator = params.listIterator();
 
@@ -232,27 +265,30 @@ public class Main
 
       if( factory instanceof SourceFactory )
         {
-        sources.put( name, ( (TapFactory) factory ).getTap( value, subParams ) );
-        pipe = ( (TapFactory) factory ).addAssembly( value, subParams, pipe );
+        Tap tap = ( (TapFactory) factory ).getTap( value, subParams );
+        currentPipe = ( (TapFactory) factory ).addAssembly( value, subParams, currentPipe );
+        sources.put( currentPipe.getName(), tap );
         }
       else if( factory instanceof SinkFactory )
         {
-        sinks.put( name, ( (TapFactory) factory ).getTap( value, subParams ) );
-        pipe = ( (TapFactory) factory ).addAssembly( value, subParams, pipe );
+        sinks.put( currentPipe.getName(), ( (TapFactory) factory ).getTap( value, subParams ) );
+        currentPipe = ( (TapFactory) factory ).addAssembly( value, subParams, currentPipe );
         }
       else
         {
-        pipe = ( (PipeFactory) factory ).addAssembly( value, subParams, pipe );
+        currentPipe = ( (PipeFactory) factory ).addAssembly( value, subParams, pipes, currentPipe );
         }
+
+      pipes.put( currentPipe.getName(), currentPipe );
       }
 
     if( sources.isEmpty() )
-      throw new IllegalArgumentException( "error: must have one source" );
+      throw new IllegalArgumentException( "error: must have atleast one source" );
 
     if( sinks.isEmpty() )
       throw new IllegalArgumentException( "error: must have one sink" );
 
-    return new FlowConnector( properties ).connect( sources, sinks, pipe );
+    return new FlowConnector( properties ).connect( "multitool", sources, sinks, currentPipe );
     }
 
   private Map<String, String> getSubParams( String key, ListIterator<String[]> iterator )

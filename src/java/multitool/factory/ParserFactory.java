@@ -53,7 +53,7 @@ public class ParserFactory extends PipeFactory
     return new String[]{"regex groups, comma delimited"};
     }
 
-  public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
+  public Pipe addAssembly( String value, Map<String, String> subParams, Map<String, Pipe> pipes, Pipe pipe )
     {
     int[] groups = getIntArray( subParams.get( "groups" ) );
 

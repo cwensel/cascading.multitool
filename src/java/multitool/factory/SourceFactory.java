@@ -44,15 +44,22 @@ public class SourceFactory extends TapFactory
 
   public Tap getTap( String value, Map<String, String> params )
     {
-    return new Hfs( new TextLine( new Fields( "offset", "line" ) ), value );
+    return new Hfs( new TextLine(), value );
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
     {
-    if( getBoolean( subParams, "skipheader" ) )
-      pipe = new Each( pipe, new Fields( "offset" ), new ExpressionFilter( "offset == 0", Long.class ) );
+    String name = getString( subParams, "name" );
 
-    pipe = new Each( pipe, new Fields( "line" ), new Identity() );
+    if( name == null || name.isEmpty() )
+      name = "multitool";
+
+    pipe = new Pipe( name );
+
+    if( getBoolean( subParams, "skipheader" ) )
+      pipe = new Each( pipe, new Fields( 0 ), new ExpressionFilter( "$0 == 0", Long.class ) );
+
+    pipe = new Each( pipe, new Fields( 1 ), new Identity() );
 
     return pipe;
     }
@@ -64,11 +71,12 @@ public class SourceFactory extends TapFactory
 
   public String[] getParameters()
     {
-    return new String[]{"skipheader"};
+    return new String[]{"name", "skipheader"};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[]{"set true if the first line should be skipped"};
+    return new String[]{"name of this source, required if more than one",
+                        "set true if the first line should be skipped"};
     }
   }

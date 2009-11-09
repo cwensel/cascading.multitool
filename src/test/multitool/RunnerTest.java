@@ -37,6 +37,7 @@ public class RunnerTest extends CascadingTestCase
   {
   public static final String trackData = "data/track.100.txt";
   public static final String topicData = "data/topic.100.txt";
+  public static final String artistData = "data/artist.100.txt";
 
   public static final String outputPath = "build/test/output";
 
@@ -187,4 +188,45 @@ public class RunnerTest extends CascadingTestCase
     validateLength( flow, 4, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
     }
 
+  public void testJoin() throws IOException
+    {
+    List<String[]> params = new LinkedList<String[]>();
+
+    params.add( new String[]{"source", trackData} );
+    params.add( new String[]{"source.name", "lhs"} );
+    params.add( new String[]{"source.skipheader", "true"} );
+
+    params.add( new String[]{"cut", "3"} );
+    params.add( new String[]{"gen", ""} );
+    params.add( new String[]{"gen.delim", " "} );
+
+    params.add( new String[]{"debug", ""} );
+
+    params.add( new String[]{"source", artistData} );
+    params.add( new String[]{"source.name", "rhs"} );
+    params.add( new String[]{"source.skipheader", "true"} );
+
+    params.add( new String[]{"cut", "0"} );
+    params.add( new String[]{"gen", ""} );
+    params.add( new String[]{"gen.delim", " "} );
+
+    params.add( new String[]{"debug", ""} );
+
+    params.add( new String[]{"join", ""} );
+    params.add( new String[]{"join.lhs", "lhs"} );
+    params.add( new String[]{"join.rhs", "rhs"} );
+
+//    params.add( new String[]{"count", ""} );
+
+    params.add( new String[]{"sink", outputPath + "/join"} );
+    params.add( new String[]{"sink.replace", "true"} );
+
+    Flow flow = new Main( params ).plan( new Properties() );
+
+    flow.writeDOT( "join.dot" );
+
+    flow.complete();
+
+    validateLength( flow, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
+    }
   }

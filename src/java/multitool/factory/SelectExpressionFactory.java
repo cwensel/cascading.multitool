@@ -54,7 +54,7 @@ public class SelectExpressionFactory extends PipeFactory
     return new String[]{"the fields to use as arguments"};
     }
 
-  public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
+  public Pipe addAssembly( String value, Map<String, String> subParams, Map<String, Pipe> pipes, Pipe pipe )
     {
     Fields fields = asFields( getString( subParams, "args", null ) );
 
