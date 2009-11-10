@@ -40,21 +40,26 @@ public class RejectFactory extends PipeFactory
 
   public String getUsage()
     {
-    return "regex, matches are discarded";
+    return "regex, matches are discarded. all fields are matched unless args is specified";
     }
 
   public String[] getParameters()
     {
-    return new String[0];
+    return new String[]{"args"};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[0];
+    return new String[]{"fields to match against"};
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Map<String, Pipe> pipes, Pipe pipe )
     {
-    return new Each( pipe, Fields.ALL, new RegexFilter( value, true ) );
+    Fields fields = asFields( getString( subParams, "args", null ) );
+
+    if( fields == null )
+      fields = Fields.ALL;
+
+    return new Each( pipe, fields, new RegexFilter( value, true ) );
     }
   }

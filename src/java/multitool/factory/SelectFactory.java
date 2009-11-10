@@ -40,21 +40,26 @@ public class SelectFactory extends PipeFactory
 
   public String getUsage()
     {
-    return "regex, matches are kept";
+    return "regex, matches are kept. matches against all fields unless args is given";
     }
 
   public String[] getParameters()
     {
-    return new String[0];
+    return new String[]{"args"};
     }
 
   public String[] getParametersUsage()
     {
-    return new String[0];
+    return new String[]{"fields to match against"};
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Map<String, Pipe> pipes, Pipe pipe )
     {
-    return new Each( pipe, Fields.ALL, new RegexFilter( value, false ) );
+    Fields fields = asFields( getString( subParams, "args", null ) );
+
+    if( fields == null )
+      fields = Fields.ALL;
+
+    return new Each( pipe, fields, new RegexFilter( value, false ) );
     }
   }
