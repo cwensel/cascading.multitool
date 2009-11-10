@@ -232,7 +232,12 @@ public class Main
     {
     try
       {
-      plan( getDefaultProperties() ).complete();
+      Flow flow = plan( getDefaultProperties() );
+
+      if( options.containsKey( "-dot" ) )
+        flow.writeDOT( options.get( "-dot" ) );
+
+      flow.complete();
       }
     catch( PlannerException exception )
       {

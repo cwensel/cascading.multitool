@@ -44,7 +44,7 @@ public class SourceFactory extends TapFactory
 
   public Tap getTap( String value, Map<String, String> params )
     {
-    return new Hfs( new TextLine(), value );
+    return new Hfs( new TextLine( Fields.size( 2 ) ), value );
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
