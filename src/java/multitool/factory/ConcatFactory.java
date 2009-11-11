@@ -56,7 +56,7 @@ public class ConcatFactory extends PipeFactory
   public Pipe addAssembly( String value, Map<String, String> subParams, Map<String, Pipe> pipes, Pipe pipe )
     {
     Fields fields = asFields( value );
-    String delim = getString( subParams, "delim", "\\t" );
+    String delim = getString( subParams, "delim", "\t" );
 
     if( fields == null )
       fields = Fields.ALL;
