@@ -31,24 +31,6 @@
   <property name="hadoop.home" location="${basedir}/../hadoop"/>
   <property name="hadoop.lib" location="${hadoop.home}/lib"/>
 
-  <target name="artifacts" if="cascading.artifact.home">
-    <echo message="using artifacts in: ${cascading.artifact.home}"/>
-
-    <untar dest="${cascading.artifact.home}/current" compression="gzip" failOnEmptyArchive="true">
-      <fileset dir="${cascading.artifact.home}">
-        <include name="**/*.tgz"/>
-      </fileset>
-    </untar>
-
-    <dirset id="artifact.path" dir="${cascading.artifact.home}/current/">
-      <include name="*"/>
-      <exclude name="*Files"/>
-    </dirset>
-    <pathconvert property="cascading.home" refid="artifact.path"/>
-
-    <echo message="using cascading.home: ${cascading.home}"/>
-  </target>
-
   <!-- assumes Cascading shares the same parent directory, change if necessary -->
   <property name="cascading.home" location="${basedir}/../cascading"/>
   <property name="cascading.libs" value="${cascading.home}/lib"/>
@@ -283,5 +265,7 @@
     <delete file="${ant.project.name}-current.txt"/>
 
   </target>
+
+  <target name="publish" depends="clean,test,tar,s3-package"/>
 
 </project>
