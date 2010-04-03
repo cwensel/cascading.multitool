@@ -96,6 +96,8 @@ public class RunnerTest extends CascadingTestCase
 
     Flow flow = new Main( params ).plan( new Properties() );
 
+//    flow.writeDOT( "selectreject.dot" );
+
     flow.complete();
 
     validateLength( flow, 2, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){11}$" ) ); // we removed one line
@@ -162,7 +164,7 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    validateLength( flow, 560, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
+    validateLength( flow, 395, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
     }
 
   public void testParseValues() throws IOException
@@ -216,17 +218,17 @@ public class RunnerTest extends CascadingTestCase
     params.add( new String[]{"join.lhs", "lhs"} );
     params.add( new String[]{"join.rhs", "rhs"} );
 
-//    params.add( new String[]{"count", ""} );
+    params.add( new String[]{"count", ""} );
 
     params.add( new String[]{"sink", outputPath + "/join"} );
     params.add( new String[]{"sink.replace", "true"} );
 
     Flow flow = new Main( params ).plan( new Properties() );
 
-    flow.writeDOT( "join.dot" );
+//    flow.writeDOT( "join.dot" );
 
     flow.complete();
 
-    validateLength( flow, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
+    validateLength( flow, 5, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
     }
   }
