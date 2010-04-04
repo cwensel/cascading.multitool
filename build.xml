@@ -178,13 +178,11 @@
 
   </target>
 
-  <tstamp>
-    <format property="TODAY" pattern="MM-dd-yy" locale="en,UK"/>
-  </tstamp>
+  <tstamp/>
 
   <target name="stamp-jar" depends="jar">
     <move file="${build.dir}/${ant.project.name}.jar"
-          tofile="${build.dir}/${ant.project.name}-${TODAY}.jar"/>
+          tofile="${build.dir}/${ant.project.name}-${DSTAMP}.jar"/>
   </target>
 
   <target name="jar" depends="compile" description="creates a Hadoop ready jar will all dependencies">
@@ -232,9 +230,9 @@
   </target>
 
   <target name="tar" depends="dist" description="creates an archive of current project">
-    <tar destfile="${ant.project.name}-${TODAY}.tgz"
+    <tar destfile="${ant.project.name}-${DSTAMP}.tgz"
          compression="gzip">
-      <tarfileset dir="dist/" prefix="${ant.project.name}-${TODAY}">
+      <tarfileset dir="dist/" prefix="${ant.project.name}-${DSTAMP}">
         <include name="**/**"/>
       </tarfileset>
     </tar>
@@ -250,15 +248,15 @@
               bucket="${package.remote.bucket}"
               prefix="${ant.project.name}/"
               publicRead="true">
-      <fileset file="${ant.project.name}-${TODAY}.tgz"/>
+      <fileset file="${ant.project.name}-${DSTAMP}.tgz"/>
     </S3Upload>
 
-    <echo message="http://${package.remote.bucket}/multitool/${ant.project.name}-${TODAY}.tgz"
+    <echo message="http://${package.remote.bucket}/multitool/${ant.project.name}-${DSTAMP}.tgz"
           file="${ant.project.name}-current.txt"/>
 
     <property name="package.remote.port" value="22"/>
     <scp file="${ant.project.name}-current.txt"
-         remoteTofile="${package.remote.path}/${ant.project.name}/${ant.project.name}-${TODAY}.tgz"
+         remoteTofile="${package.remote.path}/${ant.project.name}/${ant.project.name}-${DSTAMP}.tgz"
          keyfile="${package.remote.keyfile}"
          passphrase="" port="${package.remote.port}" trust="true"/>
 
