@@ -234,7 +234,7 @@
   <target name="tar" depends="dist" description="creates an archive of current project">
     <tar destfile="${ant.project.name}-${TODAY}.tgz"
          compression="gzip">
-      <tarfileset dir="dist/" prefix="${ant.project.name}">
+      <tarfileset dir="dist/" prefix="${ant.project.name}-${TODAY}">
         <include name="**/**"/>
       </tarfileset>
     </tar>
