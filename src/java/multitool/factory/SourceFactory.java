@@ -70,9 +70,9 @@ public class SourceFactory extends TapFactory
     if( getBoolean( subParams, "skipheader" ) )
       pipe = new Each( pipe, new Fields( 0 ), new ExpressionFilter( "$0 == 0", Long.class ) );
 
-    String numFields = getString( subParams, "seqfile" );
+    String sequence = getString( subParams, "seqfile" );
 
-    if( numFields == null || numFields.isEmpty() )
+    if( sequence == null || sequence.isEmpty() )
       pipe = new Each( pipe, new Fields( 1 ), new Identity() );
 
     return pipe;
