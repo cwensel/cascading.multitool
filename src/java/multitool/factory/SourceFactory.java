@@ -27,6 +27,7 @@ import cascading.operation.Identity;
 import cascading.operation.expression.ExpressionFilter;
 import cascading.pipe.Each;
 import cascading.pipe.Pipe;
+import cascading.scheme.SequenceFile;
 import cascading.scheme.TextLine;
 import cascading.tap.Hfs;
 import cascading.tap.Tap;
@@ -44,7 +45,17 @@ public class SourceFactory extends TapFactory
 
   public Tap getTap( String value, Map<String, String> params )
     {
-    return new Hfs( new TextLine( Fields.size( 2 ) ), value );
+    String numFields = getString( params, "seqfile" );
+
+    if( numFields == null || numFields.isEmpty() )
+      return new Hfs( new TextLine( Fields.size( 2 ) ), value );
+
+    if( numFields.equalsIgnoreCase( "true" ) )
+      return new Hfs( new SequenceFile( Fields.ALL ), value );
+
+    int size = Integer.parseInt( numFields );
+
+    return new Hfs( new SequenceFile( Fields.size( size ) ), value );
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
@@ -59,7 +70,10 @@ public class SourceFactory extends TapFactory
     if( getBoolean( subParams, "skipheader" ) )
       pipe = new Each( pipe, new Fields( 0 ), new ExpressionFilter( "$0 == 0", Long.class ) );
 
-    pipe = new Each( pipe, new Fields( 1 ), new Identity() );
+    String numFields = getString( subParams, "seqfile" );
+
+    if( numFields == null || numFields.isEmpty() )
+      pipe = new Each( pipe, new Fields( 1 ), new Identity() );
 
     return pipe;
     }
@@ -71,12 +85,13 @@ public class SourceFactory extends TapFactory
 
   public String[] getParameters()
     {
-    return new String[]{"name", "skipheader"};
+    return new String[]{"name", "skipheader", "seqfile"};
     }
 
   public String[] getParametersUsage()
     {
     return new String[]{"name of this source, required if more than one",
-                        "set true if the first line should be skipped"};
+                        "set true if the first line should be skipped",
+                        "is a tuple sequence file with N fields, or the value 'true'"};
     }
   }
