@@ -67,7 +67,7 @@ public class SinkFactory extends TapFactory
 
   public String getUsage()
     {
-    return "an url to ouput path";
+    return "an url to output path";
     }
 
   public String[] getParameters()
