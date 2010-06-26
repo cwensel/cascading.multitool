@@ -56,7 +56,7 @@ public class CoGroupFactory extends PipeFactory
     {
     return new String[]{"source name of the lhs of the join", "lhs fields to group on, default FIRST",
                         "source name of the rhs of the join", "rhs fields to group on, default FIRST",
-                        "join type: inner, outer, left, right"};
+                        "join type: inner, outer, left, right", "branch name"};
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Map<String, Pipe> pipes, Pipe pipe )
