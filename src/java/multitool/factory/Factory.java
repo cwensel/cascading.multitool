@@ -21,6 +21,7 @@
 
 package multitool.factory;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import cascading.tuple.Fields;
@@ -28,7 +29,7 @@ import cascading.tuple.Fields;
 /**
  *
  */
-public abstract class Factory
+public abstract class Factory implements Serializable
   {
   protected String alias;
 

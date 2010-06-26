@@ -42,6 +42,7 @@ import multitool.factory.CutFactory;
 import multitool.factory.DebugFactory;
 import multitool.factory.ExpressionFactory;
 import multitool.factory.Factory;
+import multitool.factory.FileNameFactory;
 import multitool.factory.GenFactory;
 import multitool.factory.GroupByFactory;
 import multitool.factory.ParserFactory;
@@ -80,7 +81,8 @@ public class Main
                                                           new GenFactory( "gen" ), new CountFactory( "count" ),
                                                           new SumFactory( "sum" ), new ExpressionFactory( "expr" ),
                                                           new SelectExpressionFactory( "sexpr" ),
-                                                          new DebugFactory( "debug" )};
+                                                          new DebugFactory( "debug" ),
+                                                          new FileNameFactory( "filename" )};
 
   static Map<String, Factory> factoryMap = new HashMap<String, Factory>();
 
