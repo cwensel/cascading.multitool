@@ -111,7 +111,7 @@ public class RunnerTest extends CascadingTestCase
     params.add( new String[]{"source.skipheader", "true"} );
 
     params.add( new String[]{"select", "w"} );
-    params.add( new String[]{"filename", "append"} );
+    params.add( new String[]{"filename", ""} );
 
     params.add( new String[]{"sink", outputPath + "/selectfilename"} );
     params.add( new String[]{"sink.replace", "true"} );

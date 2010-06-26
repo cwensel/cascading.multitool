@@ -74,14 +74,12 @@ public class FileNameFactory extends PipeFactory
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Map<String, Pipe> pipes, Pipe pipe )
     {
-    Fields fields = null;
+    Fields fields = Fields.ALL;
 
     if( value.equalsIgnoreCase( "append" ) )
       fields = Fields.ALL;
     else if( value.equalsIgnoreCase( "only" ) )
       fields = Fields.RESULTS;
-    else
-      throw new RuntimeException( "unknown parameter: " + value );
 
     return new Each( pipe, new FileNameFunction( new Fields( "filename" ) ), fields );
     }
