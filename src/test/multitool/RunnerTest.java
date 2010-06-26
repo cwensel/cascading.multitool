@@ -111,10 +111,13 @@ public class RunnerTest extends CascadingTestCase
     params.add( new String[]{"source.skipheader", "true"} );
 
     params.add( new String[]{"select", "w"} );
-    params.add( new String[]{"filename", ""} );
+    params.add( new String[]{"filename", "append"} );
+    params.add( new String[]{"group", "0"} );
+    params.add( new String[]{"unique", ""} );
 
     params.add( new String[]{"sink", outputPath + "/selectfilename"} );
     params.add( new String[]{"sink.replace", "true"} );
+    params.add( new String[]{"sink.parts", "0"} );
 
     Flow flow = new Main( params ).plan( new Properties() );
 

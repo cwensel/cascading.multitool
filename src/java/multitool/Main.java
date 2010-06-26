@@ -56,6 +56,7 @@ import multitool.factory.SinkFactory;
 import multitool.factory.SourceFactory;
 import multitool.factory.SumFactory;
 import multitool.factory.TapFactory;
+import multitool.factory.UniqueFactory;
 import org.apache.hadoop.io.compress.GzipCodec;
 import org.apache.hadoop.mapred.ClusterStatus;
 import org.apache.hadoop.mapred.JobClient;
@@ -82,7 +83,8 @@ public class Main
                                                           new SumFactory( "sum" ), new ExpressionFactory( "expr" ),
                                                           new SelectExpressionFactory( "sexpr" ),
                                                           new DebugFactory( "debug" ),
-                                                          new FileNameFactory( "filename" )};
+                                                          new FileNameFactory( "filename" ),
+                                                          new UniqueFactory( "unique" )};
 
   static Map<String, Factory> factoryMap = new HashMap<String, Factory>();
 
