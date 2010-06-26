@@ -76,9 +76,9 @@ public class FileNameFactory extends PipeFactory
     {
     Fields fields = Fields.ALL;
 
-    if( value.equalsIgnoreCase( "append" ) )
+    if( value != null && value.equalsIgnoreCase( "append" ) )
       fields = Fields.ALL;
-    else if( value.equalsIgnoreCase( "only" ) )
+    else if( value != null && value.equalsIgnoreCase( "only" ) )
       fields = Fields.RESULTS;
 
     return new Each( pipe, new FileNameFunction( new Fields( "filename" ) ), fields );
