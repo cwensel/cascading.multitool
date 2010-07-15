@@ -24,6 +24,8 @@ package multitool.factory;
 import java.util.Map;
 
 import cascading.pipe.Pipe;
+import cascading.scheme.Scheme;
+import cascading.scheme.TextDelimited;
 import cascading.scheme.TextLine;
 import cascading.tap.Hfs;
 import cascading.tap.SinkMode;
@@ -53,11 +55,11 @@ public class SinkFactory extends TapFactory
       sinkFields = Fields.ALL;
 
     String compress = getString( params, "compress", TextLine.Compress.DEFAULT.toString() );
-    int sinkParts = getInteger( params, "parts", 0 );
+    String delim = getString( params, "delim", "\t" );
     TextLine.Compress compressEnum = TextLine.Compress.valueOf( compress.toUpperCase() );
-    TextLine textLine = new TextLine( new Fields( "offset", "line" ), sinkFields, compressEnum, sinkParts );
+    Scheme scheme = new TextDelimited( sinkFields, compressEnum, delim );
 
-    return new Hfs( textLine, value, mode );
+    return new Hfs( scheme, value, mode );
     }
 
   public Pipe addAssembly( String value, Map<String, String> subParams, Pipe pipe )
@@ -72,13 +74,13 @@ public class SinkFactory extends TapFactory
 
   public String[] getParameters()
     {
-    return new String[]{"select", "replace", "compress", "parts"};
+    return new String[]{"select", "replace", "compress", "delim"};
     }
 
   public String[] getParametersUsage()
     {
     return new String[]{"fields to sink", "set true of output should be overwritten",
                         "compression: enable, disable, or default",
-                        "number of sink file parts, default is number of reducers (not always honored)"};
+                        "the delimiter to use to separate values"};
     }
   }
