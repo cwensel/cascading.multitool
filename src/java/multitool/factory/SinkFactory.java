@@ -25,6 +25,7 @@ import java.util.Map;
 
 import cascading.pipe.Pipe;
 import cascading.scheme.Scheme;
+import cascading.scheme.SequenceFile;
 import cascading.scheme.TextDelimited;
 import cascading.scheme.TextLine;
 import cascading.tap.Hfs;
@@ -54,10 +55,19 @@ public class SinkFactory extends TapFactory
     if( sinkFields == null )
       sinkFields = Fields.ALL;
 
-    String compress = getString( params, "compress", TextLine.Compress.DEFAULT.toString() );
-    String delim = getString( params, "delim", "\t" );
-    TextLine.Compress compressEnum = TextLine.Compress.valueOf( compress.toUpperCase() );
-    Scheme scheme = new TextDelimited( sinkFields, compressEnum, delim );
+    Scheme scheme;
+
+    if( getString( params, "seqfile" ) == null )
+      {
+      String compress = getString( params, "compress", TextLine.Compress.DEFAULT.toString() );
+      String delim = getString( params, "delim", "\t" );
+      TextLine.Compress compressEnum = TextLine.Compress.valueOf( compress.toUpperCase() );
+      scheme = new TextDelimited( sinkFields, compressEnum, delim );
+      }
+    else
+      {
+      scheme = new SequenceFile( sinkFields );
+      }
 
     return new Hfs( scheme, value, mode );
     }
@@ -74,13 +84,14 @@ public class SinkFactory extends TapFactory
 
   public String[] getParameters()
     {
-    return new String[]{"select", "replace", "compress", "delim"};
+    return new String[]{"select", "replace", "compress", "delim", "seqfile"};
     }
 
   public String[] getParametersUsage()
     {
     return new String[]{"fields to sink", "set true of output should be overwritten",
                         "compression: enable, disable, or default",
-                        "the delimiter to use to separate values"};
+                        "the delimiter to use to separate values",
+                        "write to a sequence file instead of text, delim and compress are ignored"};
     }
   }
