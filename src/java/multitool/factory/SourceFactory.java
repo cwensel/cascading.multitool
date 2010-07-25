@@ -45,13 +45,13 @@ public class SourceFactory extends TapFactory
 
   public Tap getTap( String value, Map<String, String> params )
     {
-    String numFields = getString( params, "seqfile" );
+    String numFields = getString( params, "seqfile", "" );
+
+    if( containsKey( params, "seqfile" ) || numFields.equalsIgnoreCase( "true" ) )
+      return new Hfs( new SequenceFile( Fields.ALL ), value );
 
     if( numFields == null || numFields.isEmpty() )
       return new Hfs( new TextLine( Fields.size( 2 ) ), value );
-
-    if( numFields.equalsIgnoreCase( "true" ) )
-      return new Hfs( new SequenceFile( Fields.ALL ), value );
 
     int size = Integer.parseInt( numFields );
 

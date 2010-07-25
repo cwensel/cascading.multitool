@@ -29,6 +29,9 @@ import java.util.regex.Pattern;
 
 import cascading.CascadingTestCase;
 import cascading.flow.Flow;
+import cascading.scheme.TextLine;
+import cascading.tap.Hfs;
+import cascading.tuple.TupleEntryIterator;
 
 /**
  *
@@ -59,7 +62,9 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    validateLength( flow, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){11}$" ) ); // we removed one line
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    validateLength( iterator, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){11}$" ) ); // we removed one line
+    iterator.close();
     }
 
   public void testCut() throws IOException
@@ -78,7 +83,9 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    validateLength( flow, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    validateLength( iterator, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
+    iterator.close();
     }
 
   public void testSelectReject() throws IOException
@@ -100,7 +107,9 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    validateLength( flow, 2, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){11}$" ) ); // we removed one line
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    validateLength( iterator, 2, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){11}$" ) ); // we removed one line
+    iterator.close();
     }
 
   public void testSelectFilename() throws IOException
@@ -125,7 +134,9 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    validateLength( flow, 16, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){12}file:.*/data/track.100.txt$" ) ); // we removed one line
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    validateLength( iterator, 16, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){12}file:.*/data/track.100.txt$" ) ); // we removed one line
+    iterator.close();
     }
 
   public void testSort() throws IOException
@@ -145,7 +156,9 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    validateLength( flow, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){11}$" ) ); // we removed one line
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    validateLength( iterator, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){11}$" ) ); // we removed one line
+    iterator.close();
     }
 
   public void testConcat() throws IOException
@@ -166,7 +179,9 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    validateLength( flow, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*)$" ) ); // we removed one line
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    validateLength( iterator, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*)$" ) ); // we removed one line
+    iterator.close();
     }
 
   public void testWordCount() throws IOException
@@ -189,7 +204,9 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    validateLength( flow, 395, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    validateLength( iterator, 395, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
+    iterator.close();
     }
 
   public void testParseValues() throws IOException
@@ -212,7 +229,9 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    validateLength( flow, 4, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    validateLength( iterator, 4, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
+    iterator.close();
     }
 
   public void testJoin() throws IOException
@@ -254,6 +273,8 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    validateLength( flow, 5, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    validateLength( iterator, 5, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
+    iterator.close();
     }
   }

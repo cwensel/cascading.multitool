@@ -90,6 +90,11 @@ public abstract class Factory implements Serializable
     return ints;
     }
 
+  protected boolean containsKey( Map<String, String> params, String key )
+    {
+    return params != null && params.containsKey( key );
+    }
+
   protected boolean getBoolean( Map<String, String> params, String key )
     {
     return getBoolean( params, key, false );

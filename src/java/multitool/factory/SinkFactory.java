@@ -57,7 +57,7 @@ public class SinkFactory extends TapFactory
 
     Scheme scheme;
 
-    if( getString( params, "seqfile" ) == null )
+    if( !containsKey( params, "seqfile" ) )
       {
       String compress = getString( params, "compress", TextLine.Compress.DEFAULT.toString() );
       String delim = getString( params, "delim", "\t" );
