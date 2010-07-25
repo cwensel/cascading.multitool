@@ -52,6 +52,7 @@ import multitool.factory.RejectFactory;
 import multitool.factory.ReplaceFactory;
 import multitool.factory.SelectExpressionFactory;
 import multitool.factory.SelectFactory;
+import multitool.factory.ShapeFactory;
 import multitool.factory.SinkFactory;
 import multitool.factory.SourceFactory;
 import multitool.factory.SumFactory;
@@ -75,6 +76,7 @@ public class Main
 
   static PipeFactory[] PIPE_FACTORIES = new PipeFactory[]{new RejectFactory( "reject" ), new SelectFactory( "select" ),
                                                           new CutFactory( "cut" ), new ParserFactory( "parse" ),
+                                                          new ShapeFactory( "shape" ),
                                                           new ParserGenFactory( "pgen" ),
                                                           new ReplaceFactory( "replace" ),
                                                           new GroupByFactory( "group" ), new CoGroupFactory( "join" ),

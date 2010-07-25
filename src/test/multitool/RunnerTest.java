@@ -88,6 +88,28 @@ public class RunnerTest extends CascadingTestCase
     iterator.close();
     }
 
+  public void testShape() throws IOException
+    {
+    List<String[]> params = new LinkedList<String[]>();
+
+    params.add( new String[]{"source", trackData} );
+    params.add( new String[]{"source.skipheader", "true"} );
+
+    params.add( new String[]{"cut", "1,2"} );
+    params.add( new String[]{"shape", "1"} );
+
+    params.add( new String[]{"sink", outputPath + "/shape"} );
+    params.add( new String[]{"sink.replace", "true"} );
+
+    Flow flow = new Main( params ).plan( new Properties() );
+
+    flow.complete();
+
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    validateLength( iterator, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){1}$" ) ); // we removed one line
+    iterator.close();
+    }
+
   public void testSelectReject() throws IOException
     {
     List<String[]> params = new LinkedList<String[]>();
