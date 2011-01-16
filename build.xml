@@ -21,28 +21,11 @@
   ~ along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<project name="multitool" default="build" basedir=".">
+<project name="multitool" default="build" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
   <!-- load properties first -->
   <property file="../build.properties"/>
   <property file="./build.properties"/>
-
-  <!-- these are optional, only used if you uncomment the project.class.path filesets below -->
-  <property name="hadoop.home" location="${basedir}/../hadoop"/>
-  <property name="hadoop.lib" location="${hadoop.home}/lib"/>
-
-  <!-- assumes Cascading shares the same parent directory, change if necessary -->
-  <property name="cascading.home" location="${basedir}/../cascading"/>
-  <property name="cascading.libs" value="${cascading.home}/lib"/>
-  <property name="cascading.libs.core" value="${cascading.libs}"/>
-  <property name="cascading.libs.xml" value="${cascading.libs}/xml"/>
-
-  <condition property="cascading.path" value="${cascading.home}/build"
-             else="${cascading.home}">
-    <available file="${cascading.home}/build"/>
-  </condition>
-
-  <property file="${cascading.home}/version.properties"/>
 
   <property name="src.dir" location="${basedir}/src/java"/>
   <property name="src.test" location="${basedir}/src/test"/>
@@ -50,13 +33,12 @@
   <available file="${src.dir}" type="dir" property="main.available"/>
   <available file="${src.test}" type="dir" property="test.available"/>
 
-  <property name="conf.dir" location="${hadoop.home}/conf"/>
-
   <property name="lib.dir" location="${basedir}/lib"/>
 
   <property name="build.dir" location="${basedir}/build/"/>
   <property name="build.classes" location="${build.dir}/classes"/>
   <property name="build.test" location="${build.dir}/test"/>
+  <property name="build.deps" location="${build.dir}/deps"/>
 
   <property name="test.results" location="${build.dir}/testresults"/>
   <property name="test.showoutput" value="no"/>
@@ -67,35 +49,11 @@
     <pathelement location="${build.classes}"/>
     <pathelement location="${build.test}"/>
 
-    <fileset dir="${cascading.path}">
-      <include name="cascading-core-*.jar"/>
-      <include name="cascading-xml-*.jar"/>
-      <include name="cascading-test-*.jar"/>
-    </fileset>
-
-    <fileset dir="${cascading.libs.core}">
+    <fileset dir="${lib.dir}">
       <include name="*.jar"/>
     </fileset>
 
-    <fileset dir="${cascading.libs.xml}">
-      <include name="*.jar"/>
-    </fileset>
-
-    <!--<fileset dir="${lib.dir}">-->
-    <!--<include name="*.jar"/>-->
-    <!--</fileset>-->
-
-    <pathelement location="${hadoop.home}"/>
-
-    <fileset dir="${hadoop.lib}">
-      <include name="*.jar"/>
-    </fileset>
-
-    <fileset dir="${hadoop.home}">
-      <include name="*.jar"/>
-    </fileset>
-
-    <fileset dir="${hadoop.home}/build" erroronmissingdir="false">
+    <fileset dir="${build.deps}">
       <include name="*.jar"/>
     </fileset>
 
@@ -114,7 +72,6 @@
 
     <echo message="building..."/>
     <mkdir dir="${build.classes}"/>
-    <mkdir dir="${lib.dir}"/>
 
     <javac srcdir="${src.dir}" destdir="${build.classes}" verbose="off" debug="true">
       <classpath refid="project.class.path"/>
@@ -187,16 +144,6 @@
 
   <target name="jar" depends="compile" description="creates a Hadoop ready jar will all dependencies">
 
-    <!-- copy Cascading classes and libraries -->
-    <copy todir="${build.classes}/lib">
-      <fileset dir="${cascading.path}">
-        <include name="cascading-core-*.jar"/>
-        <include name="cascading-xml-*.jar"/>
-      </fileset>
-      <fileset dir="${cascading.libs.core}" includes="*.jar"/>
-      <fileset dir="${cascading.libs.xml}" includes="*.jar"/>
-    </copy>
-
     <jar jarfile="${build.dir}/${ant.project.name}.jar">
       <fileset dir="${build.classes}"/>
       <fileset dir="${basedir}" includes="lib/"/>
@@ -207,7 +154,7 @@
 
   </target>
 
-  <target name="dist" depends="clean,jar,stamp-jar" description="packages current project">
+  <target name="dist" depends="clean,retrieve,jar,stamp-jar" description="packages current project">
 
     <mkdir dir="${dist}"/>
 
@@ -216,9 +163,9 @@
       <fileset dir=".">
         <include name="data/**"/>
         <include name="src/**"/>
-        <!--<include name="lib/**"/>-->
+        <include name="lib/**"/>
         <include name="build.xml"/>
-        <include name="README.TXT"/>
+        <include name="README.txt"/>
       </fileset>
 
       <fileset dir="${build.dir}">
@@ -265,5 +212,15 @@
   </target>
 
   <target name="publish" depends="clean,test,tar,s3-package"/>
+
+  <target name="retrieve">
+    <ivy:settings id="ivy.conjars.settings" url="http://conjars.org/repo/ivysettings.xml"/>
+
+    <ivy:retrieve settingsRef="ivy.conjars.settings" conf="default"
+                  pattern="${lib.dir}/[artifact]-[revision].[ext]" sync="true"/>
+
+    <ivy:retrieve settingsRef="ivy.conjars.settings" conf="test"
+                  pattern="${build.dir}/deps/[artifact]-[revision].[ext]" sync="true"/>
+  </target>
 
 </project>
