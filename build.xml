@@ -211,7 +211,7 @@
 
   </target>
 
-  <target name="publish" depends="clean,test,tar,s3-package"/>
+  <target name="publish" depends="clean,retrieve,test,tar,s3-package"/>
 
   <target name="retrieve">
     <ivy:settings id="ivy.conjars.settings" url="http://conjars.org/repo/ivysettings.xml"/>
