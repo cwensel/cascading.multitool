@@ -4,6 +4,8 @@ Welcome
 
  It provides a simple command line interface for building data processing jobs.
 
+ Think of Multitool as 'grep' and 'sed' for Hadoop, that also supports joins.
+
  For example the following command,
 
    > hadoop jar multitool.jar source=input.txt select=Monday sink=outputDir
@@ -26,21 +28,16 @@ Welcome
 
 Building
 
- This release requires at least Cascading 1.0.7 built for your version
- of Hadoop. See the project site for downloads.
+ This release requires at least Cascading 1.2.x and will pull all dependencies from
+ the relevant maven repos, including conjars.org.
 
  To build a jar,
 
- > ant -Dcascading.home=... -Dhadoop.home=... jar
+ > ant retrieve jar
 
  To test,
 
- > ant -Dcascading.home=... -Dhadoop.home=... test
-
- where "..." is the install path of each of the dependencies.
-
- Optionally, a build.properties file can be created in the project root
- that defines the *.home properties above.
+ > ant test
 
 Using
 
@@ -80,7 +77,7 @@ Examples
 
 License
 
-  Copyright (c) 2009 Concurrent, Inc.
+  Copyright (c) 2009-2011 Concurrent, Inc.
 
   This work has been released into the public domain
   by the copyright holder. This applies worldwide.
