@@ -22,6 +22,10 @@
 package multitool;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -143,6 +147,10 @@ public class Main
   private static void printUsage()
     {
     System.out.println( "multitool [param] [param] ..." );
+
+    System.out.print( "Licensed under " );
+    printLicense();
+
     System.out.println( "" );
     System.out.println( "Usage:" );
 
@@ -150,6 +158,25 @@ public class Main
     printFactoryUsage( PIPE_FACTORIES );
 
     System.exit( 1 );
+    }
+
+  private static void printLicense()
+    {
+    InputStream stream = Main.class.getResourceAsStream( "/LICENSE.txt" );
+    BufferedReader reader = new BufferedReader( new InputStreamReader( stream ) );
+    String line = null;
+
+    try
+      {
+      while ( ( line = reader.readLine() ) != null && line.length() > 0 )
+        System.out.println( line );
+
+      reader.close();
+      }
+    catch( IOException exception )
+      {
+      System.out.println( "Unspecified License" );
+      }
     }
 
   private static void printFactoryUsage( Factory[] factories )
