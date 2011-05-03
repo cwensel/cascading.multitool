@@ -1,23 +1,110 @@
 #!/usr/bin/env bash
 # Copyright (c) 2011 Concurrent, Inc.
 
-red='\E[31m'
-green='\E[32m'
-yellow='\E[33m'
-white='\E[37m'
+DEBUG=0
+INPUT_SINK=
+OUTPUT_SINK=
+CASCADING_ARGS=
+
+ERROR_INDENT=''
+red="\033[0;31m"
+green="\033[0;32m"
+yellow="\033[1;33m"
+white="\033[1;37m"
+MT_PATH=/Users/doc/projects/cascading.multitool/build
 
 function log () {
-  echo -e $white
-  echo $*
+  echo -e "$ERROR_INDENT$*"
 }
 
+function info () {
+  ERROR_INDENT=''
+  echo -e ${mt_line/INFO/$green'INFO'$white}
+}
+
+
 function warn () {
-  echo -e $yellow
-  echo $*
+  ERROR_INDENT=''
+  echo -e ${mt_line/WARN/$yellow'WARN'$white}
 }
 
 function error () {
-  echo -e $red
-  echo $*
+  echo -e "$ERROR_INDENT$red$*"
+  ERROR_INDENT="$ERROR_INDENT    "
 }
+
+function run_multitool () {
+  if [[ ! -e $INPUT_SINK ]]; then
+    if [[ "$INPUT_SINK" ]]; then
+      echo "$INPUT_SINK must exist."
+    else
+      echo "An input sink must be specified."
+    fi
+    exit 1
+  fi
+
+  if [[ "$OUTPUT_SINK" ]]; then 
+    OUTPUT_SINK=`mktemp -dt`
+    info "Using temporary output sink: $OUTPUT_SINK"
+  fi
+
+  hadoop jar $MT_PATH/multitool.jar source=$INPUT_SINK $* sink=$OUTPUT_SINK 2>&1 | while read mt_line; do
+    if echo $mt_line | grep INFO > /dev/null; then
+      info $mt_line
+    elif echo $mt_line | grep WARN > /dev/null; then
+      warn $mt_line
+    elif echo $mt_line | grep ERROR > /dev/null; then
+      error $mt_line
+    elif echo $mt_line | grep Exception > /dev/null; then
+      error $mt_line
+    elif [[ ! -z $DEBUG ]]; then
+      log $mt_line
+    fi
+  done
+}
+
+if [[ $# -gt 0 ]]; then
+  if [[ ${1:0:1} != '-' ]]; then
+    if ! echo $1 | grep = > /dev/null; then
+      INPUT_SINK=$1
+      shift
+    fi
+  fi
+fi
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h|--help)
+      show_usage
+      exit 0
+      ;;
+    -d|--debug)
+      DEBUG=1
+      ;;
+    -i|--input)
+      if [[ -n "${2:-}" ]] ; then
+        INPUT_SINK="$2"
+        shift
+      else
+        echo "$1 must be followed by an input sink."
+        exit 1
+      fi
+      ;;
+    -o|--output)
+      if [[ -n "${2:-}" ]] ; then
+        OUTPUT_SINK="$2"
+        shift
+      else
+        echo "$1 must be followed by an output sink."
+        exit 1
+      fi
+      ;;
+    *)
+      MT_ARGS="$MT_ARGS $1"
+      ;;
+  esac
+  shift
+done
+
+run_multitool $MT_ARGS
 
