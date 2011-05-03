@@ -1,10 +1,30 @@
-Concurrent Public Domain License
-Copyright (c) 2009-2011 Concurrent, Inc. (http://concurrentinc.com)
+Binary License: GNU General Public License
 
-This work has been released into the public domain
-by the copyright holder. This applies worldwide.
+  Copyright (c) 2007-2010 Concurrent, Inc. All Rights Reserved. (http://concurrentinc.com)
 
-In case this is not legally possible:
-The copyright holder grants any entity the right
-to use this work for any purpose, without any
-conditions, unless such conditions are required by law.
+  Multitool is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Multitool is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with Multitool.  If not, see <http://www.gnu.org/licenses/>.
+
+Source License: Public Domain License
+
+  This work has been released into the public domain
+  by the copyright holder. This applies worldwide.
+
+  In case this is not legally possible:
+  The copyright holder grants any entity the right
+  to use this work for any purpose, without any
+  conditions, unless such conditions are required by law.
+
+Third-party Licenses:
+
+  All third-party licenses are included in the 'lib' folder and subfolders.
