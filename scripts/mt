@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Copyright (c) 2011 Concurrent, Inc.
+
+red='\E[31m'
+green='\E[32m'
+yellow='\E[33m'
+white='\E[37m'
+
+function log () {
+  echo -e $white
+  echo $*
+}
+
+function warn () {
+  echo -e $yellow
+  echo $*
+}
+
+function error () {
+  echo -e $red
+  echo $*
+}
+
