@@ -22,6 +22,10 @@
 package multitool;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -30,6 +34,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Properties;
 
+import cascading.cascade.Cascade;
 import cascading.flow.Flow;
 import cascading.flow.FlowConnector;
 import cascading.flow.PlannerException;
@@ -143,6 +148,11 @@ public class Main
   private static void printUsage()
     {
     System.out.println( "multitool [param] [param] ..." );
+    printCascadingVersion();
+
+    System.out.println( "" );
+    printLicense();
+
     System.out.println( "" );
     System.out.println( "Usage:" );
 
@@ -151,6 +161,62 @@ public class Main
 
     System.exit( 1 );
     }
+
+  private static void printLicense()
+    {
+    try
+      {
+      InputStream stream = Main.class.getResourceAsStream( "/LICENSE.txt" );
+      BufferedReader reader = new BufferedReader( new InputStreamReader( stream ) );
+      String line = null;
+
+      System.out.print( "Licensed under " );
+
+      while ( ( line = reader.readLine() ) != null && line.length() > 0 )
+        System.out.println( line );
+
+      reader.close();
+      }
+    catch( IOException exception )
+      {
+      System.out.println( "Unspecified License" );
+      }
+    }
+
+  private static void printCascadingVersion()
+   {
+     try
+       {
+       Properties versionProperties = new Properties();
+
+       InputStream stream = Cascade.class.getClassLoader().getResourceAsStream( "cascading/version.properties" );
+       versionProperties.load( stream );
+
+       stream = Cascade.class.getClassLoader().getResourceAsStream( "cascading/build.number.properties" );
+       versionProperties.load( stream );
+
+       String releaseMajor = versionProperties.getProperty( "cascading.release.major" );
+       String releaseMinor = versionProperties.getProperty( "cascading.release.minor", null );
+       String releaseBuild = versionProperties.getProperty( "build.number", null );
+       String hadoopVersion = versionProperties.getProperty( "cascading.hadoop.compatible.version" );
+       String releaseFull = null;
+
+       if( releaseMinor == null )
+         releaseFull = releaseMajor;
+       else
+         if( releaseBuild == null )
+           releaseFull = String.format( "%s.%s", releaseMajor, releaseMinor );
+         else
+           releaseFull = String.format( "%s.%s%s", releaseMajor, releaseMinor, releaseBuild );
+
+
+       System.out.println( String.format( "Built against Cascading %s on %s", releaseFull, hadoopVersion ) );
+       }
+     catch( IOException exception )
+       {
+       System.out.println( "Unknown Cascading Version" );
+       }
+   }
 
   private static void printFactoryUsage( Factory[] factories )
     {

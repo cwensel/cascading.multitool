@@ -81,6 +81,10 @@
       <fileset dir="${src.dir}">
         <exclude name="**/*.java"/>
       </fileset>
+
+      <fileset dir="${basedir}">
+        <include name="LICENSE.txt"/>
+      </fileset>
     </copy>
 
   </target>
@@ -98,6 +102,10 @@
     <copy todir="${build.test}">
       <fileset dir="${src.test}">
         <exclude name="**/*.java"/>
+      </fileset>
+
+      <fileset dir="${basedir}">
+        <include name="LICENSE.txt"/>
       </fileset>
     </copy>
 
@@ -166,6 +174,7 @@
         <include name="lib/**"/>
         <include name="build.xml"/>
         <include name="README.txt"/>
+        <include name="LICENSE.txt"/>
       </fileset>
 
       <fileset dir="${build.dir}">
