@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Copyright (c) 2011 Concurrent, Inc.
 
-VERBOSE=0
+VERBOSE=1
 INPUT_SOURCE=
 OUTPUT_SINK=
 CASCADING_ARGS=
@@ -49,7 +49,7 @@ function run_multitool () {
 
   if [[ "$OUTPUT_SINK" == "" ]]; then 
     OUTPUT_SINK=`mktemp -dt cascading.multitool`
-    echo "Using temporary output sink: $OUTPUT_SINK"
+    info "INFO Using temporary output sink:\n    $OUTPUT_SINK"
     OUTPUT_SINK="sink=$OUTPUT_SINK sink.replace=true"
   else
     OUTPUT_SINK="sink=$OUTPUT_SINK"
@@ -74,6 +74,30 @@ function run_multitool () {
   echo -ne $white
 }
 
+function show_usage () {
+  cat <<USAGE
+mt is the wrapper around Cascading.Multitool.
+Copyright (c) 2011 Concurrent, Inc.
+
+Usage:
+  mt input [flags] [options] action=argument [action=argument [...]]
+
+Input:
+  mt needs to have an input file or directory specified.
+
+Flags:
+  -h|--help     - displays this message
+  -q|--quiet    - suppresses INFO messages from Cascading and Hadoop
+                 
+Options:         
+  -o|--output   - specifies the output sink
+                  if this is left blank, mt will create a temporary sink
+
+USAGE
+
+  hadoop jar $MT_PATH/multitool.jar
+}
+
 if [[ $# -gt 0 ]]; then
   if [[ ${1:0:1} != '-' ]]; then
     if ! echo $1 | grep '=' > /dev/null; then
@@ -81,6 +105,9 @@ if [[ $# -gt 0 ]]; then
       shift
     fi
   fi
+else
+  show_usage
+  exit 1
 fi
 
 while [[ $# -gt 0 ]]; do
@@ -89,17 +116,8 @@ while [[ $# -gt 0 ]]; do
       show_usage
       exit 0
       ;;
-    -v|--verbose)
-      VERBOSE=1
-      ;;
-    -i|--input)
-      if [[ -n "${2:-}" ]] ; then
-        INPUT_SOURCE="$2"
-        shift
-      else
-        echo "$1 must be followed by an input source."
-        exit 1
-      fi
+    -q|--quiet)
+      VERBOSE=0
       ;;
     -o|--output)
       if [[ -n "${2:-}" ]] ; then
@@ -118,4 +136,3 @@ while [[ $# -gt 0 ]]; do
 done
 
 run_multitool $MT_ARGS
-
