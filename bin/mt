@@ -67,7 +67,7 @@ function stacktrace () {
 }
 
 function run_multitool () {
-  hadoop jar $MT_JAR $MT_ARGS 2>&1 | while read mt_line; do
+  $HADOOP_BIN jar $MT_JAR $MT_ARGS 2>&1 | while read mt_line; do
     if echo $mt_line | grep INFO > /dev/null; then
       if [[ $VERBOSE -ne 0 ]]; then
         info $mt_line
@@ -100,7 +100,7 @@ Flags:
   -nc|--no-color  - suppress colorization
 USAGE
 
-  hadoop jar $MT_JAR [args] | tail -n +3
+  $HADOOP_BIN jar $MT_JAR [args] | tail -n +3
 }
 
 if [[ "$MT_JAR" == "" ]]; then
