@@ -86,6 +86,10 @@ function run_multitool () {
   echo -ne $reset
 }
 
+function show_version () {
+  $HADOOP_BIN jar $MT_JAR [args] | tail -n +3 | head -n2
+}
+
 function show_usage () {
   cat <<USAGE
 mt is the wrapper around Cascading.Multitool.
@@ -96,6 +100,7 @@ Usage:
 
 Flags:
   -h|--help       - displays this message
+  -v|--version    - displays the version of the Cascading.Multitool jar
   -q|--quiet      - suppresses INFO messages from Cascading and Hadoop
   -nc|--no-color  - suppress colorization
 USAGE
@@ -116,10 +121,14 @@ while [[ $# -gt 0 ]]; do
       show_usage
       exit 0
       ;;
+    -v|--version)
+      show_version
+      exit 0
+      ;;
     -q|--quiet)
       VERBOSE=0
       ;;
-    -nc|--no-color)
+    -nc|--no-color|--no-colour)
       USE_COLOR=0
       ;;
     *)
