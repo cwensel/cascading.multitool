@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Copyright (c) 2011 Concurrent, Inc.
 
-dirs=(lib scripts)
-binfiles=(scripts/mt)
+dirs=(lib bin)
+binfiles=(bin/mt)
 files=(README.txt LICENSE.txt *.jar)
 
 source_location=$(pwd)
@@ -33,7 +33,7 @@ function uninstall_files () {
 
 function install_files () {
   mkdir -p $install_location
-  
+
   for dir in "${dirs[@]}" ; do
     echo "Installing $install_location/$dir"
     cp -Rf $source_location/$dir $install_location
@@ -43,7 +43,7 @@ function install_files () {
     echo "Installing $install_location/$file"
     cp -f $source_location/$file $install_location
   done
-  
+
   if [ -e $install_location/multitool*.jar ]; then
     echo "Linking $install_location/multitool.jar"
     ln -sf $install_location/multitool*.jar $install_location/multitool.jar
@@ -56,7 +56,7 @@ function install_files () {
 
   if [[ $UID -eq 0 ]]; then
     mkdir -p $bin_location
-    
+
     for binfile in "${binfiles[@]}" ; do
       echo "Linking $bin_location/$binfile"
       chmod +x $install_location/$binfile
@@ -78,8 +78,8 @@ Usage:
 Flags:
   -h|--help         - displays this message
   -u|--uninstall    - uninstall related files
-                 
-Options:         
+
+Options:
   -d|--destination     - specifies the install location
                          defaults to /usr/local/lib/multitool (as root/sudo)
                          defaults to $HOME/.multitool (as user)

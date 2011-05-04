@@ -35,7 +35,7 @@
 
   <property name="lib.dir" location="${basedir}/lib"/>
 
-  <property name="scripts.dir" location="${basedir}/scripts"/>
+  <property name="scripts.dir" location="${basedir}/bin"/>
 
   <property name="build.dir" location="${basedir}/build/"/>
   <property name="build.classes" location="${build.dir}/classes"/>
@@ -75,7 +75,7 @@
     <echo message="building..."/>
     <mkdir dir="${build.classes}"/>
 
-    <javac srcdir="${src.dir}" destdir="${build.classes}" verbose="off" debug="true">
+    <javac srcdir="${src.dir}" destdir="${build.classes}" verbose="off" debug="true" includeantruntime="false">
       <classpath refid="project.class.path"/>
     </javac>
 
@@ -172,8 +172,7 @@
         <include name="data/**"/>
         <include name="src/**"/>
         <include name="lib/**"/>
-        <include name="scripts/**"/>
-        <exclude name="scripts/install-mt"/>
+        <include name="bin/**"/>
         <include name="build.xml"/>
         <include name="README.txt"/>
         <include name="LICENSE.txt"/>
@@ -183,10 +182,13 @@
         <include name="*.jar"/>
       </fileset>
 
-      <fileset dir="${scripts.dir}">
-        <include name="install-mt"/>
-      </fileset>
     </copy>
+
+    <chmod perm="u+x">
+      <fileset dir="dist/bin">
+        <include name="**"/>
+      </fileset>
+    </chmod>
 
   </target>
 

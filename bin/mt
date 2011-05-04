@@ -64,7 +64,7 @@ function run_multitool () {
     exit 1
   fi
 
-  if [[ "$OUTPUT_SINK" == "" ]]; then 
+  if [[ "$OUTPUT_SINK" == "" ]]; then
     OUTPUT_SINK=`mktemp -dt cascading.multitool`
     info "INFO Using temporary output sink:\n    $OUTPUT_SINK"
     OUTPUT_SINK="sink=$OUTPUT_SINK sink.replace=true"
@@ -87,7 +87,7 @@ function run_multitool () {
       log $mt_line
     fi
   done
-  
+
   echo -ne $white
 }
 
@@ -106,14 +106,14 @@ Flags:
   -h|--help       - displays this message
   -q|--quiet      - suppresses INFO messages from Cascading and Hadoop
   -nc|--no-color  - suppress colorization
-                 
-Options:         
+
+Options:
   -o|--output   - specifies the output sink
                   if this is left blank, mt will create a temporary sink
 
 USAGE
 
-  hadoop jar $MT_PATH/multitool.jar
+  hadoop jar $MT_PATH/multitool.jar [args]
 }
 
 if [[ $# -gt 0 ]]; then
