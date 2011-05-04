@@ -8,7 +8,7 @@ STACK_INDENT=''
 red="\033[0;31m"
 green="\033[0;32m"
 yellow="\033[0;33m"
-white="\033[0;37m"
+reset="\033[0m"
 
 MT_PATH=.
 MT_JAR=`find $MT_PATH -name multitool*.jar | head -n1`
@@ -37,7 +37,7 @@ function log () {
 function info () {
   STACK_INDENT=''
   if [[ $USE_COLOR -ne 0 ]]; then
-    echo -e ${@/INFO/$green'INFO'$white}
+    echo -e ${@/INFO/$green'INFO'$reset}
   else
     echo $@
   fi
@@ -46,7 +46,7 @@ function info () {
 function warn () {
   STACK_INDENT=''
   if [[ $USE_COLOR -ne 0 ]]; then
-    echo -e ${@/WARN/$yellow'WARN'$white}
+    echo -e ${@/WARN/$yellow'WARN'$reset}
   else
     echo $@
   fi
@@ -55,7 +55,7 @@ function warn () {
 function error () {
   STACK_INDENT=''
   if [[ $USE_COLOR -ne 0 ]]; then
-    echo -e ${@/ERROR/$red'ERROR'$white}
+    echo -e ${@/ERROR/$red'ERROR'$reset}
   else
     echo $@
   fi
@@ -83,7 +83,7 @@ function run_multitool () {
     fi
   done
 
-  echo -ne $white
+  echo -ne $reset
 }
 
 function show_usage () {
