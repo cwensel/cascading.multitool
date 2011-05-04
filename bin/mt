@@ -3,17 +3,16 @@
 
 VERBOSE=1
 USE_COLOR=1
-INPUT_SOURCE=
-OUTPUT_SINK=
-CASCADING_ARGS=
 
 STACK_INDENT=''
 red="\033[0;31m"
 green="\033[0;32m"
 yellow="\033[0;33m"
 white="\033[0;37m"
+
 MT_PATH=.
 MT_JAR=`find $MT_PATH -name multitool*.jar | head -n1`
+MT_ARGS=
 
 function log () {
   echo -e "$STACK_INDENT$@"
@@ -56,24 +55,7 @@ function stacktrace () {
 }
 
 function run_multitool () {
-  if [[ ! -e $INPUT_SOURCE ]]; then
-    if [[ "$INPUT_SOURCE" ]]; then
-      error "ERROR $INPUT_SOURCE does not exist!"
-    else
-      error "ERROR An input source must be specified."
-    fi
-    exit 1
-  fi
-
-  if [[ "$OUTPUT_SINK" == "" ]]; then
-    OUTPUT_SINK=`mktemp -dt cascading.multitool`
-    info "INFO Using temporary output sink:\n    $OUTPUT_SINK"
-    OUTPUT_SINK="sink=$OUTPUT_SINK sink.replace=true"
-  else
-    OUTPUT_SINK="sink=$OUTPUT_SINK"
-  fi
-
-  hadoop jar $MT_JAR source=$INPUT_SOURCE $@ $OUTPUT_SINK 2>&1 | while read mt_line; do
+  hadoop jar $MT_JAR $MT_ARGS 2>&1 | while read mt_line; do
     if echo $mt_line | grep INFO > /dev/null; then
       if [[ $VERBOSE -ne 0 ]]; then
         info $mt_line
@@ -98,39 +80,21 @@ mt is the wrapper around Cascading.Multitool.
 Copyright (c) 2011 Concurrent, Inc. (http://concurrentinc.com)
 
 Usage:
-  mt input [flags] [options] action=argument [action=argument [...]]
-
-Input:
-  mt needs to have an input file or directory specified.
+  mt [flags] [options] action=argument [action=argument [...]]
 
 Flags:
   -h|--help       - displays this message
   -q|--quiet      - suppresses INFO messages from Cascading and Hadoop
   -nc|--no-color  - suppress colorization
-
-Options:
-  -o|--output   - specifies the output sink
-                  if this is left blank, mt will create a temporary sink
-
 USAGE
 
   hadoop jar $MT_JAR [args] | tail -n +3
 }
 
 if [[ "$MT_JAR" == "" ]]; then
-  error "ERROR Could not find a multitool jar file in '$MT_PATH'"
-  exit 1
-fi
-
-if [[ $# -gt 0 ]]; then
-  if [[ ${1:0:1} != '-' ]]; then
-    if ! echo $1 | grep '=' > /dev/null; then
-      INPUT_SOURCE=$1
-      shift
-    fi
-  fi
-else
   show_usage
+  echo ""
+  error "ERROR Could not find a multitool jar file in '$MT_PATH'"
   exit 1
 fi
 
@@ -146,20 +110,18 @@ while [[ $# -gt 0 ]]; do
     -nc|--no-color)
       USE_COLOR=0
       ;;
-    -o|--output)
-      if [[ -n "${2:-}" ]] ; then
-        OUTPUT_SINK="$2"
-        shift
-      else
-        echo "$1 must be followed by an output sink."
-        exit 1
-      fi
-      ;;
     *)
       MT_ARGS="$MT_ARGS $1"
       ;;
   esac
   shift
 done
+
+if [[ "$MT_ARGS" == "" ]]; then
+  show_usage
+  echo ""
+  error "ERROR No arguments specified"
+  exit 1
+fi
 
 run_multitool $MT_ARGS
