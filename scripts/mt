@@ -1,72 +1,83 @@
 #!/usr/bin/env bash
 # Copyright (c) 2011 Concurrent, Inc.
 
-DEBUG=0
-INPUT_SINK=
+VERBOSE=0
+INPUT_SOURCE=
 OUTPUT_SINK=
 CASCADING_ARGS=
 
-ERROR_INDENT=''
+STACK_INDENT=''
 red="\033[0;31m"
 green="\033[0;32m"
-yellow="\033[1;33m"
-white="\033[1;37m"
-MT_PATH=/Users/doc/projects/cascading.multitool/build
+yellow="\033[0;33m"
+white="\033[0;37m"
+MT_PATH=~/projects/cascading.multitool/build
 
 function log () {
-  echo -e "$ERROR_INDENT$*"
+  echo -e "$STACK_INDENT$*"
 }
 
 function info () {
-  ERROR_INDENT=''
+  STACK_INDENT=''
   echo -e ${mt_line/INFO/$green'INFO'$white}
 }
 
-
 function warn () {
-  ERROR_INDENT=''
+  STACK_INDENT=''
   echo -e ${mt_line/WARN/$yellow'WARN'$white}
 }
 
 function error () {
-  echo -e "$ERROR_INDENT$red$*"
-  ERROR_INDENT="$ERROR_INDENT    "
+  STACK_INDENT=''
+  echo -e ${mt_line/ERROR/$red'ERROR'$white}
+}
+
+function stacktrace () {
+  echo -e "$STACK_INDENT$red$*"
+  STACK_INDENT="$STACK_INDENT  "
 }
 
 function run_multitool () {
-  if [[ ! -e $INPUT_SINK ]]; then
-    if [[ "$INPUT_SINK" ]]; then
-      echo "$INPUT_SINK must exist."
+  if [[ ! -e $INPUT_SOURCE ]]; then
+    if [[ "$INPUT_SOURCE" ]]; then
+      error "ERROR $INPUT_SOURCE does not exist!"
     else
-      echo "An input sink must be specified."
+      error "ERROR An input source must be specified."
     fi
     exit 1
   fi
 
-  if [[ "$OUTPUT_SINK" ]]; then 
-    OUTPUT_SINK=`mktemp -dt`
-    info "Using temporary output sink: $OUTPUT_SINK"
+  if [[ "$OUTPUT_SINK" == "" ]]; then 
+    OUTPUT_SINK=`mktemp -dt cascading.multitool`
+    OUTPUT_SINK="sink=$OUTPUT_SINK sink.replace=true"
+    echo "Using temporary output sink: $OUTPUT_SINK"
+  else
+    OUTPUT_SINK="sink=$OUTPUT_SINK"
   fi
 
-  hadoop jar $MT_PATH/multitool.jar source=$INPUT_SINK $* sink=$OUTPUT_SINK 2>&1 | while read mt_line; do
+  hadoop jar $MT_PATH/multitool.jar source=$INPUT_SOURCE $* $OUTPUT_SINK 2>&1 | while read mt_line; do
     if echo $mt_line | grep INFO > /dev/null; then
-      info $mt_line
+      if [[ $VERBOSE -ne 0 ]]; then
+        info $mt_line
+      fi
     elif echo $mt_line | grep WARN > /dev/null; then
       warn $mt_line
     elif echo $mt_line | grep ERROR > /dev/null; then
       error $mt_line
     elif echo $mt_line | grep Exception > /dev/null; then
-      error $mt_line
+      stacktrace $mt_line
     elif [[ ! -z $DEBUG ]]; then
       log $mt_line
     fi
   done
+  
+  echo -ne $white
 }
 
 if [[ $# -gt 0 ]]; then
   if [[ ${1:0:1} != '-' ]]; then
-    if ! echo $1 | grep = > /dev/null; then
-      INPUT_SINK=$1
+    if ! echo $1 | grep '=' > /dev/null; then
+      INPUT_SOURCE=$1
       shift
     fi
   fi
@@ -78,15 +89,15 @@ while [[ $# -gt 0 ]]; do
       show_usage
       exit 0
       ;;
-    -d|--debug)
-      DEBUG=1
+    -v|--verbose)
+      VERBOSE=1
       ;;
     -i|--input)
       if [[ -n "${2:-}" ]] ; then
-        INPUT_SINK="$2"
+        INPUT_SOURCE="$2"
         shift
       else
-        echo "$1 must be followed by an input sink."
+        echo "$1 must be followed by an input source."
         exit 1
       fi
       ;;
