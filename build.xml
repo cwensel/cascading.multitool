@@ -35,6 +35,8 @@
 
   <property name="lib.dir" location="${basedir}/lib"/>
 
+  <property name="scripts.dir" location="${basedir}/scripts"/>
+
   <property name="build.dir" location="${basedir}/build/"/>
   <property name="build.classes" location="${build.dir}/classes"/>
   <property name="build.test" location="${build.dir}/test"/>
@@ -170,6 +172,8 @@
         <include name="data/**"/>
         <include name="src/**"/>
         <include name="lib/**"/>
+        <include name="scripts/**"/>
+        <exclude name="scripts/install-mt"/>
         <include name="build.xml"/>
         <include name="README.txt"/>
         <include name="LICENSE.txt"/>
@@ -179,6 +183,9 @@
         <include name="*.jar"/>
       </fileset>
 
+      <fileset dir="${scripts.dir}">
+        <include name="install-mt"/>
+      </fileset>
     </copy>
 
   </target>

@@ -1,0 +1,159 @@
+#!/usr/bin/env bash
+# Copyright (c) 2011 Concurrent, Inc.
+
+VERBOSE=1
+USE_COLOR=1
+INPUT_SOURCE=
+OUTPUT_SINK=
+CASCADING_ARGS=
+
+STACK_INDENT=''
+red="\033[0;31m"
+green="\033[0;32m"
+yellow="\033[0;33m"
+white="\033[0;37m"
+MT_PATH=.
+
+function log () {
+  echo -e "$STACK_INDENT$@"
+}
+
+function info () {
+  STACK_INDENT=''
+  if [[ $USE_COLOR -ne 0 ]]; then
+    echo -e ${@/INFO/$green'INFO'$white}
+  else
+    echo $@
+  fi
+}
+
+function warn () {
+  STACK_INDENT=''
+  if [[ $USE_COLOR -ne 0 ]]; then
+    echo -e ${@/WARN/$yellow'WARN'$white}
+  else
+    echo $@
+  fi
+}
+
+function error () {
+  STACK_INDENT=''
+  if [[ $USE_COLOR -ne 0 ]]; then
+    echo -e ${@/ERROR/$red'ERROR'$white}
+  else
+    echo $@
+  fi
+}
+
+function stacktrace () {
+  if [[ $USE_COLOR -ne 0 ]]; then
+    echo -e "$STACK_INDENT$red$@"
+  else
+    echo $STACK_INDENT$@
+  fi
+  STACK_INDENT="$STACK_INDENT  "
+}
+
+function run_multitool () {
+  if [[ ! -e $INPUT_SOURCE ]]; then
+    if [[ "$INPUT_SOURCE" ]]; then
+      error "ERROR $INPUT_SOURCE does not exist!"
+    else
+      error "ERROR An input source must be specified."
+    fi
+    exit 1
+  fi
+
+  if [[ "$OUTPUT_SINK" == "" ]]; then 
+    OUTPUT_SINK=`mktemp -dt cascading.multitool`
+    info "INFO Using temporary output sink:\n    $OUTPUT_SINK"
+    OUTPUT_SINK="sink=$OUTPUT_SINK sink.replace=true"
+  else
+    OUTPUT_SINK="sink=$OUTPUT_SINK"
+  fi
+
+  hadoop jar $MT_PATH/multitool.jar source=$INPUT_SOURCE $@ $OUTPUT_SINK 2>&1 | while read mt_line; do
+    if echo $mt_line | grep INFO > /dev/null; then
+      if [[ $VERBOSE -ne 0 ]]; then
+        info $mt_line
+      fi
+    elif echo $mt_line | grep WARN > /dev/null; then
+      warn $mt_line
+    elif echo $mt_line | grep ERROR > /dev/null; then
+      error $mt_line
+    elif echo $mt_line | grep Exception > /dev/null; then
+      stacktrace $mt_line
+    elif [[ ! -z $DEBUG ]]; then
+      log $mt_line
+    fi
+  done
+  
+  echo -ne $white
+}
+
+function show_usage () {
+  cat <<USAGE
+mt is the wrapper around Cascading.Multitool.
+Copyright (c) 2011 Concurrent, Inc.
+
+Usage:
+  mt input [flags] [options] action=argument [action=argument [...]]
+
+Input:
+  mt needs to have an input file or directory specified.
+
+Flags:
+  -h|--help       - displays this message
+  -q|--quiet      - suppresses INFO messages from Cascading and Hadoop
+  -nc|--no-color  - suppress colorization
+                 
+Options:         
+  -o|--output   - specifies the output sink
+                  if this is left blank, mt will create a temporary sink
+
+USAGE
+
+  hadoop jar $MT_PATH/multitool.jar
+}
+
+if [[ $# -gt 0 ]]; then
+  if [[ ${1:0:1} != '-' ]]; then
+    if ! echo $1 | grep '=' > /dev/null; then
+      INPUT_SOURCE=$1
+      shift
+    fi
+  fi
+else
+  show_usage
+  exit 1
+fi
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h|--help)
+      show_usage
+      exit 0
+      ;;
+    -q|--quiet)
+      VERBOSE=0
+      ;;
+    -nc|--no-color)
+      USE_COLOR=0
+      ;;
+    -o|--output)
+      if [[ -n "${2:-}" ]] ; then
+        OUTPUT_SINK="$2"
+        shift
+      else
+        echo "$1 must be followed by an output sink."
+        exit 1
+      fi
+      ;;
+    *)
+      MT_ARGS="$MT_ARGS $1"
+      ;;
+  esac
+  shift
+done
+
+run_multitool $MT_ARGS
