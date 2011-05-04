@@ -62,11 +62,7 @@ function error () {
 }
 
 function stacktrace () {
-  if [[ $USE_COLOR -ne 0 ]]; then
-    echo -e "$STACK_INDENT$red$@"
-  else
-    echo $STACK_INDENT$@
-  fi
+  echo $STACK_INDENT$@
   STACK_INDENT="$STACK_INDENT  "
 }
 
