@@ -94,7 +94,7 @@ function run_multitool () {
 function show_usage () {
   cat <<USAGE
 mt is the wrapper around Cascading.Multitool.
-Copyright (c) 2011 Concurrent, Inc.
+Copyright (c) 2011 Concurrent, Inc. (http://concurrentinc.com)
 
 Usage:
   mt input [flags] [options] action=argument [action=argument [...]]
