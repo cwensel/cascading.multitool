@@ -13,7 +13,7 @@ green="\033[0;32m"
 yellow="\033[0;33m"
 white="\033[0;37m"
 MT_PATH=.
-MT_JAR=`find $MT_PATH -name multitool*.jar`
+MT_JAR=`find $MT_PATH -name multitool*.jar | head -n1`
 
 function log () {
   echo -e "$STACK_INDENT$@"
@@ -116,6 +116,11 @@ USAGE
 
   hadoop jar $MT_JAR [args] | tail -n +3
 }
+
+if [[ "$MT_JAR" == "" ]]; then
+  error "ERROR Could not find a multitool jar file in '$MT_PATH'"
+  exit 1
+fi
 
 if [[ $# -gt 0 ]]; then
   if [[ ${1:0:1} != '-' ]]; then
