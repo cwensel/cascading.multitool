@@ -63,7 +63,7 @@ function install_files () {
       ln -sf $install_location/$binfile $bin_location/`basename $binfile`
     done
   elif ! echo $PATH | grep "$install_location/scripts" > /dev/null; then
-    echo "NOTE: You should add $install_location/scripts to your \$PATH."
+    echo "NOTE: You should add $install_location/bin to your \$PATH."
   fi
 }
 
@@ -73,7 +73,7 @@ install-mt writes Cascading.Multitool to its final destination.
 Copyright (c) 2011 Concurrent, Inc.
 
 Usage:
-  mt [flags] [options]
+  install-mt [flags] [options]
 
 Flags:
   -h|--help         - displays this message
