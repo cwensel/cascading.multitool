@@ -1,0 +1,126 @@
+#!/usr/bin/env bash
+# Copyright (c) 2011 Concurrent, Inc.
+
+dirs=(lib bin)
+binfiles=(bin/mt)
+files=(README.txt LICENSE.txt *.jar)
+
+source_location=$(pwd)
+if [ $UID -eq 0 ]; then
+  install_location=/usr/local/lib/multitool
+  bin_location=/usr/local/bin
+else
+  install_location=$HOME/.multitool
+fi
+
+function uninstall_files () {
+  if [ -d $install_location ]; then
+    echo "Removing $install_location"
+    rm -rf $install_location
+  fi
+
+  if [ $UID -eq 0 ]; then
+    for binfile in "${binfiles[@]}" ; do
+      binfile=$bin_location/`basename $binfile`
+
+      if [[ -h $binfile ]]; then
+        echo "Unlinking $binfile"
+        rm -f $binfile
+      fi
+    done
+  fi
+}
+
+function install_files () {
+  mkdir -p $install_location
+
+  for dir in "${dirs[@]}" ; do
+    echo "Installing $install_location/$dir"
+    cp -Rf $source_location/$dir $install_location
+  done
+
+  for file in "${files[@]}" ; do
+    echo "Installing $install_location/$file"
+    cp -f $source_location/$file $install_location
+  done
+
+  if [ -e $install_location/multitool*.jar ]; then
+    echo "Linking $install_location/multitool.jar"
+    ln -sf $install_location/multitool*.jar $install_location/multitool.jar
+  fi
+
+  for binfile in "${binfiles[@]}" ; do
+    echo "Setting multitool base location to $install_location"
+    cat $install_location/$binfile | sed s,MT_PATH=.,MT_PATH=\"$install_location\",g | tee $install_location/$binfile > /dev/null
+  done
+
+  if [[ $UID -eq 0 ]]; then
+    mkdir -p $bin_location
+
+    for binfile in "${binfiles[@]}" ; do
+      echo "Linking $bin_location/$binfile"
+      chmod +x $install_location/$binfile
+      ln -sf $install_location/$binfile $bin_location/`basename $binfile`
+    done
+  elif ! echo $PATH | grep "$install_location/scripts" > /dev/null; then
+    echo "NOTE: You should add $install_location/bin to your \$PATH."
+  fi
+}
+
+function show_usage () {
+  cat <<USAGE
+install-mt writes Cascading.Multitool to its final destination.
+Copyright (c) 2011 Concurrent, Inc.
+
+Usage:
+  install-mt [flags] [options]
+
+Flags:
+  -h|--help         - displays this message
+  -u|--uninstall    - uninstall related files
+
+Options:
+  -d|--destination     - specifies the install location
+                         defaults to /usr/local/lib/multitool (as root/sudo)
+                         defaults to $HOME/.multitool (as user)
+  -b|--bin-destination - specifies the destination for executable files
+                         defaults to /usr/local/bin
+                         (only applies when running as root/sudo)
+USAGE
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h|--help)
+      show_usage
+      exit 0
+      ;;
+    -d|--destination)
+      if [[ -n "${2:-}" ]] ; then
+        install_location="$2"
+        shift
+      else
+        echo "$1 must be followed by a destination."
+        exit 1
+      fi
+      ;;
+    -u|--uninstall)
+      uninstall_files
+      exit 0
+      ;;
+    *)
+      echo "Invalid flag or option: $1"
+      show_usage
+      exit 1
+      ;;
+  esac
+  shift
+done
+
+if [ ! -e $source_location/multitool.jar ] && [ ! -e $source_location/multitool*.jar ]; then
+  echo "multitool.jar not found!"
+  exit 1
+fi
+
+uninstall_files
+install_files
