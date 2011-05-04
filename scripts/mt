@@ -2,6 +2,7 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
 VERBOSE=1
+USE_COLOR=1
 INPUT_SOURCE=
 OUTPUT_SINK=
 CASCADING_ARGS=
@@ -11,29 +12,45 @@ red="\033[0;31m"
 green="\033[0;32m"
 yellow="\033[0;33m"
 white="\033[0;37m"
-MT_PATH=~/projects/cascading.multitool/build
+MT_PATH=.
 
 function log () {
-  echo -e "$STACK_INDENT$*"
+  echo -e "$STACK_INDENT$@"
 }
 
 function info () {
   STACK_INDENT=''
-  echo -e ${mt_line/INFO/$green'INFO'$white}
+  if [[ $USE_COLOR -ne 0 ]]; then
+    echo -e ${@/INFO/$green'INFO'$white}
+  else
+    echo $@
+  fi
 }
 
 function warn () {
   STACK_INDENT=''
-  echo -e ${mt_line/WARN/$yellow'WARN'$white}
+  if [[ $USE_COLOR -ne 0 ]]; then
+    echo -e ${@/WARN/$yellow'WARN'$white}
+  else
+    echo $@
+  fi
 }
 
 function error () {
   STACK_INDENT=''
-  echo -e ${mt_line/ERROR/$red'ERROR'$white}
+  if [[ $USE_COLOR -ne 0 ]]; then
+    echo -e ${@/ERROR/$red'ERROR'$white}
+  else
+    echo $@
+  fi
 }
 
 function stacktrace () {
-  echo -e "$STACK_INDENT$red$*"
+  if [[ $USE_COLOR -ne 0 ]]; then
+    echo -e "$STACK_INDENT$red$@"
+  else
+    echo $STACK_INDENT$@
+  fi
   STACK_INDENT="$STACK_INDENT  "
 }
 
@@ -55,7 +72,7 @@ function run_multitool () {
     OUTPUT_SINK="sink=$OUTPUT_SINK"
   fi
 
-  hadoop jar $MT_PATH/multitool.jar source=$INPUT_SOURCE $* $OUTPUT_SINK 2>&1 | while read mt_line; do
+  hadoop jar $MT_PATH/multitool.jar source=$INPUT_SOURCE $@ $OUTPUT_SINK 2>&1 | while read mt_line; do
     if echo $mt_line | grep INFO > /dev/null; then
       if [[ $VERBOSE -ne 0 ]]; then
         info $mt_line
@@ -86,8 +103,9 @@ Input:
   mt needs to have an input file or directory specified.
 
 Flags:
-  -h|--help     - displays this message
-  -q|--quiet    - suppresses INFO messages from Cascading and Hadoop
+  -h|--help       - displays this message
+  -q|--quiet      - suppresses INFO messages from Cascading and Hadoop
+  -nc|--no-color  - suppress colorization
                  
 Options:         
   -o|--output   - specifies the output sink
@@ -118,6 +136,9 @@ while [[ $# -gt 0 ]]; do
       ;;
     -q|--quiet)
       VERBOSE=0
+      ;;
+    -nc|--no-color)
+      USE_COLOR=0
       ;;
     -o|--output)
       if [[ -n "${2:-}" ]] ; then
