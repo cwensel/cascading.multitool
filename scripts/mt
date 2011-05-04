@@ -49,8 +49,8 @@ function run_multitool () {
 
   if [[ "$OUTPUT_SINK" == "" ]]; then 
     OUTPUT_SINK=`mktemp -dt cascading.multitool`
-    OUTPUT_SINK="sink=$OUTPUT_SINK sink.replace=true"
     echo "Using temporary output sink: $OUTPUT_SINK"
+    OUTPUT_SINK="sink=$OUTPUT_SINK sink.replace=true"
   else
     OUTPUT_SINK="sink=$OUTPUT_SINK"
   fi
