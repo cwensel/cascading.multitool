@@ -199,7 +199,7 @@ public class Main
       versionProperties.load( stream );
 
       stream = Cascade.class.getClassLoader().getResourceAsStream( "cascading/build.number.properties" );
-      if ( stream != null )
+      if( stream != null )
         versionProperties.load( stream );
 
       String releaseMajor = versionProperties.getProperty( "cascading.release.major" );
