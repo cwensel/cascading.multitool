@@ -14,6 +14,22 @@ MT_PATH=.
 MT_JAR=`find $MT_PATH -name multitool*.jar | head -n1`
 MT_ARGS=
 
+HADOOP_BIN=`which hadoop`
+
+if [[ "$HADOOP_BIN" == "" ]]; then
+  if [[ "$HADOOP_HOME" == "" ]]; then
+    error "ERROR \$HADOOP_HOME was not set and 'hadoop' is not in your \$PATH"
+    exit 1
+  else
+    HADOOP_BIN=$HADOOP_HOME/bin/hadoop
+    
+    if [[ ! -e $HADOOP_BIN ]]; then
+      error "ERROR \$HADOOP_HOME is set, but $HADOOP_BIN was not found."
+      exit 1
+    fi
+  fi
+fi
+
 function log () {
   echo -e "$STACK_INDENT$@"
 }
