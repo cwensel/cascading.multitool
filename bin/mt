@@ -13,6 +13,7 @@ green="\033[0;32m"
 yellow="\033[0;33m"
 white="\033[0;37m"
 MT_PATH=.
+MT_JAR=`find $MT_PATH -name multitool*.jar`
 
 function log () {
   echo -e "$STACK_INDENT$@"
@@ -72,7 +73,7 @@ function run_multitool () {
     OUTPUT_SINK="sink=$OUTPUT_SINK"
   fi
 
-  hadoop jar $MT_PATH/multitool.jar source=$INPUT_SOURCE $@ $OUTPUT_SINK 2>&1 | while read mt_line; do
+  hadoop jar $MT_JAR source=$INPUT_SOURCE $@ $OUTPUT_SINK 2>&1 | while read mt_line; do
     if echo $mt_line | grep INFO > /dev/null; then
       if [[ $VERBOSE -ne 0 ]]; then
         info $mt_line
@@ -113,7 +114,7 @@ Options:
 
 USAGE
 
-  hadoop jar $MT_PATH/multitool.jar [args]
+  hadoop jar $MT_JAR [args] | tail -n +3
 }
 
 if [[ $# -gt 0 ]]; then

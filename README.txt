@@ -71,7 +71,7 @@ Using
 
   For a more complex example:
 
-  > ./bin/mt source=data/topic.100.txt cut=0 \
+  > ./bin/mt data/topic.100.txt cut=0 \
     "pgen=(\b[12][09][0-9]{2}\b)" group=0 count=0 group=1 \
     sink=output sink.replace=true sink.parts=1
 

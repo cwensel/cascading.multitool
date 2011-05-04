@@ -5,3 +5,4 @@ lib
 *.iws
 *.ipr
 build.properties
+dist
