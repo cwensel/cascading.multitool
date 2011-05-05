@@ -12,7 +12,7 @@ blue="\033[0;34m"
 reset="\033[0m"
 
 MT_PATH=.
-MT_JAR=`find $MT_PATH -name multitool*.jar | head -n1`
+MT_JAR=`find $MT_PATH -name multitool-*.jar | head -n1`
 MT_ARGS=
 
 HADOOP_BIN=`which hadoop`
@@ -23,7 +23,7 @@ if [[ "$HADOOP_BIN" == "" ]]; then
     exit 1
   else
     HADOOP_BIN=$HADOOP_HOME/bin/hadoop
-    
+
     if [[ ! -e $HADOOP_BIN ]]; then
       error "ERROR \$HADOOP_HOME is set, but $HADOOP_BIN was not found."
       exit 1
@@ -103,8 +103,7 @@ function run_multitool () {
 }
 
 function show_version () {
-  MT_BUILD=`unzip -p build/multitool.jar META-INF/MANIFEST.MF | grep Build-Date | cut -c 13-`
-  echo "Cascading.Multitool $MT_BUILD"
+  echo "Cascading.Multitool: $MT_JAR"
   $HADOOP_BIN jar $MT_JAR [args] | tail -n +3 | head -n2
 }
 
