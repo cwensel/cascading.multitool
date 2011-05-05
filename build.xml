@@ -166,18 +166,13 @@
   </target>
 
   <target name="dist" depends="clean,retrieve,jar,stamp-jar" description="packages current project">
-
     <mkdir dir="${dist}"/>
 
     <copy todir="${dist}">
-
       <fileset dir=".">
         <include name="data/**"/>
-        <include name="src/**"/>
         <include name="lib/**"/>
         <include name="bin/**"/>
-        <include name="build.xml"/>
-        <include name="ivy.xml"/>
         <include name="README.txt"/>
         <include name="LICENSE.txt"/>
       </fileset>
@@ -185,15 +180,13 @@
       <fileset dir="${build.dir}">
         <include name="*.jar"/>
       </fileset>
-
     </copy>
 
     <chmod perm="u+x">
-      <fileset dir="dist/bin">
+      <fileset dir="${dist}/bin">
         <include name="**"/>
       </fileset>
     </chmod>
-
   </target>
 
   <target name="tar" depends="dist" description="creates an archive of current project">
