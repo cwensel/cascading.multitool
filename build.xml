@@ -151,12 +151,15 @@
   </target>
 
   <target name="jar" depends="compile" description="creates a Hadoop ready jar will all dependencies">
-
+    <tstamp>
+      <format property="TIMESTAMP" pattern="yyyy-MM-dd HH:mm:ss" />
+    </tstamp>
     <jar jarfile="${build.dir}/${ant.project.name}.jar">
       <fileset dir="${build.classes}"/>
       <fileset dir="${basedir}" includes="lib/"/>
       <manifest>
         <attribute name="Main-Class" value="${ant.project.name}/Main"/>
+        <attribute name="Build-Date" value="${TIMESTAMP}"/>
       </manifest>
     </jar>
 

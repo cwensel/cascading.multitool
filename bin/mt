@@ -8,6 +8,7 @@ STACK_INDENT=''
 red="\033[0;31m"
 green="\033[0;32m"
 yellow="\033[0;33m"
+blue="\033[0;34m"
 reset="\033[0m"
 
 MT_PATH=.
@@ -36,10 +37,23 @@ function log () {
 
 function info () {
   STACK_INDENT=''
-  if [[ $USE_COLOR -ne 0 ]]; then
-    echo -e ${@/INFO/$green'INFO'$reset}
-  else
-    echo $@
+  if [[ $VERBOSE -ne 0 ]]; then
+    if [[ $USE_COLOR -ne 0 ]]; then
+      echo -e ${@/INFO/$green'INFO'$reset}
+    else
+      echo $@
+    fi
+  fi
+}
+
+function soft () {
+  STACK_INDENT=''
+  if [[ $VERBOSE -ne 0 ]]; then
+    if [[ $USE_COLOR -ne 0 ]]; then
+      echo -e $blue$@$reset
+    else
+      echo $@
+    fi
   fi
 }
 
@@ -69,8 +83,10 @@ function stacktrace () {
 function run_multitool () {
   $HADOOP_BIN jar $MT_JAR $MT_ARGS 2>&1 | while read mt_line; do
     if echo $mt_line | grep INFO > /dev/null; then
-      if [[ $VERBOSE -ne 0 ]]; then
+      if echo $mt_line | egrep "mapred.|flow.|multitool.|cascade." > /dev/null; then
         info $mt_line
+      else
+        soft $mt_line
       fi
     elif echo $mt_line | grep WARN > /dev/null; then
       warn $mt_line
@@ -87,6 +103,8 @@ function run_multitool () {
 }
 
 function show_version () {
+  MT_BUILD=`unzip -p build/multitool.jar META-INF/MANIFEST.MF | grep Build-Date | cut -c 13-`
+  echo "Cascading.Multitool $MT_BUILD"
   $HADOOP_BIN jar $MT_JAR [args] | tail -n +3 | head -n2
 }
 
