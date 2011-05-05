@@ -39,7 +39,11 @@ function info () {
   STACK_INDENT=''
   if [[ $VERBOSE -ne 0 ]]; then
     if [[ $USE_COLOR -ne 0 ]]; then
-      echo -e ${@/INFO/$green'INFO'$reset}
+      if echo $mt_line | egrep "INFO flow|INFO multitool|INFO cascade" > /dev/null; then
+        echo -e ${@/INFO/$green'INFO'$blue}$reset
+      else
+        echo -e ${@/INFO/$green'INFO'$reset}
+      fi
     else
       echo $@
     fi
@@ -72,11 +76,7 @@ function stacktrace () {
 function run_multitool () {
   $HADOOP_BIN jar $MT_JAR $MT_ARGS 2>&1 | while read mt_line; do
     if echo $mt_line | grep INFO > /dev/null; then
-      if echo $mt_line | egrep "INFO flow|INFO multitool|INFO cascade" > /dev/null; then
-        info ${mt_line/INFO/'INFO'$blue}$reset
-      else
-        info $mt_line
-      fi
+      info $mt_line
     elif echo $mt_line | grep WARN > /dev/null; then
       warn $mt_line
     elif echo $mt_line | grep ERROR > /dev/null; then
