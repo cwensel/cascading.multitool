@@ -147,8 +147,9 @@ public class Main
   private static void printUsage()
     {
     System.out.println( "multitool [param] [param] ..." );
-    printCascadingVersion();
+
     printLicense();
+    printCascadingVersion();
 
     System.out.println( "" );
     System.out.println( "Usage:" );
@@ -159,6 +160,40 @@ public class Main
     System.exit( 1 );
     }
 
+  private static void printCascadingVersion()
+    {
+    try
+      {
+      Properties versionProperties = new Properties();
+
+      InputStream stream = Cascade.class.getClassLoader().getResourceAsStream( "cascading/version.properties" );
+      versionProperties.load( stream );
+
+      stream = Cascade.class.getClassLoader().getResourceAsStream( "cascading/build.number.properties" );
+      if( stream != null )
+        versionProperties.load( stream );
+
+      String releaseMajor = versionProperties.getProperty( "cascading.release.major" );
+      String releaseMinor = versionProperties.getProperty( "cascading.release.minor", null );
+      String releaseBuild = versionProperties.getProperty( "build.number", null );
+      String releaseFull = null;
+
+      if( releaseMinor == null )
+        releaseFull = releaseMajor;
+      else if( releaseBuild == null )
+        releaseFull = String.format( "%s.%s", releaseMajor, releaseMinor );
+      else
+        releaseFull = String.format( "%s.%s%s", releaseMajor, releaseMinor, releaseBuild );
+
+
+      System.out.println( String.format( "Using Cascading %s", releaseFull ) );
+      }
+    catch( IOException exception )
+      {
+      System.out.println( "Unknown Cascading Version" );
+      }
+    }
+
   private static void printLicense()
     {
     try
@@ -166,7 +201,7 @@ public class Main
       InputStream stream = Main.class.getResourceAsStream( "/MULTITOOL-LICENSE.txt" );
       BufferedReader reader = new BufferedReader( new InputStreamReader( stream ) );
 
-      System.out.print( "This distribution is licensed under the " );
+      System.out.print( "This release of Cascading.Multitool is licensed under the " );
 
       String line = reader.readLine();
 
@@ -186,41 +221,6 @@ public class Main
     catch( IOException exception )
       {
       System.out.println( "Unspecified License" );
-      }
-    }
-
-  private static void printCascadingVersion()
-    {
-    try
-      {
-      Properties versionProperties = new Properties();
-
-      InputStream stream = Cascade.class.getClassLoader().getResourceAsStream( "cascading/version.properties" );
-      versionProperties.load( stream );
-
-      stream = Cascade.class.getClassLoader().getResourceAsStream( "cascading/build.number.properties" );
-      if( stream != null )
-        versionProperties.load( stream );
-
-      String releaseMajor = versionProperties.getProperty( "cascading.release.major" );
-      String releaseMinor = versionProperties.getProperty( "cascading.release.minor", null );
-      String releaseBuild = versionProperties.getProperty( "build.number", null );
-      String hadoopVersion = versionProperties.getProperty( "cascading.hadoop.compatible.version" );
-      String releaseFull = null;
-
-      if( releaseMinor == null )
-        releaseFull = releaseMajor;
-      else if( releaseBuild == null )
-        releaseFull = String.format( "%s.%s", releaseMajor, releaseMinor );
-      else
-        releaseFull = String.format( "%s.%s%s", releaseMajor, releaseMinor, releaseBuild );
-
-
-      System.out.println( String.format( "Built against Cascading %s on %s", releaseFull, hadoopVersion ) );
-      }
-    catch( IOException exception )
-      {
-      System.out.println( "Unknown Cascading Version" );
       }
     }
 
