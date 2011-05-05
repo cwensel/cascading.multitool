@@ -46,17 +46,6 @@ function info () {
   fi
 }
 
-function soft () {
-  STACK_INDENT=''
-  if [[ $VERBOSE -ne 0 ]]; then
-    if [[ $USE_COLOR -ne 0 ]]; then
-      echo -e $blue$@$reset
-    else
-      echo $@
-    fi
-  fi
-}
-
 function warn () {
   STACK_INDENT=''
   if [[ $USE_COLOR -ne 0 ]]; then
