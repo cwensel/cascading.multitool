@@ -12,7 +12,7 @@ blue="\033[0;34m"
 reset="\033[0m"
 
 MT_PATH=.
-MT_JAR=`find $MT_PATH -name multitool-*.jar | head -n1`
+MT_JAR=`find $MT_PATH -name multitool*.jar | head -n1`
 MT_ARGS=
 
 HADOOP_BIN=`which hadoop`
@@ -83,10 +83,10 @@ function stacktrace () {
 function run_multitool () {
   $HADOOP_BIN jar $MT_JAR $MT_ARGS 2>&1 | while read mt_line; do
     if echo $mt_line | grep INFO > /dev/null; then
-      if echo $mt_line | egrep "mapred.|flow.|multitool.|cascade." > /dev/null; then
-        info $mt_line
+      if echo $mt_line | egrep "INFO flow|INFO multitool|INFO cascade" > /dev/null; then
+        info ${mt_line/INFO/'INFO'$blue}$reset
       else
-        soft $mt_line
+        info $mt_line
       fi
     elif echo $mt_line | grep WARN > /dev/null; then
       warn $mt_line

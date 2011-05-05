@@ -44,11 +44,6 @@ function install_files () {
     cp -f $source_location/$file $install_location
   done
 
-  if [ -e $install_location/multitool*.jar ]; then
-    echo "Linking $install_location/multitool.jar"
-    ln -sf $install_location/multitool*.jar $install_location/multitool.jar
-  fi
-
   for binfile in "${binfiles[@]}" ; do
     echo "Setting multitool base location to $install_location"
     cat $install_location/$binfile | sed s,MT_PATH=.,MT_PATH=\"$install_location\",g | tee $install_location/$binfile > /dev/null
@@ -62,7 +57,7 @@ function install_files () {
       chmod +x $install_location/$binfile
       ln -sf $install_location/$binfile $bin_location/`basename $binfile`
     done
-  elif ! echo $PATH | grep "$install_location/scripts" > /dev/null; then
+  elif ! echo $PATH | grep "$install_location/bin" > /dev/null; then
     echo "NOTE: You should add $install_location/bin to your \$PATH."
   fi
 }
