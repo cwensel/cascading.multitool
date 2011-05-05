@@ -201,7 +201,7 @@ public class Main
       InputStream stream = Main.class.getResourceAsStream( "/MULTITOOL-LICENSE.txt" );
       BufferedReader reader = new BufferedReader( new InputStreamReader( stream ) );
 
-      System.out.print( "This release of Cascading.Multitool is licensed under the " );
+      System.out.print( "This release is licensed under the " );
 
       String line = reader.readLine();
 
@@ -209,7 +209,7 @@ public class Main
         {
         if( line.matches( "^Binary License:.*$" ) )
           {
-          System.out.println( line.replace( "^[^:]*:\\s*(.*)$", "$1" ) );
+          System.out.println( line.substring( 15 ).trim() );
           break;
           }
 
