@@ -1,29 +1,29 @@
 Welcome
 
- This is the Cascading.Multitool (Multitool) module.
+  This is the Cascading.Multitool (Multitool) application.
 
- It provides a simple command line interface for building data processing jobs.
+  Multitool provides a simple command line interface for building data processing jobs.
 
- Think of Multitool as 'grep' and 'sed' for Hadoop, that also supports joins.
+  Think of Multitool as 'grep' and 'sed' for Hadoop, that also supports joins.
 
- For example, with "$HADOOP_HOME/bin/hadoop" in your PATH, the following command,
+  For example, with "$HADOOP_HOME/bin/hadoop" in your PATH, the following command,
 
    > hadoop jar multitool-<release-date>.jar source=input.txt select=Monday sink=outputDir
 
- will start a Hadoop job to read in the source file "input.txt", grep all lines with
- the word "Monday" and output the results into the directory "outputDir".
+  will start a Hadoop job to read in the source file "input.txt", grep all lines with
+  the word "Monday" and output the results into the directory "outputDir".
 
- Multitool will inherit the underlying Hadoop configuration, so if the default FileSystem
- is HDFS, all paths will be relative to the cluster filesystem, not local. Using fully
- qualified urls will override the defaults (file://some/path or s3n:/bucket/file).
+  Multitool will inherit the underlying Hadoop configuration, so if the default FileSystem
+  is HDFS, all paths will be relative to the cluster filesystem, not local. Using fully
+  qualified urls will override the defaults (file://some/path or s3n:/bucket/file).
 
- This application is built with Cascading.
+  This application is built with Cascading.
 
- Cascading is a feature rich API for defining and executing complex,
- scale-free, and fault tolerant data processing workflows on a Hadoop
- cluster. It can be found at the following location:
+  Cascading is a feature rich API for defining and executing complex,
+  scale-free, and fault tolerant data processing workflows on a Hadoop
+  cluster. It can be found at the following location:
 
-   http://www.cascading.org/
+    http://www.cascading.org/
 
 Installing
 
@@ -90,16 +90,24 @@ Examples
 
 Building
 
- This release requires at least Cascading 1.2.x and will pull all dependencies from
- the relevant maven repos, including conjars.org.
+  To build Multitool, you must download the source code from GitHub:
 
- To build a jar,
+   https://github.com/concurrentinc/cascading.multitool/tarball/master
 
- > ant retrieve jar
+  or clone the repo:
 
- To test,
+   https://github.com/concurrentinc/cascading.multitool
 
- > ant test
+  This release will pull all dependencies from the relevant maven repos,
+  including conjars.org.
+
+  To build a jar,
+
+  > ant retrieve jar
+
+  To test,
+
+  > ant test
 
 License
 
