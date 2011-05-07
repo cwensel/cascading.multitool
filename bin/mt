@@ -1,155 +1,54 @@
 #!/usr/bin/env bash
 # Copyright (c) 2011 Concurrent, Inc.
 
-VERBOSE=1
-USE_COLOR=1
+## NOTE Do not change these lines.  They are rewritten during installation.
+if [[ "$MT_PATH" == "" ]]; then
+MT_PATH=
+fi
+## /NOTE
 
-STACK_INDENT=''
-red="\033[0;31m"
-green="\033[0;32m"
-yellow="\033[0;33m"
-blue="\033[0;34m"
-reset="\033[0m"
-
-MT_PATH=.
-MT_JAR=`find $MT_PATH -name multitool*.jar | head -n1`
-MT_ARGS=
-
-HADOOP_BIN=`which hadoop`
-
-if [[ "$HADOOP_BIN" == "" ]]; then
-  if [[ "$HADOOP_HOME" == "" ]]; then
-    error "ERROR \$HADOOP_HOME was not set and 'hadoop' is not in your \$PATH"
-    exit 1
-  else
-    HADOOP_BIN=$HADOOP_HOME/bin/hadoop
-
-    if [[ ! -e $HADOOP_BIN ]]; then
-      error "ERROR \$HADOOP_HOME is set, but $HADOOP_BIN was not found."
-      exit 1
-    fi
-  fi
+# If the above line is not set (ie. mt is not installed), set it
+if [[ "$MT_PATH" == "" ]]; then
+  MT_PATH=`dirname $(cd ${0%/*}/.. && echo $PWD/${0##*/})`
 fi
 
-function log () {
-  echo -e "$STACK_INDENT$@"
-}
-
-function info () {
-  STACK_INDENT=''
-  if [[ $VERBOSE -ne 0 ]]; then
-    if [[ $USE_COLOR -ne 0 ]]; then
-      if echo $mt_line | egrep "INFO flow|INFO multitool|INFO cascade" > /dev/null; then
-        echo -e ${@/INFO/$green'INFO'$blue}$reset
-      else
-        echo -e ${@/INFO/$green'INFO'$reset}
-      fi
-    else
-      echo $@
-    fi
+function include_dependencies () {
+  if [[ $# -gt 0 ]]; then
+    for dep in "$@"; do
+      . $MT_PATH/bin/functions/$dep.inc
+    done
   fi
 }
 
-function warn () {
-  STACK_INDENT=''
-  if [[ $USE_COLOR -ne 0 ]]; then
-    echo -e ${@/WARN/$yellow'WARN'$reset}
-  else
-    echo $@
-  fi
-}
+include_dependencies jar log help run
 
-function error () {
-  STACK_INDENT=''
-  if [[ $USE_COLOR -ne 0 ]]; then
-    echo -e ${@/ERROR/$red'ERROR'$reset}
-  else
-    echo $@
-  fi
-}
-
-function stacktrace () {
-  echo $STACK_INDENT$@
-  STACK_INDENT="$STACK_INDENT  "
-}
-
-function run_multitool () {
-  $HADOOP_BIN jar $MT_JAR $MT_ARGS 2>&1 | while read mt_line; do
-    if echo $mt_line | grep INFO > /dev/null; then
-      info $mt_line
-    elif echo $mt_line | grep WARN > /dev/null; then
-      warn $mt_line
-    elif echo $mt_line | grep ERROR > /dev/null; then
-      error $mt_line
-    elif echo $mt_line | grep Exception > /dev/null; then
-      stacktrace $mt_line
-    elif [[ ! -z $DEBUG ]]; then
-      log $mt_line
-    fi
-  done
-
-  echo -ne $reset
-}
-
-function show_version () {
-  echo "Cascading.Multitool: $MT_JAR"
-  $HADOOP_BIN jar $MT_JAR [args] | tail -n +3 | head -n2
-}
-
-function show_usage () {
-  cat <<USAGE
-mt is the wrapper around Cascading.Multitool.
-Copyright (c) 2011 Concurrent, Inc. (http://concurrentinc.com)
-
-Usage:
-  mt [flags] [options] action=argument [action=argument [...]]
-
-Flags:
-  -h|--help       - displays this message
-  -v|--version    - displays the version of the Cascading.Multitool jar
-  -q|--quiet      - suppresses INFO messages from Cascading and Hadoop
-  -nc|--no-color  - suppress colorization
-
-USAGE
-
-  $HADOOP_BIN jar $MT_JAR [args] | tail -n +3
-}
-
-if [[ "$MT_JAR" == "" ]]; then
-  show_usage
-  echo ""
-  error "ERROR Could not find a multitool jar file in '$MT_PATH'"
-  exit 1
-fi
+mt_run_args=
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    help)
+      mt_help $2
+      exit 0
+      ;;
     -h|--help)
-      show_usage
+      mt_run_usage
       exit 0
       ;;
     -v|--version)
-      show_version
+      mt_run_version
       exit 0
       ;;
     -q|--quiet)
-      VERBOSE=0
+      mt_log_verbose=0
       ;;
     -nc|--no-color|--no-colour)
-      USE_COLOR=0
+      mt_log_use_color=0
       ;;
     *)
-      MT_ARGS="$MT_ARGS $1"
+      mt_run_args="$mt_run_args $1"
       ;;
   esac
   shift
 done
 
-if [[ "$MT_ARGS" == "" ]]; then
-  show_usage
-  echo ""
-  error "ERROR No arguments specified"
-  exit 1
-fi
-
-run_multitool $MT_ARGS
+mt_run $mt_run_args
