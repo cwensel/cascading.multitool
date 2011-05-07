@@ -169,7 +169,6 @@
     <copy todir="${dist}">
       <fileset dir=".">
         <include name="data/**"/>
-        <include name="lib/**"/>
         <include name="bin/**"/>
         <include name="README.txt"/>
       </fileset>
