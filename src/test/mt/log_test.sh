@@ -4,15 +4,70 @@ describe "log.inc"
 
 before () {
   include_dependencies log
-  ECHO_OUTPUT=
-  alias echo="ECHO_OUTPUT="
 }
 
 it_logs_a_message() {
-  usage=$(grep 2>&1 | head -n 1)
-  test "$usage" = "Usage: grep [OPTION]... PATTERN [FILE]..."
+  LOG_INPUT='this has been logged'
+  LOG_OUTPUT=`log $LOG_INPUT`
+  test "$LOG_OUTPUT" = "-e $LOG_INPUT"
 }
 
-it_will_fail_this_test() {
-  echo foo | grep -q bar
+it_colorizes_an_info_message() {
+  LOG_INPUT='this is information'
+  LOG_OUTPUT=`info "INFO $LOG_INPUT"`
+
+  LOG_TEST="INFO$mt_log_reset_code $LOG_INPUT$mt_log_reset_code"
+  LOG_TEST=$mt_log_green$LOG_TEST
+
+  test "$LOG_OUTPUT" = "`echo -e $LOG_TEST`"
+}
+
+it_colorizes_a_cascade_info_message() {
+  LOG_INPUT='cascade'
+  LOG_OUTPUT=`info "INFO $LOG_INPUT"`
+
+  LOG_TEST="INFO$mt_log_blue $LOG_INPUT$mt_log_reset_code"
+  LOG_TEST=$mt_log_green$LOG_TEST
+
+  test "$LOG_OUTPUT" = "`echo -e $LOG_TEST`"
+}
+
+it_colorizes_a_multitool_info_message() {
+  LOG_INPUT='multitool'
+  LOG_OUTPUT=`info "INFO $LOG_INPUT"`
+
+  LOG_TEST="INFO$mt_log_blue $LOG_INPUT$mt_log_reset_code"
+  LOG_TEST=$mt_log_green$LOG_TEST
+
+  test "$LOG_OUTPUT" = "`echo -e $LOG_TEST`"
+}
+
+it_colorizes_a_warning_message() {
+  LOG_INPUT='deprecated'
+  LOG_OUTPUT=`warn "WARN $LOG_INPUT"`
+
+  LOG_TEST="WARN$mt_log_reset_code $LOG_INPUT$mt_log_reset_code"
+  LOG_TEST=$mt_log_yellow$LOG_TEST
+
+  test "$LOG_OUTPUT" = "`echo -e $LOG_TEST`"
+}
+
+it_colorizes_an_error_message() {
+  LOG_INPUT='syntax error'
+  LOG_OUTPUT=`error "ERROR $LOG_INPUT"`
+
+  LOG_TEST="ERROR$mt_log_reset_code $LOG_INPUT$mt_log_reset_code"
+  LOG_TEST=$mt_log_red$LOG_TEST
+
+  test "$LOG_OUTPUT" = "`echo -e $LOG_TEST`"
+}
+
+it_indents_a_stacktrace() {
+  LOG_INPUT='some stuff'
+  
+  LOG_OUTPUT=`stacktrace "$LOG_INPUT"`
+  test "$LOG_OUTPUT" = "-e $LOG_INPUT"
+  
+  LOG_OUTPUT=`mt_log_stack_depth=2 stacktrace "$LOG_INPUT"`
+  test "$LOG_OUTPUT" = "-e 	$LOG_INPUT"
 }
