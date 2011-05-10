@@ -8,25 +8,7 @@ mt_install_destination=
 mt_install_bin_destination=
 
 function mt_install_usage () {
-  cat <<USAGE
-install-mt writes Cascading.Multitool to its final destination.
-Copyright (c) 2011 Concurrent, Inc.
-
-Usage:
-  install-mt [flags] [options]
-
-Flags:
-  -h|--help         - displays this message
-  -u|--uninstall    - uninstall related files
-
-Options:
-  -d|--destination     - specifies the install destination
-                         defaults to /usr/local/lib/multitool (as root/sudo)
-                         defaults to $HOME/.multitool (as user)
-  -b|--bin-destination - specifies the destination for executable files
-                         defaults to /usr/local/bin
-                         (only applies when running as root/sudo)
-USAGE
+  echo $mt_install_usage_doc
 }
 
 function mt_install_set_destination () {
@@ -91,3 +73,23 @@ function mt_install_run () {
   mt_install_remove_existing
   mt_install_all_files
 }
+
+mt_install_usage_doc=$(cat <<-USAGE
+install-mt writes Cascading.Multitool to its final destination.
+Copyright (c) 2011 Concurrent, Inc.
+
+Usage:
+  install-mt [flags] [options]
+
+Flags:
+  -h|--help         - displays this message
+  -u|--uninstall    - uninstall related files
+
+Options:
+  -d|--destination     - specifies the install destination
+                         defaults to /usr/local/lib/multitool (as root/sudo)
+                         defaults to $HOME/.multitool (as user)
+  -b|--bin-destination - specifies the destination for executable files
+                         defaults to /usr/local/bin
+                         (only applies when running as root/sudo)
+USAGE)
