@@ -1,20 +1,26 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
-HADOOP_BIN=`which hadoop`
+function mt_run_detect_hadoop () {
+  HADOOP_BIN=$(which hadoop || echo)
 
-if [[ "$HADOOP_BIN" == "" ]]; then
-  if [[ "$HADOOP_HOME" == "" ]]; then
-    error "ERROR \$HADOOP_HOME was not set and 'hadoop' is not in your \$PATH"
-    exit 1
-  else
-    HADOOP_BIN=$HADOOP_HOME/bin/hadoop
+  if [[ -z "$HADOOP_BIN" ]]; then
+    if [[ -n $HADOOP_HOME ]]; then
+      HADOOP_BIN="$HADOOP_HOME/bin/hadoop"
 
-    if [[ ! -e $HADOOP_BIN ]]; then
-      error "ERROR \$HADOOP_HOME is set, but $HADOOP_BIN was not found."
-      exit 1
+      if [[ ! -e $HADOOP_BIN ]]; then
+        error "ERROR HADOOP_HOME is set, but $HADOOP_BIN was not found."
+        if [[ -z "$mt_run_avoid_exit_call" ]]; then
+          exit 1
+        fi
+      fi
+    else
+      error "ERROR HADOOP_HOME was not set and hadoop is not in your PATH"
+      if [[ -z "$mt_run_avoid_exit_call" ]]; then
+        exit 1
+      fi
     fi
   fi
-fi
+}
 
 function mt_run_show_version () {
   echo "Cascading.Multitool: $mt_jar_path"
@@ -22,21 +28,7 @@ function mt_run_show_version () {
 }
 
 function mt_run_show_usage () {
-  cat <<USAGE
-mt is the wrapper around Cascading.Multitool.
-Copyright (c) 2011 Concurrent, Inc. (http://concurrentinc.com)
-
-Usage:
-  mt [flags] [options] action=argument [action=argument [...]]
-
-Flags:
-  -h|--help       - displays this message
-  -v|--version    - displays the version of the Cascading.Multitool jar
-  -q|--quiet      - suppresses INFO messages from Cascading and Hadoop
-  -nc|--no-color  - suppress colorization
-
-USAGE
-
+  echo $mt_run_usage_doc
   $HADOOP_BIN jar $mt_jar_path [args] | tail -n +3
 }
 
@@ -64,6 +56,18 @@ function mt_run () {
       log $line
     fi
   done
-
-  echo -ne $reset
 }
+
+mt_run_usage_doc=$(cat <<-USAGE
+mt is the wrapper around Cascading.Multitool.
+Copyright (c) 2011 Concurrent, Inc. (http://concurrentinc.com)
+
+Usage:
+  mt [flags] [options] action=argument [action=argument [...]]
+
+Flags:
+  -h|--help       - displays this message
+  -v|--version    - displays the version of the Cascading.Multitool jar
+  -q|--quiet      - suppresses INFO messages from Cascading and Hadoop
+  -nc|--no-color  - suppress colorization
+USAGE)
