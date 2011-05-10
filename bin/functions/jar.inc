@@ -5,6 +5,9 @@ if [[ "$mt_jar_path" == "" ]]; then
   
   if [[ "$mt_jar_path" == "" ]]; then
     echo "multitool.jar not found"
-    exit 1
+    
+    if [[ -z $mt_jar_avoid_exit ]]; then
+      exit 1
+    fi
   fi
 fi

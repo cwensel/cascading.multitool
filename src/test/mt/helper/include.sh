@@ -1,3 +1,5 @@
+# Copyright (c) 2011 Concurrent, Inc.
+
 if [[ "$MT_PATH" == "" ]]; then
   MT_PATH=`dirname $(cd ${0%/*}/../../../.. && echo $PWD/${0##*/})`
 fi
