@@ -36,7 +36,7 @@ while [[ $# -gt 0 ]]; do
       fi
       ;;
     -u|--uninstall)
-      mt_install_remove_all
+      mt_install_remove_existing
       exit 0
       ;;
     *)
@@ -48,4 +48,5 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
-mt_install
+mt_install_remove_existing
+mt_install_all_files

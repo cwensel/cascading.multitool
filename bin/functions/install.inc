@@ -69,11 +69,6 @@ function mt_install_all_files () {
   fi
 }
 
-function mt_install_run () {
-  mt_install_remove_existing
-  mt_install_all_files
-}
-
 mt_install_usage_doc=$(cat <<-USAGE
 install-mt writes Cascading.Multitool to its final destination.
 Copyright (c) 2011 Concurrent, Inc.
