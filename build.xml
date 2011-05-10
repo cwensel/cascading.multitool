@@ -110,7 +110,7 @@
   </target>
 
   <!-- runs JUnit tests -->
-  <target name="test" depends="compile,compile-test" description="run the unit tests">
+  <target name="test" depends="compile,compile-test,mt-test" description="run the unit tests">
     <echo message="running all tests..."/>
 
     <mkdir dir="build/test/log"/>
@@ -139,6 +139,13 @@
       </batchtest>
     </junit>
 
+  </target>
+
+  <!-- runs roundup.sh tests -->
+  <target name="mt-test" description="run the mt unit tests">
+    <exec executable="${src.test}/mt/helper/roundup.sh">
+      <arg value="${src.test}/mt/*.sh"/>
+    </exec>
   </target>
 
   <tstamp/>
