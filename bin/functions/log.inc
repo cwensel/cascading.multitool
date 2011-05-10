@@ -4,11 +4,14 @@ mt_log_use_color=1
 mt_log_verbose=1
 
 mt_log_stack_depth=0
-mt_log_red="\033[0;31m"
-mt_log_green="\033[0;32m"
-mt_log_yellow="\033[0;33m"
-mt_log_blue="\033[0;34m"
-mt_log_reset_code="\033[0m"
+
+if (test -t 1) || (test $color = always); then
+  mt_log_red=$(printf "\033[31m")
+  mt_log_green=$(printf "\033[32m")
+  mt_log_yellow=$(printf "\033[33m")
+  mt_log_blue=$(printf "\033[34m")
+  mt_log_reset_code=$(printf "\033[m")
+fi
 
 mt_log_info_highlight_strings="cascade flow multitool"
 
