@@ -64,7 +64,7 @@ function mt_run () {
   fi
 }
 
-mt_run_usage_doc=$(cat <<-USAGE
+mt_run_usage_doc=$(cat <<USAGE
 mt is the wrapper around Cascading.Multitool.
 Copyright (c) 2011 Concurrent, Inc. (http://concurrentinc.com)
 
@@ -76,4 +76,5 @@ Flags:
   -v|--version    - displays the version of the Cascading.Multitool jar
   -q|--quiet      - suppresses INFO messages from Cascading and Hadoop
   -nc|--no-color  - suppress colorization
-USAGE)
+USAGE
+)

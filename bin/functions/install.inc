@@ -69,7 +69,7 @@ function mt_install_all_files () {
   fi
 }
 
-mt_install_usage_doc=$(cat <<-USAGE
+mt_install_usage_doc=$(cat <<USAGE
 install-mt writes Cascading.Multitool to its final destination.
 Copyright (c) 2011 Concurrent, Inc.
 
@@ -87,4 +87,5 @@ Options:
   -b|--bin-destination - specifies the destination for executable files
                          defaults to /usr/local/bin
                          (only applies when running as root/sudo)
-USAGE)
+USAGE
+)

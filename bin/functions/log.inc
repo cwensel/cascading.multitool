@@ -17,16 +17,15 @@ mt_log_info_highlight_strings="cascade flow multitool"
 
 function mt_log_reset () {
   if [[ $mt_log_use_color -ne 0 ]]; then
-    echo -ne $mt_log_reset_code
+    printf $mt_log_reset_code
   fi
 }
 
 function log () {
   if [[ $mt_log_stack_depth -gt 0 ]]; then
-    echo -e `printf '\\\t%.0s' {1..$mt_log_stack_depth}`$*
-  else
-    echo -e $indent$@
+    printf '\t%.0s' {1..$mt_log_stack_depth}
   fi
+  echo $@
 }
 
 function info () {
@@ -35,12 +34,16 @@ function info () {
     if [[ $mt_log_use_color -ne 0 ]]; then
       for hilite in $mt_log_info_highlight_strings; do
         if echo $@ | grep "INFO $hilite" > /dev/null; then
-          echo -e ${@/INFO/$mt_log_green'INFO'$mt_log_blue}$mt_log_reset_code
+          local err=`echo $@ | sed s/INFO/${mt_log_green}INFO${mt_log_blue}/`
+          echo $err
+          mt_log_reset
           return
         fi
       done
 
-      echo -e ${@/INFO/$mt_log_green'INFO'$mt_log_reset_code}$mt_log_reset_code
+      local err=`echo $@ | sed s/INFO/${mt_log_green}INFO${mt_log_reset}/`
+      echo $err
+      mt_log_reset
     else
       echo $@
     fi
@@ -50,7 +53,9 @@ function info () {
 function warn () {
   mt_log_stack_depth=0
   if [[ $mt_log_use_color -ne 0 ]]; then
-    echo -e ${@/WARN/$mt_log_yellow'WARN'$mt_log_reset_code}$mt_log_reset_code
+    local err=`echo $@ | sed s/WARN/${mt_log_yellow}WARN${mt_log_reset_code}/`
+    echo $err
+    mt_log_reset
   else
     echo $@
   fi
@@ -59,7 +64,9 @@ function warn () {
 function error () {
   mt_log_stack_depth=0
   if [[ $mt_log_use_color -ne 0 ]]; then
-    echo -e ${@/ERROR/$mt_log_red'ERROR'$mt_log_reset_code}$mt_log_reset_code
+    local err=`echo $@ | sed s/ERROR/${mt_log_red}ERROR${mt_log_reset_code}/`
+    echo $err
+    mt_log_reset
   else
     echo $@
   fi

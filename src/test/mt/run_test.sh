@@ -19,8 +19,7 @@ it_exits_if_hadoop_is_not_in_HADOOP_HOME () {
   OUTPUT=`mt_run_detect_hadoop`
 
   ERROR_MESSAGE="HADOOP_HOME is set, but /var/bin/hadoop was not found."
-  ERROR_MESSAGE="ERROR$mt_log_reset_code $ERROR_MESSAGE$mt_log_reset_code"
-  ERROR_MESSAGE=`echo -e $mt_log_red$ERROR_MESSAGE`
+  ERROR_MESSAGE="${mt_log_red}ERROR$mt_log_reset_code $ERROR_MESSAGE$mt_log_reset_code"
 
   test "$OUTPUT" = "$ERROR_MESSAGE"
 }
@@ -32,8 +31,7 @@ it_exits_if_HADOOP_HOME_is_not_set() {
   OUTPUT=`mt_run_detect_hadoop`
 
   ERROR_MESSAGE="HADOOP_HOME was not set and hadoop is not in your PATH"
-  ERROR_MESSAGE="ERROR$mt_log_reset_code $ERROR_MESSAGE$mt_log_reset_code"
-  ERROR_MESSAGE=`echo -e $mt_log_red$ERROR_MESSAGE`
+  ERROR_MESSAGE="${mt_log_red}ERROR$mt_log_reset_code $ERROR_MESSAGE$mt_log_reset_code"
 
   test "$OUTPUT" = "$ERROR_MESSAGE"
 }
@@ -67,8 +65,7 @@ it_exits_if_multitool_jar_is_not_found () {
   OUTPUT=`mt_run`
 
   ERROR_MESSAGE="Could not find a multitool jar file in /some_mt_path"
-  ERROR_MESSAGE="ERROR$mt_log_reset_code $ERROR_MESSAGE$mt_log_reset_code"
-  ERROR_MESSAGE=`echo -e $mt_log_red$ERROR_MESSAGE`
+  ERROR_MESSAGE="${mt_log_red}ERROR$mt_log_reset_code $ERROR_MESSAGE$mt_log_reset_code"
 
   test "$OUTPUT" = "$ERROR_MESSAGE"
 }
@@ -80,8 +77,7 @@ it_exits_if_no_arguments_are_specified () {
   OUTPUT=`mt_run`
 
   ERROR_MESSAGE="No arguments specified"
-  ERROR_MESSAGE="ERROR$mt_log_reset_code $ERROR_MESSAGE$mt_log_reset_code"
-  ERROR_MESSAGE=`echo -e $mt_log_red$ERROR_MESSAGE`
+  ERROR_MESSAGE="${mt_log_red}ERROR$mt_log_reset_code $ERROR_MESSAGE$mt_log_reset_code"
 
   test "$OUTPUT" = "$ERROR_MESSAGE"
 }
@@ -93,5 +89,5 @@ it_runs_with_all_specified_arguments () {
 
   OUTPUT=`mt_run test=true`
 
-  test "$OUTPUT" = "-e jar /some_jar_path test=true"
+  test "$OUTPUT" = "jar /some_jar_path test=true"
 }
