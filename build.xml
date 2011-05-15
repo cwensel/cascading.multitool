@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-  ~ Copyright (c) 2007-2009 Concurrent, Inc. All Rights Reserved.
+  ~ Copyright (c) 2007-2011 Concurrent, Inc. All Rights Reserved.
   ~
   ~ Project and contact information: http://www.cascading.org/
   ~
@@ -21,25 +21,27 @@
   ~ along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<project name="multitool" default="build" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="multitool" default="compile" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+
+  <dirname property="multitool.basedir" file="${ant.file.multitool}"/>
 
   <!-- load properties first -->
   <property file="../build.properties"/>
   <property file="./build.properties"/>
 
-  <property name="src.license" location="${basedir}/LICENSE.txt"/>
+  <property name="src.license" location="${multitool.basedir}/LICENSE.txt"/>
 
-  <property name="src.dir" location="${basedir}/src/java"/>
-  <property name="src.test" location="${basedir}/src/test"/>
+  <property name="src.dir" location="${multitool.basedir}/src/java"/>
+  <property name="src.test" location="${multitool.basedir}/src/test"/>
 
   <available file="${src.dir}" type="dir" property="main.available"/>
   <available file="${src.test}" type="dir" property="test.available"/>
 
-  <property name="lib.dir" location="${basedir}/lib"/>
+  <property name="lib.dir" location="${multitool.basedir}/lib"/>
 
-  <property name="scripts.dir" location="${basedir}/bin"/>
+  <property name="scripts.dir" location="${multitool.basedir}/bin"/>
 
-  <property name="build.dir" location="${basedir}/build/"/>
+  <property name="build.dir" location="${multitool.basedir}/build/"/>
   <property name="build.classes" location="${build.dir}/classes"/>
   <property name="build.test" location="${build.dir}/test"/>
   <property name="build.deps" location="${build.dir}/deps"/>
@@ -161,7 +163,7 @@
     </tstamp>
     <jar jarfile="${build.dir}/${ant.project.name}.jar">
       <fileset dir="${build.classes}"/>
-      <fileset dir="${basedir}" includes="lib/"/>
+      <fileset dir="${multitool.basedir}" includes="lib/"/>
       <manifest>
         <attribute name="Main-Class" value="${ant.project.name}/Main"/>
         <attribute name="Build-Date" value="${TIMESTAMP}"/>
@@ -240,10 +242,10 @@
   <target name="retrieve">
     <ivy:settings id="ivy.conjars.settings" url="http://conjars.org/repo/ivysettings.xml"/>
 
-    <ivy:retrieve settingsRef="ivy.conjars.settings" conf="default"
+    <ivy:retrieve file="${multitool.basedir}/ivy.xml" settingsRef="ivy.conjars.settings" conf="default"
                   pattern="${lib.dir}/[artifact]-[revision].[ext]" sync="true"/>
 
-    <ivy:retrieve settingsRef="ivy.conjars.settings" conf="test"
+    <ivy:retrieve file="${multitool.basedir}/ivy.xml" settingsRef="ivy.conjars.settings" conf="test"
                   pattern="${build.dir}/deps/[artifact]-[revision].[ext]" sync="true"/>
   </target>
 
