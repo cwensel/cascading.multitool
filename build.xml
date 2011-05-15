@@ -211,6 +211,8 @@
 
     <taskdef name="S3Upload" classname="dak.ant.taskdefs.S3Upload"/>
 
+    <property file="${package.aws.properties}"/>
+
     <S3Upload verbose="true"
               accessId="${package.aws.accessId}"
               secretKey="${package.aws.secretKey}"
