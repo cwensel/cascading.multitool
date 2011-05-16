@@ -5,11 +5,23 @@
 describe "run.inc"
 
 before () {
+  color=always
   include_dependencies log run
 }
 
 it_detects_hadoop_if_HADOOP_HOME_is_set () {
-  HADOOP_HOME=/usr/local/lib/hadoop mt_run_detect_hadoop
+  TMPDIR=`mktemp -d /tmp/mt-jar-spec.XXXXXX`
+  mkdir -p $TMPDIR/bin/
+  touch $TMPDIR/bin/hadoop
+
+  OUTPUT=`PATH=/usr/bin/:/bin:/usr/sbin:/sbin HADOOP_HOME=$TMPDIR mt_run_detect_hadoop`
+
+  ERROR_MESSAGE="HADOOP_HOME is set, but $TMPDIR/bin/hadoop was not found."
+  ERROR_MESSAGE="${mt_log_red}ERROR$mt_log_clear $ERROR_MESSAGE$mt_log_clear"
+
+  rm -rf $TMPDIR
+
+  test "$OUTPUT" != "$ERROR_MESSAGE"
 }
 
 it_exits_if_hadoop_is_not_in_HADOOP_HOME () {
@@ -19,8 +31,7 @@ it_exits_if_hadoop_is_not_in_HADOOP_HOME () {
   OUTPUT=`mt_run_detect_hadoop`
 
   ERROR_MESSAGE="HADOOP_HOME is set, but /var/bin/hadoop was not found."
-  ERROR_MESSAGE="ERROR$mt_log_reset_code $ERROR_MESSAGE$mt_log_reset_code"
-  ERROR_MESSAGE=`echo -e $mt_log_red$ERROR_MESSAGE`
+  ERROR_MESSAGE="${mt_log_red}ERROR$mt_log_clear $ERROR_MESSAGE$mt_log_clear"
 
   test "$OUTPUT" = "$ERROR_MESSAGE"
 }
@@ -32,31 +43,25 @@ it_exits_if_HADOOP_HOME_is_not_set() {
   OUTPUT=`mt_run_detect_hadoop`
 
   ERROR_MESSAGE="HADOOP_HOME was not set and hadoop is not in your PATH"
-  ERROR_MESSAGE="ERROR$mt_log_reset_code $ERROR_MESSAGE$mt_log_reset_code"
-  ERROR_MESSAGE=`echo -e $mt_log_red$ERROR_MESSAGE`
+  ERROR_MESSAGE="${mt_log_red}ERROR$mt_log_clear $ERROR_MESSAGE$mt_log_clear"
 
   test "$OUTPUT" = "$ERROR_MESSAGE"
 }
 
-
 it_displays_the_version_and_jar_information () {
   mt_jar_path=/mt_jar_path
-  HADOOP_BIN='echo 1\n2\n3\n4'
+  HADOOP_BIN="echo 1\n\2\n3\n4"
   OUTPUT=`mt_run_show_version`
 
-  EXPECTED=`echo Cascading.Multitool: $mt_jar_path\\\n3\\\n4 jar $mt_jar_path`
-
-  test "$OUTPUT" = "$EXPECTED"
+  echo "$OUTPUT" | grep Multitool
 }
 
 it_displays_usage_and_jar_information() {
   mt_jar_path=/mt_jar_path
-  HADOOP_BIN='echo 1\n2\n3\n4'
+  HADOOP_BIN="echo 1\n\2\n3\n4"
   OUTPUT=`mt_run_show_usage`
 
-  EXPECTED=`echo $mt_run_usage_doc\\\n3\\\n4 jar $mt_jar_path`
-  
-  test "$OUTPUT" = "$EXPECTED"
+  echo "$OUTPUT" | grep Usage
 }
 
 it_exits_if_multitool_jar_is_not_found () {
@@ -67,8 +72,7 @@ it_exits_if_multitool_jar_is_not_found () {
   OUTPUT=`mt_run`
 
   ERROR_MESSAGE="Could not find a multitool jar file in /some_mt_path"
-  ERROR_MESSAGE="ERROR$mt_log_reset_code $ERROR_MESSAGE$mt_log_reset_code"
-  ERROR_MESSAGE=`echo -e $mt_log_red$ERROR_MESSAGE`
+  ERROR_MESSAGE="${mt_log_red}ERROR$mt_log_clear $ERROR_MESSAGE$mt_log_clear"
 
   test "$OUTPUT" = "$ERROR_MESSAGE"
 }
@@ -80,8 +84,7 @@ it_exits_if_no_arguments_are_specified () {
   OUTPUT=`mt_run`
 
   ERROR_MESSAGE="No arguments specified"
-  ERROR_MESSAGE="ERROR$mt_log_reset_code $ERROR_MESSAGE$mt_log_reset_code"
-  ERROR_MESSAGE=`echo -e $mt_log_red$ERROR_MESSAGE`
+  ERROR_MESSAGE="${mt_log_red}ERROR$mt_log_clear $ERROR_MESSAGE$mt_log_clear"
 
   test "$OUTPUT" = "$ERROR_MESSAGE"
 }
@@ -93,5 +96,5 @@ it_runs_with_all_specified_arguments () {
 
   OUTPUT=`mt_run test=true`
 
-  test "$OUTPUT" = "-e jar /some_jar_path test=true"
+  test "$OUTPUT" = "jar /some_jar_path test=true"
 }

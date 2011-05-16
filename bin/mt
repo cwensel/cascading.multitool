@@ -20,7 +20,7 @@ function include_dependencies () {
   fi
 }
 
-include_dependencies jar log help run
+include_dependencies jar log run
 
 mt_run_args=
 
