@@ -23,7 +23,7 @@ USAGE
 
 mt_install_dirs=(bin)
 mt_install_binfiles=(bin/multitool bin/mtl)
-mt_install_files=(README.txt LICENSE.txt *.jar)
+mt_install_files=(README.txt LICENSE.txt)
 
 if [ $UID -eq 0 ]; then
   mt_install_destination=/usr/local/lib/multitool
@@ -35,7 +35,7 @@ fi
 
 function mt_install () {
   mkdir -p $mt_install_destination
-
+  
   for dir in "${mt_install_dirs[@]}" ; do
     info "INFO Installing $mt_install_destination/$dir"
     cp -Rf $MT_PATH/$dir $mt_install_destination
@@ -45,6 +45,9 @@ function mt_install () {
     info "INFO Installing $mt_install_destination/$file"
     cp -f $MT_PATH/$file $mt_install_destination
   done
+
+  info "INFO Installing $mt_install_destination/`basename $mt_jar_path`"
+  cp -f $mt_jar_path $mt_install_destination/`basename $mt_jar_path`
 
   if [[ $UID -eq 0 ]]; then
     mkdir -p $mt_install_bin_destination
