@@ -8,7 +8,7 @@ mt_install_destination=
 mt_install_bin_destination=
 
 function mt_install_usage () {
-  echo $mt_install_usage_doc
+  echo "$mt_install_usage_doc"
 }
 
 function mt_install_set_destination () {
