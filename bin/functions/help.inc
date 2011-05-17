@@ -13,6 +13,7 @@ Usage:
 
 Topics:
 USAGE
+
 module_annotate_block help banner <<-USAGE
 `basename $0` is a wrapper around Cascading.Multitool.
 Copyright (c) `date +%Y` Concurrent, Inc. (http://concurrentinc.com)
@@ -31,7 +32,7 @@ mt_help_module_list ()
 mt_help ()
 {
   module_annotate help banner
-  echo "$mt_banner"
+  echo
 
   if [ $# -eq 0 ]; then
     module_annotate help usage | tail -n +3
