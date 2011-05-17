@@ -1,77 +1,87 @@
 Welcome
 
- This is the Cascading.Multitool (Multitool) module.
+  This is the Cascading.Multitool (Multitool) application.
 
- It provides a simple command line interface for building data processing jobs.
+  Multitool provides a simple command line interface for building data processing jobs.
 
- Think of Multitool as 'grep' and 'sed' for Hadoop, that also supports joins.
+  Think of Multitool as 'grep' and 'sed' for Hadoop that also supports joins between multiple data-sets.
 
- For example, with "$HADOOP_HOME/bin/hadoop" in your PATH, the following command,
+  For example, with "$HADOOP_HOME/bin/hadoop" in your PATH, the following command,
 
    > hadoop jar multitool-<release-date>.jar source=input.txt select=Monday sink=outputDir
 
- will start a Hadoop job to read in the source file "input.txt", grep all lines with
- the word "Monday" and output the results into the directory "outputDir".
+  will start a Hadoop job to read in the source file "input.txt", grep all lines with
+  the word "Monday" and output the results into the directory "outputDir".
 
- Multitool will inherit the underlying Hadoop configuration, so if the default FileSystem
- is HDFS, all paths will be relative to the cluster filesystem, not local. Using fully
- qualified urls will override the defaults (file://some/path or s3n:/bucket/file).
+  Multitool will inherit the underlying Hadoop configuration, so if the default FileSystem
+  is HDFS, all paths will be relative to the cluster filesystem, not local. Using fully
+  qualified urls will override the defaults (file://some/path or s3n:/bucket/file).
 
- This application is built with Cascading.
+  This application is built with Cascading.
 
- Cascading is a feature rich API for defining and executing complex,
- scale-free, and fault tolerant data processing workflows on a Hadoop
- cluster. It can be found at the following location:
+  Cascading is a feature rich API for defining and executing complex,
+  scale-free, and fault tolerant data processing workflows on a Hadoop
+  cluster. It can be found at the following location:
 
-   http://www.cascading.org/
+    http://www.cascading.org/
+
 
 Installing
 
-  Multitool may be used three ways after the distribution file as been uncompressed:
+  This step is not necessary if Multitool was pre-installed with your Hadoop distribution. Type,
 
-  Installed for all users:
+  > which multitool
 
-  > ./bin/install-mt
+  to see if it is already been added to your PATH.
 
-  or for detailed instructions:
+  Multitool may be executed three ways after the distribution file as been uncompressed:
 
-  > ./bin/install-mt --help
+  - Run from the uncompressed directory:
 
-  the install process will install the "bin/mt" script into "/usr/local/bin" allowing:
+    > ./bin/multitool [args]
 
-  > mt [args]
+  - Or as shown above, directly with "bin/hadoop" in your PATH:
 
-  to execute "bin/hadoop" with the proper multitool.jar file.
+    > hadoop jar multitool-<release-date>.jar [args]
 
-  Run from the uncompressed directory:
+  - Installed for all users:
 
-  > ./bin/mt [args]
+    > ./bin/install-mt
 
-  Or as shown above, directly with "bin/hadoop":
+    or for detailed instructions:
 
-  > hadoop jar multitool-<release-date>.jar [args]
+    > ./bin/install-mt --help
 
-  Choose the installation method that best suites your environment.
+    the install process will install the "bin/multitool" script into "/usr/local/bin" allowing:
+
+    > multitool [args]
+
+    to execute "bin/hadoop" with the proper multitool-<release-date>.jar file.
+
+
+  Choose the method that best suites your environment.
+
+  If you are running Multitool on AWS Elastic MapReduce, you need to follow the Elastic MapReduce instructions
+  on the AWS site, which typically expect the multitool-<release-date>.jar to be uploaded to AWS S3.
+
 
 Using
 
   To run from the command line, Hadoop should be in the path:
 
-  > hadoop jar multitool.jar <args>
+  > hadoop jar multitool-<release-date>.jar <args>
 
   If no args are given, a comprehensive list of commands will be printed.
 
   For example (see above for configuring environment):
 
-  > ant jar
-  > hadoop jar build/multitool.jar source=data/artist.100.txt cut=0 sink=output
+  > ./bin/multitool source=data/artist.100.txt cut=0 sink=output
 
-  This will compile a new jar, and cut the first fields out of the file 'artists.100.txt'
-  and save the results to 'output'.
+  This will cut the first fields out of the file 'artists.100.txt' and save the results to 'output'.
 
   For a more complex example:
 
-  > ./bin/mt source=data/topic.100.txt cut=0 \
+  > ./bin/multitool source=data/topic.100.txt cut=0 \
     "pgen=(\b[12][09][0-9]{2}\b)" group=0 count=0 group=1 \
     sink=output sink.replace=true sink.parts=1
 
@@ -90,16 +100,24 @@ Examples
 
 Building
 
- This release requires at least Cascading 1.2.x and will pull all dependencies from
- the relevant maven repos, including conjars.org.
+  To build Multitool, you must download the source code from GitHub:
 
- To build a jar,
+   https://github.com/concurrentinc/cascading.multitool/tarball/master
 
- > ant retrieve jar
+  or clone the repo:
 
- To test,
+   https://github.com/concurrentinc/cascading.multitool
 
- > ant test
+  This release will pull all dependencies from the relevant maven repos,
+  including conjars.org.
+
+  To build a jar,
+
+  > ant retrieve jar
+
+  To test,
+
+  > ant test
 
 License
 

@@ -17,8 +17,8 @@ Options:
                          (only applies when running as root/sudo)
 USAGE
 
-mt_install_dirs=(lib bin)
-mt_install_binfiles=(bin/mt)
+mt_install_dirs=(bin)
+mt_install_binfiles=(bin/multitool bin/mt)
 mt_install_files=(README.txt LICENSE.txt *.jar)
 
 if [ $UID -eq 0 ]; then
