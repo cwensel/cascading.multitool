@@ -48,7 +48,10 @@ mt_help ()
           mt_help_module_list
         fi
       else
-        error "ERROR $1 is not a module"
+        echo "Valid Topics:"
+        mt_help_module_list
+        echo
+        error "ERROR Invalid help topic: $1"
         exit 1
       fi
       shift
