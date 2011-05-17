@@ -31,11 +31,21 @@ USAGE
 
 mt_help_module_list ()
 {
+  local longest=0
+  for module in $MODULES; do
+    local length=`expr $module : '.*'`
+    
+    if [ $length -gt $longest ]; then
+      longest=$length
+    fi
+  done
+  
   for module in `echo $MODULES | tr " " "\n" | sort | tr "\n" " "`; do
     if [ "$module" != "run" ]; then
       about=`module_annotate $module about`
       if [ -n "$about" ]; then
-        echo "  $module - $about"
+        printf "  %-${longest}s - " "$module"
+        echo "$about"
       fi
     fi
   done

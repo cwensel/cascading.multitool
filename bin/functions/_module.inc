@@ -8,7 +8,6 @@ else
 fi
 
 MODULES=
-MODULE_LONGEST_NAME=1
 
 module_depends ()
 {
@@ -26,12 +25,6 @@ module_depends ()
 
       if [ -f $module ]; then
         . $module
-
-        local length=`expr $dep : '.*'`
-
-        if [ $length -gt $MODULE_LONGEST_NAME ]; then
-          MODULE_LONGEST_NAME=$length
-        fi
       fi
     fi
   done
