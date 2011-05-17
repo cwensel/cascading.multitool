@@ -1,86 +1,68 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
-MT_MODULES=
-MT_MODULES_LOADED=
+if [ -z "$MODULES_ROOT" ]; then
+  MODULES_ROOT=`cd $0 && pwd`
+  MODULES_ROOT=`dirname $MODULES_ROOT`
+else
+  export MODULES_ROOT
+fi
 
-mt_module_longest=1
-mt_module_base_path=bin/functions
+MODULES=
+MODULE_LONGEST_NAME=1
 
-module_dependencies ()
+module_depends ()
 {
   for dep in "$@"
   do
-    for extant in $MT_MODULES; do
+    for extant in $MODULES; do
       if [ "$dep" = "$extant" ]; then
         break 1
       fi
     done
 
     if [ "$dep" != "$extant" ]; then
-      MT_MODULES="$MT_MODULES $dep"
-      local module=$MT_PATH/$mt_module_base_path/$dep.inc
+      MODULES="$MODULES$dep "
+      local module=$MODULES_ROOT/$dep.inc
 
       if [ -f $module ]; then
         . $module
 
         local length=`expr $dep : '.*'`
 
-        if [ $length -gt $mt_module_longest ]; then
-          mt_module_longest=$length
+        if [ $length -gt $MODULE_LONGEST_NAME ]; then
+          MODULE_LONGEST_NAME=$length
         fi
       fi
     fi
   done
 }
 
-module_about ()
+module_annotate ()
 {
   module=$1
-  if [ -n "$module" ]
+  aspect=$2
+  shift 2
+  message=$@
+
+  if [ -n "$module" ] && [ -n "$aspect" ]
   then
-    if [ $# -gt 1 ]
+    if [ $# -gt 0 ]
     then
-      shift
-      message=$@
-      eval mt_about_$module=\$message
+      eval _MODULE_$aspect$module=\$message
     else
-      eval echo \"\$mt_about_$module\"
+      eval echo \"\$_MODULE_$aspect$module\"
     fi
   fi
 }
 
-module_describe_block ()
+module_annotate_block ()
 {
   module=$1
+  aspect=$2
+
   if [ -n "$module" ]
   then
     read -r -d '' description
-    eval mt_describe_$module=\$description
+    eval _MODULE_$aspect$module=\$description
   fi
-}
-
-module_describe ()
-{
-  module=$1
-  if [ -n "$module" ]
-  then
-    if [ $# -gt 1 ]
-    then
-      shift
-      message=$@
-      eval mt_describe_$module=\$message
-    else
-      eval echo \"\$mt_describe_$module\"
-    fi
-  fi
-}
-
-module_list ()
-{
-  for module in `echo $MT_MODULES | tr " " "\n" | sort | tr "\n" " "`; do
-    about=`module_about $module`
-    if [ -n "$about" ]; then
-      echo "  $module - $about"
-    fi
-  done
 }

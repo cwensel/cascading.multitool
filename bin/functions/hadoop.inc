@@ -1,6 +1,6 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
-module_dependencies log
+module_depends log
 
 HADOOP_BIN=$(which hadoop || echo)
 

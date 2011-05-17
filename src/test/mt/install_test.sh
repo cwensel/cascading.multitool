@@ -5,7 +5,7 @@
 describe "install.inc"
 
 before () {
-  include_dependencies install
+  module_dependency install
 }
 
 it_displays_installation_usage () {

@@ -1,6 +1,6 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
-module_dependencies log hadoop
+module_depends log hadoop
 
 if [ -z "$mt_jar_path" ]; then
   mt_jar_path=`find $MT_PATH -name multitool*.jar | head -n1`

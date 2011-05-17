@@ -1,8 +1,8 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
-module_dependencies log hadoop jar
-module_about run "run Cascading.Multitool"
-module_describe_block run <<USAGE
+module_depends log hadoop jar
+module_annotate run about "run Cascading.Multitool"
+module_annotate_block run usage <<USAGE
 Runs the Cascading.Multitool jar with the provided parameters.
 
 Usage:

@@ -1,8 +1,8 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
-module_dependencies log
-module_about install "copy all files into place"
-module_describe_block install <<-USAGE
+module_depends log
+module_annotate install about "copy all files into place"
+module_annotate_block install usage <<-USAGE
 Copies all necessary files into place.
 
 Usage:

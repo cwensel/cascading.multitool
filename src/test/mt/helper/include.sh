@@ -6,4 +6,4 @@ then
   MT_PATH=`cd $MT_PATH && pwd`
 fi
 
-. $MT_PATH/bin/functions/_module.inc
+MODULES_ROOT=$MT_PATH/bin/functions . $MT_PATH/bin/functions/_module.inc

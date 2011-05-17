@@ -1,8 +1,8 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
-module_dependencies log
-module_about help "display this screen"
-module_describe_block help <<-USAGE
+module_depends log
+module_annotate help about "display this screen"
+module_annotate_block help usage <<-USAGE
 Prints usage information relating to Cascading.Multitool.
 
 Usage:
@@ -17,23 +17,33 @@ Copyright (c) `date +%Y` Concurrent, Inc. (http://concurrentinc.com)
 ABOUT
 )
 
+mt_help_module_list ()
+{
+  for module in `echo $MODULES | tr " " "\n" | sort | tr "\n" " "`; do
+    about=`module_annotate $module about`
+    if [ -n "$about" ]; then
+      echo "  $module - $about"
+    fi
+  done
+}
+
 mt_help ()
 {
   echo "$mt_help_banner"
 
   if [ $# -eq 0 ]; then
-    module_describe help | tail -n +2
-    module_list
+    module_annotate help usage | tail -n +2
+    mt_help_module_list
   else
     while [ $# -gt 0 ]; do
-      module=`module_describe $1`
+      module=`module_annotate $1 usage`
 
       if [ -n "$module" ]; then
         echo ""
         echo "$1: $module"
 
         if [ "$1" = "help" ]; then
-          module_list
+          mt_help_module_list
         fi
       else
         error "ERROR $1 is not a module"

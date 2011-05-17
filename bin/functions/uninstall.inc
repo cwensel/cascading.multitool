@@ -1,8 +1,8 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
-module_dependencies log install
-module_about uninstall "remove all installed files"
-module_describe_block uninstall <<-USAGE
+module_depends log install
+module_annotate uninstall about "remove all installed files"
+module_annotate_block uninstall usage <<-USAGE
 Removes all the installed files.
 
 Usage:
