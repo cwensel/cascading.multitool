@@ -31,8 +31,6 @@ Parameters:
 `mt_command_table`
 EOF
 
-
-
 mt_command ()
 {
   module_annotate help banner

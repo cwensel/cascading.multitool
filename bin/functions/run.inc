@@ -1,6 +1,6 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
-module_depends log hadoop jar help
+module_depends log hadoop jar help command
 
 route_default mt_run
 route_before mt_run mt_hadoop mt_jar
@@ -21,6 +21,17 @@ Parameters:
   See \`help command\` for more information.
 USAGE
 
+mt_run_argument_error ()
+{
+  module_annotate help banner
+  echo
+  echo "Commands:"
+  mt_command_table
+  echo
+  error `echo $@ | sed s/error:/ERROR/`
+  exit 1
+}
+
 mt_run ()
 {
   if [ $# -eq 0 ]; then
@@ -38,6 +49,8 @@ mt_run ()
         error $line
       elif echo $line | grep Exception > /dev/null; then
         stacktrace $line
+      elif echo $line | grep "error: invalid argument" > /dev/null; then
+        mt_run_argument_error $line
       elif [[ ! -z $mt_log_verbose ]]; then
         log $line
       fi
