@@ -51,10 +51,10 @@ it_should_route_the_default_matcher () {
   test "$tested" = "true"
 }
 
-it_should_route_the_default_matcher_with_arguments () {
+it_should_route_the_default_with_arguments () {
   tested=false
   defaulted () {
-    [ "$1" = "bar" ] && tested=true
+    [ "$1" = "foo" ] && [ "$2" = "bar" ] && tested=true
   }
   route_default defaulted
   route_perform foo bar

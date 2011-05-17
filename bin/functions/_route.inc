@@ -61,7 +61,7 @@ route_perform ()
       eval $step
     done
 
-    eval $ROUTE_DEFAULT $args
+    eval $ROUTE_DEFAULT $full
   fi
 }
 

@@ -19,7 +19,12 @@ mt_jar ()
 
 mt_jar_usage ()
 {
-  mt_jar
-  [ -z $mt_jar_usage_ ] && mt_jar_usage_=`$HADOOP_BIN jar $mt_jar_path | tail -n +3`
+  if [ -z $mt_jar_usage_ ]
+  then
+    mt_hadoop
+    mt_jar
+    mt_jar_usage_=`$HADOOP_BIN jar $mt_jar_path | tail -n +3`
+  fi
+
   echo "$mt_jar_usage_"
 }
