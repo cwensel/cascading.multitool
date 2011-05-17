@@ -21,7 +21,7 @@ Options:
 USAGE
 
 mt_install_dirs=(bin)
-mt_install_binfiles=(bin/multitool bin/mt)
+mt_install_binfiles=(bin/multitool bin/mtl)
 mt_install_files=(README.txt LICENSE.txt *.jar)
 
 if [ $UID -eq 0 ]; then
@@ -45,16 +45,11 @@ function mt_install () {
     cp -f $MT_PATH/$file $mt_install_destination
   done
 
-  for binfile in "${mt_install_binfiles[@]}" ; do
-    info "INFO Setting multitool base location to $mt_install_destination"
-    cat $mt_install_destination/$binfile | sed s,MT_PATH=.,MT_PATH=\"$mt_install_destination\",g | tee $mt_install_destination/$binfile > /dev/null
-  done
-
   if [[ $UID -eq 0 ]]; then
     mkdir -p $mt_install_bin_destination
 
     for binfile in "${mt_install_binfiles[@]}" ; do
-      info "INFO Linking $mt_install_bin_destination/$binfile"
+      info "INFO Linking $mt_install_bin_destination/`basename $binfile`"
       chmod +x $mt_install_destination/$binfile
       ln -sf $mt_install_destination/$binfile $mt_install_bin_destination/`basename $binfile`
     done
