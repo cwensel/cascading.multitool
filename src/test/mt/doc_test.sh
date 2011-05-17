@@ -2,16 +2,17 @@
 
 . `dirname $(cd ${0%/*} && echo $PWD/${0##*/})`/include.sh
 
-describe "parameters.inc"
+describe "doc.inc"
 
 before () {
+  mt_hadoop_avoid_exit=1
   mt_jar_avoid_exit=1
   HADOOP_BIN=echo
   mt_jar_path=/
-  module_depends parameters
+  module_depends _route doc
 }
 
 it_prints_an_about_message () {
-  about=`module_annotate parameters about`
-  test "$about" = "prints a description of a Cascading.Multitool parameters"
+  about=`module_annotate doc about`
+  test "$about" = "describes a Cascading.Multitool command"
 }

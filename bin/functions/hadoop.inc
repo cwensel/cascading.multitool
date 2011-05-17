@@ -18,7 +18,7 @@ mt_hadoop()
         then
           error "ERROR HADOOP_HOME is set, but $HADOOP_BIN was not found."
         
-          if [ -z $mt_run_avoid_exit ]
+          if [ -z "$mt_hadoop_avoid_exit" ]
           then
             exit 1
           fi
@@ -26,7 +26,7 @@ mt_hadoop()
       else
         error "ERROR HADOOP_HOME was not set and hadoop is not in your PATH"
 
-        if [ -z $mt_run_avoid_exit ]
+        if [ -z "$mt_hadoop_avoid_exit" ]
         then
           exit 1
         fi

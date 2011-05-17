@@ -1,9 +1,8 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
-module_depends log
+module_depends log jar
 
 route_match "^install" mt_install
-route_before mt_install mt_hadoop mt_jar
 
 module_annotate install about "copy all files into place"
 module_annotate_block install usage <<-USAGE
@@ -46,8 +45,14 @@ function mt_install () {
     cp -f $MT_PATH/$file $mt_install_destination
   done
 
-  info "INFO Installing $mt_install_destination/`basename $mt_jar_path`"
-  cp -f $mt_jar_path $mt_install_destination/`basename $mt_jar_path`
+  mt_hadoop_avoid_exit=1 mt_hadoop
+  mt_jar_avoid_exit=1 mt_jar
+
+  if [ -n "$mt_jar_path" ]
+  then
+    info "INFO Installing $mt_install_destination/`basename $mt_jar_path`"
+    cp -f $mt_jar_path $mt_install_destination/`basename $mt_jar_path`
+  fi
 
   if [[ $UID -eq 0 ]]; then
     mkdir -p $mt_install_bin_destination

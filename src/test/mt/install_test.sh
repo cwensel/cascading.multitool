@@ -9,14 +9,8 @@ before () {
 }
 
 it_routes () {
-  mt_hadoop () {
-    hadooped=true
-  }
-  mt_jar () {
-    [ "$hadooped" = "true" ] && jarred=true
-  }
   mt_install () {
-    [ "$jarred" = "true" ] && tested=true
+    tested=true
   }
   route_perform install
   test "$tested" = "true"
