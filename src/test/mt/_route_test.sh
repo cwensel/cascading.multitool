@@ -10,7 +10,6 @@ before () {
 }
 
 it_should_create_a_matcher () {
-  echo `set`
   test "$ROUTE_testing" = "^testing$"
 }
 
@@ -25,9 +24,39 @@ it_should_set_a_default_matcher () {
 
 it_should_route_a_string () {
   tested=false
-  testing() {
+  testing () {
     tested=true
   }
   route_perform testing
+  test "$tested" = "true"
+}
+
+it_should_route_a_string_with_arguments () {
+  ROUTE_testing="^testing"
+  tested=false
+  testing () {
+    [ "$1" = "foo" ] && tested=true
+  }
+  route_perform testing foo
+  test "$tested" = "true"
+}
+
+it_should_route_the_default_matcher () {
+  tested=false
+  defaulted() {
+    tested=true
+  }
+  route_default defaulted
+  route_perform foo
+  test "$tested" = "true"
+}
+
+it_should_route_the_default_matcher_with_arguments () {
+  tested=false
+  defaulted() {
+    [ "$1" = "bar" ] && tested=true
+  }
+  route_default defaulted
+  route_perform foo bar
   test "$tested" = "true"
 }

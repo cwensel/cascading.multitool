@@ -31,18 +31,26 @@ route_default ()
 
 route_perform ()
 {
+  local full=$@
+  if [ $# -gt 0 ]
+  then
+    shift
+    local args=$@
+  fi
+  
   for endpoint in $ROUTE_ENDPOINTS_
   do
     local matcher=`route_match $endpoint`
 
-    if echo "$@" | egrep $matcher > /dev/null
+    if echo "$full" | egrep $matcher > /dev/null
     then
-      shift
-      local args=$@
       eval $endpoint $args
       return
     fi
   done
-  
-  [ -n $ROUTE_DEFAULT ] && eval $ROUTE_DEFAULT $args
+
+  if [ -n $ROUTE_DEFAULT ]
+  then
+    eval $ROUTE_DEFAULT $args
+  fi
 }
