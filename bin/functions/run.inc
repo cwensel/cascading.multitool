@@ -69,7 +69,7 @@ mt is the wrapper around Cascading.Multitool.
 Copyright (c) 2011 Concurrent, Inc. (http://concurrentinc.com)
 
 Usage:
-  mt [flags] [options] action=argument [action=argument [...]]
+  multitool [flags] [options] action=argument [action=argument [...]]
 
 Flags:
   -h|--help       - displays this message

@@ -7,7 +7,7 @@ MT_PATH=
 fi
 ## /NOTE
 
-# If the above line is not set (ie. mt is not installed), set it
+# If the above line is not set (ie. multitool is not installed), set it
 if [[ "$MT_PATH" == "" ]]; then
   MT_PATH=`dirname $(cd ${0%/*}/.. && echo $PWD/${0##*/})`
 fi
