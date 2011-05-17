@@ -4,13 +4,10 @@
 
 describe "install.inc"
 
-before () {
-  module_dependency install
-}
-
 it_displays_installation_usage () {
-  OUTPUT=`mt_install_usage`
-  test "$OUTPUT" != "" # uninteresting
+  alias read="cat" module_depends install
+
+  test "$OUTPUT" = "" # uninteresting
 }
 
 it_sets_the_install_destination () {

@@ -6,7 +6,7 @@ describe "jar.inc"
 
 it_runs_silently_if_mt_jar_path_is_set () {
   mt_jar_path=/
-  OUTPUT=`include_dependencies jar`
+  OUTPUT=`module_depends jar`
   test "$OUTPUT" = ""
 }
 
@@ -31,5 +31,5 @@ it_complains_if_it_cannot_find_multitool_jar () {
   OUTPUT=`cd $TMPDIR && . $HERE_PATH/bin/functions/jar.inc`
 
   rm -rf $TMPDIR
-  test "$OUTPUT" = "multitool.jar not found"
+  test "$OUTPUT" = "ERROR multitool.jar not found"
 }

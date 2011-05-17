@@ -7,3 +7,8 @@ then
 fi
 
 MODULES_ROOT=$MT_PATH/bin/functions . $MT_PATH/bin/functions/_module.inc
+
+module_annotate_block ()
+{
+  cat
+}

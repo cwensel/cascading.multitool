@@ -6,7 +6,7 @@ describe "run.inc"
 
 before () {
   color=always
-  include_dependencies log hadoop run
+  module_depends log hadoop run
 }
 
 it_displays_the_version_and_jar_information () {

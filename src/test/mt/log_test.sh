@@ -6,7 +6,7 @@ describe "log.inc"
 
 before () {
   color=always
-  include_dependencies log
+  module_depends log
 }
 
 it_logs_a_message() {

@@ -5,5 +5,5 @@
 describe "uninstall.inc"
 
 before () {
-  include_dependencies uninstall
+  module_depends uninstall
 }
