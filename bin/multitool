@@ -5,13 +5,21 @@ if [ -z "$MT_PATH" ]
 then
   if [ -h $0 ]
   then
-    MT_PATH=`readlink $0`
-    MT_PATH=`dirname $0`/`dirname $MT_PATH`/..
+    cd `dirname $0`
+    MT_PATH=`basename $0`
+
+    while [ -h "$MT_PATH" ]
+    do
+      MT_PATH=`readlink $MT_PATH`
+      cd `dirname $MT_PATH`
+      MT_PATH=`basename $MT_PATH`
+    done
+    
+    MT_PATH=`cd .. && pwd -P`
   else
     MT_PATH=`dirname $0`/..
+    MT_PATH=`cd $MT_PATH && pwd -P`
   fi
-  
-  MT_PATH=`cd $MT_PATH && pwd`
 fi
 
 MODULES_ROOT=$MT_PATH/bin/functions

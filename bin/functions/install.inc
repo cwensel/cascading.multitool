@@ -49,7 +49,7 @@ function mt_install () {
     mkdir -p $mt_install_bin_destination
 
     for binfile in "${mt_install_binfiles[@]}" ; do
-      info "INFO Linking $mt_install_bin_destination/`basename $binfile`"
+      info "INFO Linking $mt_install_destination/$binfile -> $mt_install_bin_destination/`basename $binfile`"
       chmod +x $mt_install_destination/$binfile
       ln -sf $mt_install_destination/$binfile $mt_install_bin_destination/`basename $binfile`
     done
