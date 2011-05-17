@@ -18,7 +18,7 @@ Flags:
   -q|--quiet   - suppresses INFO messages from Cascading and Hadoop
 
 Parameters:
-  See \`help parameters\` for more information.
+  See \`help command\` for more information.
 USAGE
 
 mt_run ()

@@ -42,7 +42,7 @@ route_perform ()
   do
     local matcher=`route_match $endpoint`
 
-    if echo "$full" | egrep $matcher > /dev/null
+    if echo $full | egrep "$matcher" > /dev/null
     then
       for step in `route_before $endpoint`
       do
