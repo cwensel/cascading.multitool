@@ -6,43 +6,28 @@ describe "run.inc"
 
 before () {
   color=always
-  module_depends log hadoop run
+  module_depends _route run
 }
 
-it_displays_the_version_and_jar_information () {
-  mt_jar_path=/mt_jar_path
-  HADOOP_BIN="echo 1\n\2\n3\n4"
-  OUTPUT=`mt_run_show_version`
-
-  echo "$OUTPUT" | grep Multitool
+it_routes () {
+  tested=false
+  mt_run () {
+    tested=true
+  }
+  route_perform
+  test "$tested" = "true"
 }
 
-it_displays_usage_and_jar_information() {
-  mt_jar_path=/mt_jar_path
-  HADOOP_BIN="echo 1\n\2\n3\n4"
-  OUTPUT=`mt_run_show_usage`
-
-  echo "$OUTPUT" | grep Usage
-}
-
-it_exits_if_multitool_jar_is_not_found () {
-  mt_jar_path=""
-  MT_PATH=/some_mt_path
-  mt_run_avoid_exit=1
-
-  OUTPUT=`mt_run`
-
-  ERROR_MESSAGE="Could not find a multitool jar file in /some_mt_path"
-  ERROR_MESSAGE="${mt_log_red}ERROR$mt_log_clear $ERROR_MESSAGE$mt_log_clear"
-
-  test "$OUTPUT" = "$ERROR_MESSAGE"
+it_has_usage () {
+  about=`module_annotate run about`
+  test "$about" = "run Cascading.Multitool"
 }
 
 it_exits_if_no_arguments_are_specified () {
   mt_jar_path=/some_jar_path
   mt_run_avoid_exit=1
 
-  OUTPUT=`mt_run`
+  OUTPUT=`route_perform`
 
   ERROR_MESSAGE="No arguments specified"
   ERROR_MESSAGE="${mt_log_red}ERROR$mt_log_clear $ERROR_MESSAGE$mt_log_clear"

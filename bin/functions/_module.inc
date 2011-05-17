@@ -39,10 +39,10 @@ module_depends ()
 
 module_annotate ()
 {
-  module=$1
-  aspect=$2
+  local module=$1
+  local aspect=$2
   shift 2
-  message=$@
+  local message=$@
 
   if [ -n "$module" ] && [ -n "$aspect" ]
   then
@@ -57,12 +57,11 @@ module_annotate ()
 
 module_annotate_block ()
 {
-  module=$1
-  aspect=$2
+  local module=$1
+  local aspect=$2
 
   if [ -n "$module" ]
   then
-    read -r -d '' description
-    eval _MODULE_$aspect$module=\$description
+    eval _MODULE_$aspect$module=\$\(cat\)
   fi
 }

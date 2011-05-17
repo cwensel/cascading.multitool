@@ -1,6 +1,9 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
 module_depends log
+
+route_match "^install" mt_install
+
 module_annotate install about "copy all files into place"
 module_annotate_block install usage <<-USAGE
 Copies all necessary files into place.

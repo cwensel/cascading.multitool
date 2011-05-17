@@ -5,17 +5,17 @@ if [ -z "$MT_PATH" ]
 then
   if [ -h $0 ]
   then
-    MT_PATH=`dirname $0`/`readlink $0`
+    MT_PATH=`readlink $0`
+    MT_PATH=`dirname $0`/`dirname $MT_PATH`/..
   else
-    MT_PATH=$0
+    MT_PATH=`dirname $0`/..
   fi
-
-  MT_PATH=`dirname $MT_PATH`/..
+  
   MT_PATH=`cd $MT_PATH && pwd`
 fi
 
 MODULES_ROOT=$MT_PATH/bin/functions
-. $MT_PATH/bin/functions/_module.inc
+for dep in $MT_PATH/bin/functions/_*.inc; do . $dep; done
 
 module_depends run install uninstall help parameters version
 
@@ -36,31 +36,8 @@ extract_opts()
     esac
     shift
   done
-}
-
-dispatch ()
-{
-  module=$1
-  shift
   
-  case "$module" in
-    version|-v|--version)
-      mt_version $@
-      ;;
-    help|-h|--help)
-      mt_help $@
-      ;;
-    install)
-      mt_install $@
-      ;;
-    uninstall)
-      mt_uninstall $@
-      ;;
-    *)
-      mt_run $module $@
-      ;;
-  esac
+  echo "$extracted_opts"
 }
 
-extract_opts $@
-dispatch $extracted_opts
+route_perform `extract_opts $@`

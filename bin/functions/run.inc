@@ -1,6 +1,9 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
 module_depends log hadoop jar
+
+route_default mt_run
+
 module_annotate run about "run Cascading.Multitool"
 module_annotate_block run usage <<USAGE
 Runs the Cascading.Multitool jar with the provided parameters.
@@ -21,7 +24,9 @@ mt_run ()
 {
   if [ $# -eq 0 ]; then
     error "ERROR No arguments specified"
-    [ -z "$mt_run_avoid_exit" ] && exit 1
+    if [ -z "$mt_run_avoid_exit" ]; then
+      exit 1
+    fi
 
   else
     $HADOOP_BIN jar $mt_jar_path $@ 2>&1 | while read line; do

@@ -2,11 +2,11 @@
 
 module_depends log
 
-HADOOP_BIN=$(which hadoop || echo)
+HADOOP_BIN=`which hadoop || echo`
 
 if [ -z "$HADOOP_BIN" ]; then
   if [ -n "$HADOOP_HOME" ]; then
-    HADOOP_BIN="$HADOOP_HOME/bin/hadoop"
+    HADOOP_BIN=$HADOOP_HOME/bin/hadoop
 
     if [ ! -e $HADOOP_BIN ]; then
       error "ERROR HADOOP_HOME is set, but $HADOOP_BIN was not found."

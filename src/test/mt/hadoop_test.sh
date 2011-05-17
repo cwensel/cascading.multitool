@@ -4,6 +4,11 @@
 
 describe "hadoop.inc"
 
+before () {
+  color=always
+  module_depends log
+}
+
 it_detects_hadoop_if_HADOOP_HOME_is_set () {
   TMPDIR=`mktemp -d /tmp/mt-jar-spec.XXXXXX`
   mkdir -p $TMPDIR/bin/

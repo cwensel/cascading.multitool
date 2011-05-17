@@ -1,6 +1,9 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
 module_depends log install
+
+route_match "^uninstall" mt_uninstall
+
 module_annotate uninstall about "remove all installed files"
 module_annotate_block uninstall usage <<-USAGE
 Removes all the installed files.

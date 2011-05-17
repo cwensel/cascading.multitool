@@ -4,10 +4,22 @@
 
 describe "install.inc"
 
-it_displays_installation_usage () {
-  alias read="cat" module_depends install
+before () {
+  module_depends _route install
+}
 
-  test "$OUTPUT" = "" # uninteresting
+it_routes () {
+  tested=false
+  mt_install () {
+    tested=true
+  }
+  route_perform install
+  test "$tested" = "true"
+}
+
+it_has_usage () {
+  about=`module_annotate install about`
+  test "$about" = "copy all files into place"
 }
 
 it_sets_the_install_destination () {

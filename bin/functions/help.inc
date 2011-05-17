@@ -1,6 +1,9 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
 module_depends log
+
+route_match "^(help|-h|--help)" mt_help
+
 module_annotate help about "display this screen"
 module_annotate_block help usage <<-USAGE
 Prints usage information relating to Cascading.Multitool.
@@ -10,12 +13,10 @@ Usage:
 
 Topics:
 USAGE
-
-mt_help_banner=$(cat <<ABOUT
-mt is the wrapper around Cascading.Multitool.
+module_annotate_block help banner <<-USAGE
+`basename $0` is a wrapper around Cascading.Multitool.
 Copyright (c) `date +%Y` Concurrent, Inc. (http://concurrentinc.com)
-ABOUT
-)
+USAGE
 
 mt_help_module_list ()
 {
@@ -29,17 +30,17 @@ mt_help_module_list ()
 
 mt_help ()
 {
-  echo "$mt_help_banner"
+  module_annotate help banner
+  echo "$mt_banner"
 
   if [ $# -eq 0 ]; then
-    module_annotate help usage | tail -n +2
+    module_annotate help usage | tail -n +3
     mt_help_module_list
   else
     while [ $# -gt 0 ]; do
       module=`module_annotate $1 usage`
 
       if [ -n "$module" ]; then
-        echo ""
         echo "$1: $module"
 
         if [ "$1" = "help" ]; then

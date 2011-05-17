@@ -5,5 +5,19 @@
 describe "uninstall.inc"
 
 before () {
-  module_depends uninstall
+  module_depends _route uninstall
+}
+
+it_routes () {
+  tested=false
+  mt_uninstall () {
+    tested=true
+  }
+  route_perform uninstall
+  test "$tested" = "true"
+}
+
+it_has_usage () {
+  about=`module_annotate uninstall about`
+  test "$about" = "remove all installed files"
 }
