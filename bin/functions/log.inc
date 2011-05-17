@@ -10,13 +10,12 @@ if  [ "$color" = "always" ] || (test -t 1); then
   mt_log_yellow=$(printf "\033[33m")
   mt_log_blue=$(printf "\033[34m")
   mt_log_clear=$(printf "\033[m")
-  
-  mt_log_hilite_pattern="s/INFO/${mt_log_green}INFO${mt_log_blue}/"
-  mt_log_info_pattern="s/INFO/${mt_log_green}INFO${mt_log_clear}/"
-  mt_log_warn_pattern="s/WARN/${mt_log_yellow}WARN${mt_log_clear}/"
-  mt_log_error_pattern="s/ERROR/${mt_log_red}ERROR${mt_log_clear}/"
 fi
 
+mt_log_hilite_pattern="s/INFO/${mt_log_green}INFO${mt_log_blue}/"
+mt_log_info_pattern="s/INFO/${mt_log_green}INFO${mt_log_clear}/"
+mt_log_warn_pattern="s/WARN/${mt_log_yellow}WARN${mt_log_clear}/"
+mt_log_error_pattern="s/ERROR/${mt_log_red}ERROR${mt_log_clear}/"
 mt_log_info_highlight_strings="cascade flow multitool"
 
 log ()
