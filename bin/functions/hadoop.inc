@@ -4,7 +4,7 @@ module_depends log
 
 if [ -z "$HADOOP_BIN" ]
 then
-  HADOOP_BIN=`which hadoop 2>&1 || echo`
+  HADOOP_BIN=`which hadoop 2>/dev/null || echo`
 
   if [ -z "$HADOOP_BIN" ]
   then
