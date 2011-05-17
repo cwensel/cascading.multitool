@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 # Copyright (c) 2011 Concurrent, Inc.
 
-## NOTE Do not change these lines.  They are rewritten during installation.
-if [ "$MT_PATH" = "" ]; then
-MT_PATH=..
-fi
-## /NOTE
-
-# If the above line is not set (ie. mt is not installed), set it
-if [ "$MT_PATH" = ".." ]
+if [ -z "$MT_PATH" ]
 then
-  MT_PATH=`dirname $0`/..
+  if [ -h $0 ]
+  then
+    MT_PATH=`dirname $0`/`readlink $0`
+  else
+    MT_PATH=$0
+  fi
+
+  MT_PATH=`dirname $MT_PATH`/..
   MT_PATH=`cd $MT_PATH && pwd`
 fi
 
