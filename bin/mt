@@ -2,53 +2,65 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
 ## NOTE Do not change these lines.  They are rewritten during installation.
-if [[ "$MT_PATH" == "" ]]; then
-MT_PATH=
+if [ "$MT_PATH" = "" ]; then
+MT_PATH=..
 fi
 ## /NOTE
 
 # If the above line is not set (ie. mt is not installed), set it
-if [[ "$MT_PATH" == "" ]]; then
-  MT_PATH=`dirname $(cd ${0%/*}/.. && echo $PWD/${0##*/})`
+if [ "$MT_PATH" = ".." ]
+then
+  MT_PATH=`dirname $0`/..
+  MT_PATH=`cd $MT_PATH && pwd`
 fi
 
-function include_dependencies () {
-  if [[ $# -gt 0 ]]; then
-    for dep in "$@"; do
-      . $MT_PATH/bin/functions/$dep.inc
-    done
-  fi
+. $MT_PATH/bin/functions/_module.inc
+module_dependencies run install uninstall help parameters version
+
+extracted_opts=
+
+extract_opts()
+{
+  while [ $# -gt 0 ];
+  do
+    case "$1" in
+      -q|--quiet)
+        mt_log_verbose=
+        ;;
+      -nc|--no-color|--no-colour)
+        mt_log_use_color=
+        ;;
+      *)
+        extracted_opts="$extracted_opts$1 "
+        ;;
+    esac
+    shift
+  done
 }
 
-include_dependencies jar log run
-
-mt_run_args=
-
-while [[ $# -gt 0 ]]; do
-  case "$1" in
-    help)
-      mt_help $2
-      exit 0
+dispatch ()
+{
+  module=$1
+  shift
+  
+  case "$module" in
+    version|-v|--version)
+      mt_version $@
       ;;
-    -h|--help)
-      mt_run_usage
-      exit 0
+    help|-h|--help)
+      mt_help $@
       ;;
-    -v|--version)
-      mt_run_version
-      exit 0
+    install)
+      mt_install $@
       ;;
-    -q|--quiet)
-      mt_log_verbose=0
-      ;;
-    -nc|--no-color|--no-colour)
-      mt_log_use_color=0
+    uninstall)
+      mt_uninstall $@
       ;;
     *)
-      mt_run_args="$mt_run_args $1"
+      mt_run $module $@
       ;;
   esac
-  shift
-done
+}
 
-mt_run $mt_run_args
+extract_opts $@
+dispatch $extracted_opts

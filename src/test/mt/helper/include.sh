@@ -6,12 +6,4 @@ then
   MT_PATH=`cd $MT_PATH && pwd`
 fi
 
-include_dependencies () {
-  if [ "$#" -gt "0" ]
-  then
-    for dep in "$@"
-    do
-      . $MT_PATH/bin/functions/$dep.inc
-    done
-  fi
-}
+. $MT_PATH/bin/functions/_module.inc

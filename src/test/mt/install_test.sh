@@ -14,9 +14,5 @@ it_displays_installation_usage () {
 }
 
 it_sets_the_install_destination () {
-  test "$mt_install_destination" = ""
-  
-  mt_install_set_destination
-  
   test "$mt_install_destination" = "$HOME/.multitool"
 }

@@ -1,8 +1,7 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
-mt_log_use_color=1
-mt_log_verbose=1
-
+mt_log_use_color=true
+mt_log_verbose=true
 mt_log_stack_depth=0
 
 if  [ "$color" = "always" ] || (test -t 1); then
@@ -20,50 +19,59 @@ fi
 
 mt_log_info_highlight_strings="cascade flow multitool"
 
-function log () {
-  if [[ $mt_log_stack_depth -gt 0 ]]; then
-    printf '\t%.0s' {1..$mt_log_stack_depth}
-  fi
-  echo $@
+log ()
+{
+  [ "$mt_log_stack_depth" -gt 0 ] && printf '\t%.0s' {1..$mt_log_stack_depth}
+  echo "$@"
 }
 
-function info () {
+info ()
+{
   mt_log_stack_depth=0
-  if [[ $mt_log_verbose -ne 0 ]]; then
-    if [[ $mt_log_use_color -ne 0 ]]; then
-      for hilite in $mt_log_info_highlight_strings; do
-        if echo $@ | grep "INFO $hilite" > /dev/null; then
-          echo `echo $@ | sed $mt_log_hilite_pattern`$mt_log_clear
+  if [ -n "$mt_log_verbose" ]
+  then
+    if [ -n "$mt_log_use_color" ]
+    then
+      for hilite in $mt_log_info_highlight_strings
+      do
+        if echo "$@" | grep "INFO $hilite" > /dev/null
+        then
+          echo `echo "$@" | sed $mt_log_hilite_pattern`$mt_log_clear
           return
         fi
       done
 
-      echo `echo $@ | sed $mt_log_info_pattern`$mt_log_clear
+      echo `echo "$@" | sed $mt_log_info_pattern`$mt_log_clear
     else
-      echo $@
+      echo "$@"
     fi
   fi
 }
 
-function warn () {
+warn ()
+{
   mt_log_stack_depth=0
-  if [[ $mt_log_use_color -ne 0 ]]; then
-    echo `echo $@ | sed $mt_log_warn_pattern`$mt_log_clear
+  if [ -n "$mt_log_use_color" ]
+  then
+    echo `echo "$@" | sed $mt_log_warn_pattern`$mt_log_clear
   else
-    echo $@
+    echo "$@"
   fi
 }
 
-function error () {
+error ()
+{
   mt_log_stack_depth=0
-  if [[ $mt_log_use_color -ne 0 ]]; then
-    echo `echo $@ | sed $mt_log_error_pattern`$mt_log_clear
+  if [ -n "$mt_log_use_color" ]
+  then
+    echo `echo "$@" | sed $mt_log_error_pattern`$mt_log_clear
   else
-    echo $@
+    echo "$@"
   fi
 }
 
-function stacktrace () {
+stacktrace ()
+{
   log $@
   mt_log_stack_depth=$(($mt_log_stack_depth + 1))
 }
