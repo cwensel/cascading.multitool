@@ -44,6 +44,11 @@ route_perform ()
 
     if echo "$full" | egrep $matcher > /dev/null
     then
+      for step in `route_before $endpoint`
+      do
+        eval $step
+      done
+
       eval $endpoint $args
       return
     fi
@@ -51,6 +56,27 @@ route_perform ()
 
   if [ -n $ROUTE_DEFAULT ]
   then
+    for step in `route_before $ROUTE_DEFAULT`
+    do
+      eval $step
+    done
+
     eval $ROUTE_DEFAULT $args
+  fi
+}
+
+route_before ()
+{
+  if [ $# -eq 1 ]
+  then
+    local endpoint=$1
+
+    eval echo \"\$ROUTE_BEFORE$endpoint\"
+  else
+    local endpoint=$1
+    shift
+    local args=$@
+
+    eval ROUTE_BEFORE$endpoint=\"\$ROUTE_BEFORE$endpoint\$args \"
   fi
 }

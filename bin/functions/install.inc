@@ -3,6 +3,7 @@
 module_depends log
 
 route_match "^install" mt_install
+route_before mt_install mt_hadoop mt_jar
 
 module_annotate install about "copy all files into place"
 module_annotate_block install usage <<-USAGE

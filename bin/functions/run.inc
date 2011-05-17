@@ -3,6 +3,7 @@
 module_depends log hadoop jar help
 
 route_default mt_run
+route_before mt_run mt_hadoop mt_jar
 
 module_annotate run about "run Cascading.Multitool"
 module_annotate_block run usage <<USAGE

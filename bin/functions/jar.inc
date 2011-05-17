@@ -2,20 +2,24 @@
 
 module_depends log hadoop
 
-if [ -z $mt_jar_path ]; then
-  mt_jar_path=`find $MT_PATH -name multitool*.jar | head -n1`
-  
+mt_jar ()
+{
   if [ -z $mt_jar_path ]; then
-    error "ERROR multitool.jar not found"
+    mt_jar_path=`find $MT_PATH -name multitool*.jar | head -n1`
+
+    if [ -z $mt_jar_path ]; then
+      error "ERROR multitool.jar not found"
     
-    if [ -z $mt_jar_avoid_exit ]; then
-      exit 1
+      if [ -z $mt_jar_avoid_exit ]; then
+        exit 1
+      fi
     fi
   fi
-fi
+}
 
 mt_jar_usage ()
 {
+  mt_jar
   [ -z $mt_jar_usage_ ] && mt_jar_usage_=`$HADOOP_BIN jar $mt_jar_path | tail -n +3`
   echo "$mt_jar_usage_"
 }

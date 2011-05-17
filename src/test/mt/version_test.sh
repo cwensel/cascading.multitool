@@ -13,9 +13,14 @@ before () {
 }
 
 it_routes () {
-  tested=false
+  mt_hadoop () {
+    hadooped=true
+  }
+  mt_jar () {
+    [ "$hadooped" = "true" ] && jarred=true
+  }
   mt_version () {
-    tested=true
+    [ "$jarred" = "true" ] && tested=true
   }
   route_perform version
   test "$tested" = "true"

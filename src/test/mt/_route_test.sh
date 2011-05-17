@@ -53,10 +53,40 @@ it_should_route_the_default_matcher () {
 
 it_should_route_the_default_matcher_with_arguments () {
   tested=false
-  defaulted() {
+  defaulted () {
     [ "$1" = "bar" ] && tested=true
   }
   route_default defaulted
   route_perform foo bar
   test "$tested" = "true"
+}
+
+it_should_run_before_filters_before_routing () {
+  did_pre=false
+  tested=true
+  pre () {
+    did_pre=true
+  }
+  testing () {
+    [ "$did_pre" = "true" ] && tested=true
+  }
+  route_before testing pre
+  route_perform testing
+}
+
+it_should_run_multiple_before_filters () {
+  did_pre=false
+  did_pre2=false
+  tested=true
+  pre () {
+    did_pre=true
+  }
+  pre2 () {
+    did_pre2=true
+  }
+  testing () {
+    [ "$did_pre" = "true" ] && [ "$did_pre2" = "true" ] && tested=true
+  }
+  route_before testing pre pre2
+  route_perform testing
 }

@@ -9,5 +9,5 @@ Usage:
   [parameter=argument] [parameter=argument] ...
 
 Parameters:
-`mt_jar_usage | tail -n +5`
+`mt_jar_avoid_exit=1 mt_jar_usage | tail -n +5`
 EOF
