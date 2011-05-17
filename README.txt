@@ -4,7 +4,7 @@ Welcome
 
   Multitool provides a simple command line interface for building data processing jobs.
 
-  Think of Multitool as 'grep' and 'sed' for Hadoop, that also supports joins.
+  Think of Multitool as 'grep' and 'sed' for Hadoop that also supports joins between multiple data-sets.
 
   For example, with "$HADOOP_HOME/bin/hadoop" in your PATH, the following command,
 
@@ -25,53 +25,63 @@ Welcome
 
     http://www.cascading.org/
 
+
 Installing
 
-  Multitool may be used three ways after the distribution file as been uncompressed:
+  This step is not necessary if Multitool was pre-installed with your Hadoop distribution. Type,
 
-  Installed for all users:
+  > which multitool
 
-  > ./bin/install-mt
+  to see if it is already been added to your PATH.
 
-  or for detailed instructions:
+  Multitool may be executed three ways after the distribution file as been uncompressed:
 
-  > ./bin/install-mt --help
+  - Run from the uncompressed directory:
 
-  the install process will install the "bin/mt" script into "/usr/local/bin" allowing:
+    > ./bin/multitool [args]
 
-  > mt [args]
+  - Or as shown above, directly with "bin/hadoop" in your PATH:
 
-  to execute "bin/hadoop" with the proper multitool.jar file.
+    > hadoop jar multitool-<release-date>.jar [args]
 
-  Run from the uncompressed directory:
+  - Installed for all users:
 
-  > ./bin/mt [args]
+    > ./bin/install-mt
 
-  Or as shown above, directly with "bin/hadoop":
+    or for detailed instructions:
 
-  > hadoop jar multitool-<release-date>.jar [args]
+    > ./bin/install-mt --help
 
-  Choose the installation method that best suites your environment.
+    the install process will install the "bin/multitool" script into "/usr/local/bin" allowing:
+
+    > multitool [args]
+
+    to execute "bin/hadoop" with the proper multitool-<release-date>.jar file.
+
+
+  Choose the method that best suites your environment.
+
+  If you are running Multitool on AWS Elastic MapReduce, you need to follow the Elastic MapReduce instructions
+  on the AWS site, which typically expect the multitool-<release-date>.jar to be uploaded to AWS S3.
+
 
 Using
 
   To run from the command line, Hadoop should be in the path:
 
-  > hadoop jar multitool.jar <args>
+  > hadoop jar multitool-<release-date>.jar <args>
 
   If no args are given, a comprehensive list of commands will be printed.
 
   For example (see above for configuring environment):
 
-  > ant jar
-  > hadoop jar build/multitool.jar source=data/artist.100.txt cut=0 sink=output
+  > ./bin/multitool source=data/artist.100.txt cut=0 sink=output
 
-  This will compile a new jar, and cut the first fields out of the file 'artists.100.txt'
-  and save the results to 'output'.
+  This will cut the first fields out of the file 'artists.100.txt' and save the results to 'output'.
 
   For a more complex example:
 
-  > ./bin/mt source=data/topic.100.txt cut=0 \
+  > ./bin/multitool source=data/topic.100.txt cut=0 \
     "pgen=(\b[12][09][0-9]{2}\b)" group=0 count=0 group=1 \
     sink=output sink.replace=true sink.parts=1
 
