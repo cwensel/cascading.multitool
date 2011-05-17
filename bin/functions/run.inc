@@ -5,22 +5,6 @@ module_depends log hadoop jar help doc
 route_default mt_run
 route_before mt_run mt_hadoop mt_jar
 
-module_annotate run about "run Cascading.Multitool"
-module_annotate_block run usage <<USAGE
-Runs the Cascading.Multitool jar with the provided parameters.
-
-Usage:
-  [flags] parameter=argument [parameter=argument [...]]
-
-Flags:
-  -h|--help    - displays this message
-  -v|--version - displays the version of the Cascading.Multitool jar
-  -q|--quiet   - suppresses INFO messages from Cascading and Hadoop
-
-Parameters:
-  See \`help command\` for more information.
-USAGE
-
 mt_run ()
 {
   if [ $# -eq 0 ]; then

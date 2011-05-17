@@ -23,7 +23,7 @@ module_annotate_block doc usage <<EOF
 Examine the available operational parameters of Cascading.Multitool.
 
 Usage:
-  help doc [parameter]
+  `basename $0` help doc [parameter]
 
 Valid Arguments:
 `mt_doc_table`

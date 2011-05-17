@@ -9,7 +9,7 @@ module_annotate_block uninstall usage <<-USAGE
 Removes all the installed files.
 
 Usage:
-  uninstall [options]
+  `basename $0` uninstall [options]
 
 Options:
   -d|--destination     - specifies the install destination

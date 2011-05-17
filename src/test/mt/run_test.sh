@@ -21,11 +21,6 @@ it_routes () {
   test "$tested" = "true"
 }
 
-it_has_usage () {
-  about=`module_annotate run about`
-  test "$about" = "run Cascading.Multitool"
-}
-
 it_exits_if_no_arguments_are_specified () {
   OUTPUT=`mt_run`
 

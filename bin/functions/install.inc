@@ -9,7 +9,7 @@ module_annotate_block install usage <<-USAGE
 Copies all necessary files into place.
 
 Usage:
-  install [options]
+  `basename $0` install [options]
 
 Options:
   -d|--destination     - specifies the install destination
