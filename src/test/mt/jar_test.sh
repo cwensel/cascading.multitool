@@ -9,7 +9,7 @@ before () {
   mkdir -p $TMP_HADOOP/bin/
   touch $TMP_HADOOP/bin/hadoop
 
-  module_depends hadoop
+  HADOOP_HOME=$TMP_HADOOP PATH=/usr/bin:/bin:/usr/sbin:/sbin module_depends hadoop
 }
 
 after () {
@@ -18,7 +18,7 @@ after () {
 
 it_runs_silently_if_mt_jar_path_is_set () {
   mt_jar_path=/
-  OUTPUT=`PATH=$PATH:$TMP_HADOOP/bin module_depends jar`
+  OUTPUT=`module_depends jar`
   test "$OUTPUT" = ""
 }
 
@@ -28,7 +28,7 @@ it_runs_silently_if_it_finds_multitool_jar () {
   HERE_PATH=`dirname $(cd ${0%/*}/../../../.. && echo $PWD/${0##*/})`
   MT_PATH=.
 
-  OUTPUT=`cd $TMPDIR && PATH=$PATH:$TMP_HADOOP/bin . $HERE_PATH/bin/functions/jar.inc`
+  OUTPUT=`cd $TMPDIR && . $HERE_PATH/bin/functions/jar.inc`
 
   rm -rf $TMPDIR
   test "$OUTPUT" = ""
@@ -40,7 +40,7 @@ it_complains_if_it_cannot_find_multitool_jar () {
   HERE_PATH=`dirname $(cd ${0%/*}/../../../.. && echo $PWD/${0##*/})`
   MT_PATH=.
 
-  OUTPUT=`cd $TMPDIR && PATH=$PATH:$TMP_HADOOP/bin . $HERE_PATH/bin/functions/jar.inc`
+  OUTPUT=`cd $TMPDIR && . $HERE_PATH/bin/functions/jar.inc`
 
   rm -rf $TMPDIR
   test "$OUTPUT" = "ERROR multitool.jar not found"
