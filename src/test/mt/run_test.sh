@@ -6,6 +6,9 @@ describe "run.inc"
 
 before () {
   color=always
+  
+  HADOOP_BIN=echo
+  mt_jar_path=/
   module_depends _route run
 }
 
@@ -24,23 +27,13 @@ it_has_usage () {
 }
 
 it_exits_if_no_arguments_are_specified () {
-  mt_jar_path=/some_jar_path
-  mt_run_avoid_exit=1
+  OUTPUT=`mt_run`
 
-  OUTPUT=`route_perform`
-
-  ERROR_MESSAGE="No arguments specified"
-  ERROR_MESSAGE="${mt_log_red}ERROR$mt_log_clear $ERROR_MESSAGE$mt_log_clear"
-
-  test "$OUTPUT" = "$ERROR_MESSAGE"
+  test "$OUTPUT" != ""
 }
 
 it_runs_with_all_specified_arguments () {
-  mt_jar_path=/some_jar_path
-  mt_run_avoid_exit=1
-  HADOOP_BIN="echo"
-
   OUTPUT=`mt_run test=true`
 
-  test "$OUTPUT" = "jar /some_jar_path test=true"
+  test "$OUTPUT" = "jar / test=true"
 }

@@ -6,7 +6,6 @@ describe "parameters.inc"
 
 before () {
   mt_jar_avoid_exit=1
-
   HADOOP_BIN=echo
   mt_jar_path=/
   module_depends parameters

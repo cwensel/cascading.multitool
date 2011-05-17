@@ -1,6 +1,6 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
-module_depends log hadoop jar
+module_depends log hadoop jar help
 
 route_default mt_run
 
@@ -23,10 +23,9 @@ USAGE
 mt_run ()
 {
   if [ $# -eq 0 ]; then
+    mt_help
+    echo
     error "ERROR No arguments specified"
-    if [ -z "$mt_run_avoid_exit" ]; then
-      exit 1
-    fi
 
   else
     $HADOOP_BIN jar $mt_jar_path $@ 2>&1 | while read line; do
