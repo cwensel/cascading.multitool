@@ -25,7 +25,7 @@ Examine the available operational parameters of Cascading.Multitool.
 Usage:
   help doc [parameter]
 
-Available:
+Valid Arguments:
 `mt_doc_table`
 EOF
 
@@ -49,12 +49,9 @@ USAGE
 mt_doc_argument_error ()
 {
   module_annotate help banner
-  echo
-  echo "Valid Arguments:"
-  mt_doc_table
+  module_annotate doc usage | tail -n +5
   echo
   error `echo $@ | sed s/error:/ERROR/`
-  exit 1
 }
 
 mt_doc ()
@@ -65,5 +62,6 @@ mt_doc ()
     mt_doc_argument_usage $request
   else
     mt_doc_argument_error "ERROR Invalid argument: $2"
+    exit 1
   fi
 }

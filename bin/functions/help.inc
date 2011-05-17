@@ -49,6 +49,7 @@ mt_help ()
         fi
       else
         error "ERROR $1 is not a module"
+        exit 1
       fi
       shift
     done

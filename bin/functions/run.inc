@@ -40,6 +40,7 @@ mt_run ()
         stacktrace $line
       elif echo $line | grep "error: invalid argument" > /dev/null; then
         mt_doc_argument_error $line
+        exit 1
       elif [[ ! -z $mt_log_verbose ]]; then
         log $line
       fi
