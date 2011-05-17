@@ -5,17 +5,14 @@
 describe "parameters.inc"
 
 before () {
-  TMP_HADOOP=`mktemp -d /tmp/mt-parameters-spec.XXXXXX`
-  mkdir -p $TMP_HADOOP/bin/
-  touch $TMP_HADOOP/bin/hadoop
-}
+  mt_jar_avoid_exit=1
 
-after () {
-  rm -rf $TMP_HADOOP
+  HADOOP_BIN=echo
+  mt_jar_path=/
+  module_depends parameters
 }
 
 it_prints_an_about_message () {
-  HADOOP_HOME=$TMP_HADOOP PATH=/usr/bin:/bin:/usr/sbin:/sbin module_depends parameters
   about=`module_annotate parameters about`
   test "$about" = "prints a description of a Cascading.Multitool parameters"
 }
