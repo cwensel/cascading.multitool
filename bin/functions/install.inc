@@ -1,6 +1,6 @@
 # Copyright (c) 2011 Concurrent, Inc.
 
-mt_install_dirs=(lib bin)
+mt_install_dirs=(bin)
 mt_install_binfiles=(bin/multitool)
 mt_install_files=(README.txt LICENSE.txt *.jar)
 
