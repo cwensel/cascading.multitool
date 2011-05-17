@@ -51,4 +51,6 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
+mt_run_detect_hadoop
+
 mt_run $mt_run_args
