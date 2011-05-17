@@ -19,8 +19,6 @@ MODULES_ROOT=$MT_PATH/bin/functions
 
 module_depends run install uninstall help parameters version
 
-extracted_opts=
-
 extract_opts()
 {
   while [ $# -gt 0 ];
