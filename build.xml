@@ -112,7 +112,7 @@
   </target>
 
   <!-- runs JUnit tests -->
-  <target name="test" depends="compile,compile-test,mt-test" description="run the unit tests">
+  <target name="test" depends="compile,compile-test" description="run the unit tests">
     <echo message="running all tests..."/>
 
     <mkdir dir="build/test/log"/>
