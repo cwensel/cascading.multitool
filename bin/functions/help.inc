@@ -2,16 +2,26 @@
 
 module_depends log
 
-route_match "^-h|--help|(help( [[:alpha:]]+)?)\$" mt_help
+route_match '^-h|--help|(help(\s\w+)?)' mt_help
 
 module_annotate help about "display this screen"
 module_annotate_block help usage <<-USAGE
-Prints usage information relating to Cascading.Multitool.
+Runs the Cascading.Multitool jar with the provided parameters.
 
 Usage:
-  help [topic]
+  `basename $0` [flags] action [action-flags]
+  `basename $0` [flags] command=argument [command=argument [...]]
+  `basename $0` help [action]
 
-Topics:
+Flags:
+  -h|--help      - displays this message
+  -q|--quiet     - silences INFO messages
+  -nc|--no-color - disables colorization of messages
+
+Commands:
+  See \`help doc\` for more information.
+
+Actions:
 USAGE
 
 module_annotate_block help banner <<-USAGE
@@ -21,10 +31,22 @@ USAGE
 
 mt_help_module_list ()
 {
+  local longest=0
+  for module in $MODULES; do
+    local length=`expr $module : '.*'`
+    
+    if [ $length -gt $longest ]; then
+      longest=$length
+    fi
+  done
+  
   for module in `echo $MODULES | tr " " "\n" | sort | tr "\n" " "`; do
-    about=`module_annotate $module about`
-    if [ -n "$about" ]; then
-      echo "  $module - $about"
+    if [ "$module" != "run" ]; then
+      about=`module_annotate $module about`
+      if [ -n "$about" ]; then
+        printf "  %-${longest}s - " "$module"
+        echo "$about"
+      fi
     fi
   done
 }
@@ -41,7 +63,7 @@ mt_help ()
     while [ $# -gt 0 ]; do
       module=`module_annotate $1 usage`
 
-      if [ -n "$module" ]; then
+      if [ -n "$module" ] && [ "$1" != "run" ]; then
         echo "$1: $module"
 
         if [ "$1" = "help" ]; then

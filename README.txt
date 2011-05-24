@@ -6,7 +6,7 @@ Welcome
 
   Think of Multitool as 'grep' and 'sed' for Hadoop that also supports joins between multiple data-sets.
 
-  For example, with "$HADOOP_HOME/bin/hadoop" in your PATH, the following command,
+  For example, with "$HADOOP_HOME/bin/" in your PATH, the following command,
 
    > hadoop jar multitool-<release-date>.jar source=input.txt select=Monday sink=outputDir
 
@@ -28,36 +28,24 @@ Welcome
 
 Installing
 
-  This step is not necessary if Multitool was pre-installed with your Hadoop distribution. Type,
+  This step is not necessary if you wish to run Multitool directly from the uncompressed distribution folder or
+  Multitool was pre-installed with your Hadoop distribution. Type,
 
-  > which multitool
+    > which multitool
 
   to see if it is already been added to your PATH.
 
-  Multitool may be executed three ways after the distribution file as been uncompressed:
+  Installed for all users into "/usr/local/bin":
 
-  - Run from the uncompressed directory:
+    > sudo ./bin/multitool install
 
-    > ./bin/multitool [args]
+  or for the current user only into "~/.multitool":
 
-  - Or as shown above, directly with "bin/hadoop" in your PATH:
+    > ./bin/multitool install
 
-    > hadoop jar multitool-<release-date>.jar [args]
+  For detailed instructions:
 
-  - Installed for all users:
-
-    > ./bin/install-mt
-
-    or for detailed instructions:
-
-    > ./bin/install-mt --help
-
-    the install process will install the "bin/multitool" script into "/usr/local/bin" allowing:
-
-    > multitool [args]
-
-    to execute "bin/hadoop" with the proper multitool-<release-date>.jar file.
-
+    > ./bin/multitool help install
 
   Choose the method that best suites your environment.
 
@@ -67,15 +55,17 @@ Installing
 
 Using
 
-  To run from the command line, Hadoop should be in the path:
+  The environment variable HADOOP_HOME should always be set to use Multitool.
 
-  > hadoop jar multitool-<release-date>.jar <args>
+  To run from the command line with the jar, Hadoop should be in the path:
+
+    > hadoop jar multitool-<release-date>.jar <args>
 
   If no args are given, a comprehensive list of commands will be printed.
 
-  For example (see above for configuring environment):
+  Or if Multitool has been installed from above:
 
-  > ./bin/multitool source=data/artist.100.txt cut=0 sink=output
+    > multitool source=data/artist.100.txt cut=0 sink=output
 
   This will cut the first fields out of the file 'artists.100.txt' and save the results to 'output'.
 

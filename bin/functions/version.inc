@@ -10,7 +10,7 @@ module_annotate_block version usage <<USAGE
 Prints version information about Cascading and Cascading.Multitool.
 
 Usage:
-  version
+  `basename $0` version
 USAGE
 
 mt_version ()

@@ -8,7 +8,6 @@ else
 fi
 
 MODULES=
-MODULE_LONGEST_NAME=1
 
 module_depends ()
 {
@@ -26,12 +25,6 @@ module_depends ()
 
       if [ -f $module ]; then
         . $module
-
-        local length=`expr $dep : '.*'`
-
-        if [ $length -gt $MODULE_LONGEST_NAME ]; then
-          MODULE_LONGEST_NAME=$length
-        fi
       fi
     fi
   done
@@ -42,13 +35,13 @@ module_annotate ()
   local module=$1
   local aspect=$2
   shift 2
-  local message=$@
+  local message="$@"
 
   if [ -n "$module" ] && [ -n "$aspect" ]
   then
     if [ $# -gt 0 ]
     then
-      eval _MODULE_$aspect$module=\$message
+      eval _MODULE_$aspect$module=\"\$message\"
     else
       eval echo \"\$_MODULE_$aspect$module\"
     fi

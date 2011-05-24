@@ -4,12 +4,12 @@ route_match ()
 {
   if [ $# -eq 1 ]
   then
-    local endpoint=$1
+    endpoint=$1
 
     eval echo \"\$ROUTE_$endpoint\"
   else
-    local matcher=$1
-    local endpoint=$2
+    matcher=$1
+    endpoint=$2
 
     for existing in $ROUTE_ENDPOINTS_
     do
@@ -19,7 +19,7 @@ route_match ()
     if [ "$endpoint" != "$existing" ]
     then
       ROUTE_ENDPOINTS_="$ROUTE_ENDPOINTS_$endpoint "
-      eval ROUTE_$endpoint=\$matcher
+      eval ROUTE_$endpoint=\"\$matcher\"
     fi
   fi
 }
@@ -31,25 +31,33 @@ route_default ()
 
 route_perform ()
 {
-  local full=$@
+  full=$@
+  
   if [ $# -gt 0 ]
   then
     shift
-    local args=$@
+    args=$@
   fi
+  
+  echo "iterating over '$ROUTE_ENDPOINTS_'"
   
   for endpoint in $ROUTE_ENDPOINTS_
   do
-    local matcher=`route_match $endpoint`
+    matcher=`route_match $endpoint`
+    echo "matching $matcher against $full"
 
     if echo $full | egrep "$matcher" > /dev/null
     then
+      echo "matched '$full'"
+    
       for step in `route_before $endpoint`
       do
         eval $step
       done
+      
+      echo "'$endpoint' $args"
 
-      eval $endpoint $args
+      eval $endpoint \$args
       return
     fi
   done
@@ -61,22 +69,24 @@ route_perform ()
       eval $step
     done
 
-    eval $ROUTE_DEFAULT $full
+    eval $ROUTE_DEFAULT \$full
   fi
 }
 
 route_before ()
 {
+  endpoint=$1
+
   if [ $# -eq 1 ]
   then
-    local endpoint=$1
-
     eval echo \"\$ROUTE_BEFORE$endpoint\"
   else
-    local endpoint=$1
-    shift
-    local args=$@
-
+    if [ $# -gt 1 ]
+    then
+      shift
+      args=$@
+    fi
+    
     eval ROUTE_BEFORE$endpoint=\"\$ROUTE_BEFORE$endpoint\$args \"
   fi
 }
