@@ -6,7 +6,7 @@ route_match "^update|update (-v|--version(=|\s))\d+\$" mt_update
 route_before mt_update mt_update_reject_git mt_update_parse_latest
 
 module_annotate update about "update Cascading.Multitool"
-module_annotate_block run usage <<USAGE
+module_annotate_block update usage <<USAGE
 Update Cascading.Multitool from the source.
 
 Usage:
@@ -44,10 +44,13 @@ mt_update_curl ()
 
 mt_update_reject_git ()
 {
-  if [ -d $MT_DIR/.git ]
+  if [ -d "$MT_PATH/.git" ]
   then
-    error "ERROR $MT_DIR is a git repository.  Use 'git pull' to update."
-    exit 1
+    error "ERROR $MT_PATH is a git repository.  Use git pull to update."
+    if [ -z "$mt_update_avoid_exit" ]
+    then
+      exit 1
+    fi
   fi
 }
 
@@ -65,7 +68,10 @@ mt_update_parse_latest ()
         ;;
       *)
         error "ERROR Invalid option $1"
-        exit 1
+        if [ -z "$mt_update_avoid_exit" ]
+        then
+          exit 1
+        fi
         ;;
     esac
     shift
@@ -89,7 +95,11 @@ mt_update ()
   then
     error "ERROR Could not fetch $mt_update_base/multitool-$mt_update_latest.tgz"
     rm -rf $TMPDIR
-    exit 1
+    
+    if [ -z "$mt_update_avoid_exit" ]
+    then
+      exit 1
+    fi
   fi
 
   info "INFO Extracting $TMPDIR/latest.tgz"

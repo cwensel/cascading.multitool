@@ -6,31 +6,54 @@ describe "update.inc"
 
 before () {
   CURL_BIN="echo"
+  mt_update_avoid_exit=1
   module_depends _route update
 }
 
 it_routes () {
-  MT_PATH=/does/not/exist
-  
+  mt_update_reject_git () {
+    tested=1
+  }
+  mt_update_parse_latest () {
+    [ "$tested" = "1" ] && tested=2
+  }
   mt_update () {
-    tested=true
+    [ "$tested" = "2" ] && tested=3
   }
   route_perform update
-  test "$tested" = "true"
+  test "$tested" = "3"
 }
 
 it_exits_if_a_git_repo_is_detected () {
   TMPDIR=`mktemp -d /tmp/mt_update-spec.XXXXXX`
   mkdir -p $TMPDIR/.git
+  MT_PATH=$TMPDIR
   
-  OUTPUT=`MT_DIR=$TMP_DIR route_perform update`
+  mt_update_parse_latest () {
+    [ "$tested" = "1" ] && tested=2
+  }
+  mt_update () {
+    [ "$tested" = "2" ] && tested=3
+  }
+  error () {
+    case $* in
+      ERROR*)
+        tested=1
+        ;;
+    esac
+  }
+  
+  route_perform update
   
   rm -rf $TMPDIR
-  test "$OUTPUT" = ""
+  
+  test "$tested" = "3"
 }
 
 it_parses_the_multitool_location () {
-  MT_PATH=/does/not/exist
+  mt_update_reject_git () {
+    MT_PATH=/does/not/exist
+  }
   
   test "$mt_update_latest" != "latest"
   CURL_BIN="echo 'http://files.cascading.org/multitool/multitool-latest.tgz'"
@@ -42,7 +65,9 @@ it_parses_the_multitool_location () {
 }
 
 it_allows_a_version_specifier () {
-  MT_PATH=/does/not/exist
+  mt_update_reject_git () {
+    MT_PATH=/does/not/exist
+  }
   
   test "$mt_update_latest" != "latest"
   mt_update () {
@@ -58,13 +83,14 @@ it_allows_a_version_specifier () {
 }
 
 it_unpacks_a_tarball_into_position () {
-  MT_PATH=/does/not/exist
-
+  mt_update_reject_git () {
+    MT_PATH=/does/not/exist
+  }
   mt_update_parse_latest () {
     mt_update_latest="some_version"
   }
   mt_update_curl () {
-    TEMP_DIR=`dirname $3`
+    TEMP_DIR=`dirname $2`
   }
 
   mkdir () {
