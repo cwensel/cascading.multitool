@@ -32,30 +32,23 @@ route_default ()
 route_perform ()
 {
   full=$@
-  
+
   if [ $# -gt 0 ]
   then
     shift
     args=$@
   fi
-  
-  echo "iterating over '$ROUTE_ENDPOINTS_'"
-  
+
   for endpoint in $ROUTE_ENDPOINTS_
   do
     matcher=`route_match $endpoint`
-    echo "matching $matcher against $full"
 
     if echo $full | egrep "$matcher" > /dev/null
     then
-      echo "matched '$full'"
-    
       for step in `route_before $endpoint`
       do
         eval $step
       done
-      
-      echo "'$endpoint' $args"
 
       eval $endpoint \$args
       return
