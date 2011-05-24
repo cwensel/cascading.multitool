@@ -62,8 +62,6 @@ it_should_route_the_default_with_arguments () {
 }
 
 it_should_run_before_filters_before_routing () {
-  did_pre=false
-  tested=true
   do_pre () {
     did_pre=true
   }
@@ -72,6 +70,20 @@ it_should_run_before_filters_before_routing () {
   }
   route_before do_testing do_pre
   route_perform testing
+  test "$tested" = "true"
+}
+
+it_should_run_before_filters_with_arguments () {
+  ROUTE_do_testing="^testing"
+  do_pre () {
+    [ "$*" = "foo bar" ] && did_pre=true
+  }
+  do_testing () {
+    [ "$did_pre" = "true" ] && tested=true
+  }
+  route_before do_testing do_pre
+  route_perform testing foo bar
+  test "$tested" = "true"
 }
 
 it_should_run_multiple_before_filters () {

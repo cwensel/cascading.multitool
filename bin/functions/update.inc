@@ -16,7 +16,7 @@ Flags:
   -v|--version - specify the version of Cascading.Multitool to fetch
 USAGE
 
-mt_update_latest="20110518"
+mt_update_latest=
 mt_update_base="http://files.cascading.org/multitool"
 mt_update_latest_location="http://www.cascading.org/downloads.html"
 mt_update_latest_extractor='s/.*multitool-\([^\.]*\)\.tgz.*/\1/g'
@@ -44,14 +44,35 @@ mt_update_curl ()
 
 mt_update_parse_latest ()
 {
-  info "INFO Parsing version number from $mt_update_latest_location"
-  mt_update_latest=`mt_update_curl $mt_update_latest_location | grep "$mt_update_base" | sed $mt_update_latest_extractor`
+  while [ $# -gt 0 ]
+  do
+    case "$1" in
+      --version=*)
+        mt_update_latest=`echo $1 | sed 's/--version=\(.*\)/\1/g'`
+        ;;
+      -v|--version)
+        mt_update_latest=$2
+        break 1
+        ;;
+      *)
+        error "ERROR Invalid option $1"
+        exit 1
+        ;;
+    esac
+    shift
+  done
+
+  if [ -z "$mt_update_latest" ]
+  then
+    info "INFO Parsing version number from $mt_update_latest_location"
+    mt_update_latest=`mt_update_curl $mt_update_latest_location | grep "$mt_update_base" | sed $mt_update_latest_extractor`
+  fi
 }
 
 mt_update ()
 {
   TMPDIR=`mktemp -d /tmp/cascading_multitool-mt_update.XXXXXX`
-  
+
   info "INFO Fetching $mt_update_base/multitool-$mt_update_latest.tgz"
   mt_update_curl --progress-bar -o $TMPDIR/latest.tgz $mt_update_base/multitool-$mt_update_latest.tgz
 

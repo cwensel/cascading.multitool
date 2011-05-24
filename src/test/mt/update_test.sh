@@ -10,7 +10,6 @@ before () {
 }
 
 it_routes () {
-  tested=false
   mt_update () {
     tested=true
   }
@@ -21,18 +20,54 @@ it_routes () {
 it_parses_the_multitool_location () {
   test "$mt_update_latest" != "latest"
   CURL_BIN="echo 'http://files.cascading.org/multitool/multitool-latest.tgz'"
+  mt_update () {
+    tested=true
+  }
   route_perform update
   test "$mt_update_latest" = "latest"
 }
 
+it_allows_a_version_specifier () {
+  test "$mt_update_latest" != "latest"
+  mt_update () {
+    tested=true
+  }
+  
+  route_perform update -v latest
+  test "$mt_update_latest" = "latest"
+
+  tested=
+  route_perform update --version=some_other
+  test "$mt_update_latest" = "some_other"
+}
+
 it_unpacks_a_tarball_into_position () {
+  MT_PATH=/does/not/exist
+
   mt_update_parse_latest () {
     mt_update_latest="some_version"
   }
   mt_update_curl () {
     TEMP_DIR=`dirname $3`
-    test `basename $3` = "latest.tgz"
   }
-  route_perform update
-  test "0" = "1"
+
+  mkdir () {
+    [ "$1" = "$TEMP_DIR/extracted" ] && mkdir_called=true
+  }
+  tar () {
+    [ "$2" = "$TEMP_DIR/latest.tgz" ] && [ "$4" = "$TEMP_DIR/extracted" ] && tar_called=true
+  }
+  rm () {
+    [ "$2" = "$MT_PATH" ] || [ "$2" = "$TEMP_DIR" ] && rm_called=true
+  }
+  cp () {
+    [ "$2" = "$TEMP_DIR/extracted//" ] && [ "$3" = "$MT_PATH" ] && cp_called=true
+  }
+
+  mt_update
+
+  test "$mkdir_called" = "true"
+  test "$tar_called" = "true"
+  test "$rm_called" = "true"
+  test "$cp_called" = "true"
 }

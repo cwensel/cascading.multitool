@@ -47,7 +47,7 @@ route_perform ()
     then
       for step in `route_before $endpoint`
       do
-        eval $step
+        eval $step \$args
       done
 
       eval $endpoint \$args
@@ -59,7 +59,7 @@ route_perform ()
   then
     for step in `route_before $ROUTE_DEFAULT`
     do
-      eval $step
+      eval $step \$args
     done
 
     eval $ROUTE_DEFAULT \$full
