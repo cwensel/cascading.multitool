@@ -27,7 +27,7 @@ for dep in $MT_PATH/bin/functions/_*.inc; do . $dep; done
 
 module_depends run update install uninstall help command version
 
-extract_opts()
+multitool_run ()
 {
   while [ $# -gt 0 ];
   do
@@ -45,7 +45,7 @@ extract_opts()
     shift
   done
   
-  echo "$extracted_opts"
+  route_perform $extracted_opts
 }
 
-route_perform `extract_opts $@`
+multitool_run $@

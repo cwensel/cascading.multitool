@@ -21,7 +21,8 @@ Options:
 USAGE
 
 mt_install_dirs="bin"
-mt_install_binfiles="bin/multitool bin/mtl"
+mt_install_bin="bin/multitool"
+mt_install_bin_links="multitool mtl"
 mt_install_files="README.txt LICENSE.txt"
 
 if [ "$UID" = "0" ]
@@ -37,12 +38,14 @@ mt_install ()
 {
   mkdir -p $mt_install_destination
   
-  for dir in "${mt_install_dirs[@]}" ; do
-    info "INFO Installing $mt_install_destination/$dir"
+  for dir in $mt_install_dirs
+  do
+    info "INFO Installing $mt_install_destination/$dir/*"
     cp -Rf $MT_PATH/$dir $mt_install_destination
   done
 
-  for file in "${mt_install_files[@]}" ; do
+  for file in $mt_install_files
+  do
     info "INFO Installing $mt_install_destination/$file"
     cp -f $MT_PATH/$file $mt_install_destination
   done
@@ -56,15 +59,18 @@ mt_install ()
     cp -f $mt_jar_path $mt_install_destination/`basename $mt_jar_path`
   fi
 
-  if [[ $UID -eq 0 ]]; then
+  if [ "$UID" = "0" ]
+  then
+    chmod +x $mt_install_destination/$mt_install_bin
     mkdir -p $mt_install_bin_destination
 
-    for binfile in "${mt_install_binfiles[@]}" ; do
-      info "INFO Linking $mt_install_destination/$binfile -> $mt_install_bin_destination/`basename $binfile`"
-      chmod +x $mt_install_destination/$binfile
-      ln -sf $mt_install_destination/$binfile $mt_install_bin_destination/`basename $binfile`
+    for link in $mt_install_bin_links
+    do
+      info "INFO Linking $mt_install_destination/$mt_install_bin -> $mt_install_bin_destination/$link"
+      ln -sf $mt_install_destination/$mt_install_bin $mt_install_bin_destination/$link
     done
-  elif ! echo $PATH | grep "$mt_install_destination/bin" > /dev/null; then
+  elif ! echo $PATH | grep "$mt_install_destination/bin" > /dev/null
+  then
     warn "WARN You should add $mt_install_destination/bin to your \$PATH."
   fi
 }

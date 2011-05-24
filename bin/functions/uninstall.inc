@@ -28,8 +28,8 @@ mt_uninstall ()
   fi
 
   if [ "$mt_install_bin_destination" != "" ]; then
-    for binfile in "${mt_install_binfiles[@]}" ; do
-      binfile=$mt_install_bin_destination/`basename $binfile`
+    for link in "${mt_install_bin_links[@]}" ; do
+      binfile=$mt_install_bin_destination/$link
 
       if [ -h $binfile ]; then
         info "INFO Unlinking $binfile"
