@@ -23,7 +23,7 @@ it_exits_if_a_git_repo_is_detected () {
   TMPDIR=`mktemp -d /tmp/mt_update-spec.XXXXXX`
   mkdir -p $TMPDIR/.git
   
-  OUTPUT=`route_perform update`
+  OUTPUT=`MT_DIR=$TMP_DIR route_perform update`
   
   rm -rf $TMPDIR
   test "$OUTPUT" = ""

@@ -83,7 +83,7 @@ mt_update ()
   TMPDIR=`mktemp -d /tmp/cascading_multitool-mt_update.XXXXXX`
 
   info "INFO Fetching $mt_update_base/multitool-$mt_update_latest.tgz"
-  mt_update_curl --progress-bar -o $TMPDIR/latest.tgz $mt_update_base/multitool-$mt_update_latest.tgz
+  mt_update_curl -o $TMPDIR/latest.tgz $mt_update_base/multitool-$mt_update_latest.tgz
 
   if [ $? -ne 0 ]
   then
