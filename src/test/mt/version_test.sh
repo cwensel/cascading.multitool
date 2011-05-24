@@ -4,7 +4,6 @@
 
 describe "version.inc"
 
-
 before () {
   mt_jar_avoid_exit=1
   HADOOP_BIN=echo
