@@ -25,7 +25,7 @@ fi
 MODULES_ROOT=$MT_PATH/bin/functions
 for dep in $MT_PATH/bin/functions/_*.inc; do . $dep; done
 
-module_depends run install uninstall help command version
+module_depends run update install uninstall help command version
 
 extract_opts()
 {
