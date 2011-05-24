@@ -2,7 +2,7 @@
 
 module_depends log
 
-route_match "^-h|--help|(help( [[:alpha:]]+)?)\$" mt_help
+route_match '^-h|--help|(help(\s\w+)?)' mt_help
 
 module_annotate help about "display this screen"
 module_annotate_block help usage <<-USAGE

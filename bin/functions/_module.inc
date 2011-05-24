@@ -35,13 +35,13 @@ module_annotate ()
   local module=$1
   local aspect=$2
   shift 2
-  local message=$@
+  local message="$@"
 
   if [ -n "$module" ] && [ -n "$aspect" ]
   then
     if [ $# -gt 0 ]
     then
-      eval _MODULE_$aspect$module=\$message
+      eval _MODULE_$aspect$module=\"\$message\"
     else
       eval echo \"\$_MODULE_$aspect$module\"
     fi

@@ -6,15 +6,15 @@ describe "_route.inc"
 
 before () {
   module_depends _route
-  route_match "^testing$" testing
+  route_match "^testing$" do_testing
 }
 
 it_should_create_a_matcher () {
-  test "$ROUTE_testing" = "^testing$"
+  test "$ROUTE_do_testing" = "^testing$"
 }
 
 it_should_fetch_a_matcher () {
-  test `route_match testing` = "^testing$"
+  test `route_match do_testing` = "^testing$"
 }
 
 it_should_set_a_default_matcher () {
@@ -24,7 +24,7 @@ it_should_set_a_default_matcher () {
 
 it_should_route_a_string () {
   tested=false
-  testing () {
+  do_testing () {
     tested=true
   }
   route_perform testing
@@ -32,31 +32,31 @@ it_should_route_a_string () {
 }
 
 it_should_route_a_string_with_arguments () {
-  ROUTE_testing="^testing"
+  ROUTE_do_testing="^testing"
   tested=false
-  testing () {
-    [ "$1" = "foo" ] && tested=true
+  do_testing () {
+    [ "$1" = "foo" ] && [ "$2" = "bar" ] && [ "$*" = "foo bar" ] && tested=true
   }
-  route_perform testing foo
+  route_perform "testing" foo bar
   test "$tested" = "true"
 }
 
 it_should_route_the_default_matcher () {
   tested=false
-  defaulted() {
+  do_default () {
     tested=true
   }
-  route_default defaulted
-  route_perform foo
+  route_default do_default
+  route_perform not_routed
   test "$tested" = "true"
 }
 
 it_should_route_the_default_with_arguments () {
   tested=false
-  defaulted () {
-    [ "$1" = "foo" ] && [ "$2" = "bar" ] && tested=true
+  do_default () {
+    [ "$*" = "foo bar" ] && tested=true
   }
-  route_default defaulted
+  route_default do_default
   route_perform foo bar
   test "$tested" = "true"
 }
@@ -64,13 +64,13 @@ it_should_route_the_default_with_arguments () {
 it_should_run_before_filters_before_routing () {
   did_pre=false
   tested=true
-  pre () {
+  do_pre () {
     did_pre=true
   }
-  testing () {
+  do_testing () {
     [ "$did_pre" = "true" ] && tested=true
   }
-  route_before testing pre
+  route_before do_testing do_pre
   route_perform testing
 }
 
@@ -84,9 +84,9 @@ it_should_run_multiple_before_filters () {
   pre2 () {
     did_pre2=true
   }
-  testing () {
+  do_testing () {
     [ "$did_pre" = "true" ] && [ "$did_pre2" = "true" ] && tested=true
   }
-  route_before testing pre pre2
+  route_before do_testing pre pre2
   route_perform testing
 }

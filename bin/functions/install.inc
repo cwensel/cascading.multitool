@@ -20,11 +20,12 @@ Options:
                          (only applies when running as root/sudo)
 USAGE
 
-mt_install_dirs=(bin)
-mt_install_binfiles=(bin/multitool bin/mtl)
-mt_install_files=(README.txt LICENSE.txt)
+mt_install_dirs="bin"
+mt_install_binfiles="bin/multitool bin/mtl"
+mt_install_files="README.txt LICENSE.txt"
 
-if [ $UID -eq 0 ]; then
+if [ "$UID" = "0" ]
+then
   mt_install_destination=/usr/local/lib/multitool
   mt_install_bin_destination=/usr/local/bin
 else
@@ -32,7 +33,8 @@ else
   mt_install_bin_destination=
 fi
 
-function mt_install () {
+mt_install ()
+{
   mkdir -p $mt_install_destination
   
   for dir in "${mt_install_dirs[@]}" ; do
