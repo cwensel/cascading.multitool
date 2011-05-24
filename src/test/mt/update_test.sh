@@ -10,6 +10,8 @@ before () {
 }
 
 it_routes () {
+  MT_PATH=/does/not/exist
+  
   mt_update () {
     tested=true
   }
@@ -17,7 +19,19 @@ it_routes () {
   test "$tested" = "true"
 }
 
+it_exits_if_a_git_repo_is_detected () {
+  TMPDIR=`mktemp -d /tmp/mt_update-spec.XXXXXX`
+  mkdir -p $TMPDIR/.git
+  
+  OUTPUT=`route_perform update`
+  
+  rm -rf $TMPDIR
+  test "$OUTPUT" = ""
+}
+
 it_parses_the_multitool_location () {
+  MT_PATH=/does/not/exist
+  
   test "$mt_update_latest" != "latest"
   CURL_BIN="echo 'http://files.cascading.org/multitool/multitool-latest.tgz'"
   mt_update () {
@@ -28,17 +42,19 @@ it_parses_the_multitool_location () {
 }
 
 it_allows_a_version_specifier () {
+  MT_PATH=/does/not/exist
+  
   test "$mt_update_latest" != "latest"
   mt_update () {
     tested=true
   }
   
   route_perform update -v latest
-  test "$mt_update_latest" = "latest"
+  test "$mt_update_latest" = "latest" && test "$tested" = "true"
 
   tested=
   route_perform update --version=some_other
-  test "$mt_update_latest" = "some_other"
+  test "$mt_update_latest" = "some_other" && test "$tested" = "true"
 }
 
 it_unpacks_a_tarball_into_position () {

@@ -3,7 +3,7 @@
 module_depends log
 
 route_match "^update|update (-v|--version(=|\s))\d+\$" mt_update
-route_before mt_update mt_update_parse_latest
+route_before mt_update mt_update_reject_git mt_update_parse_latest
 
 module_annotate update about "update Cascading.Multitool"
 module_annotate_block run usage <<USAGE
@@ -39,6 +39,15 @@ mt_update_curl ()
     $CURL_BIN --progress-bar $@
   else
     $CURL_BIN -s $@
+  fi
+}
+
+mt_update_reject_git ()
+{
+  if [ -d $MT_DIR/.git ]
+  then
+    error "ERROR $MT_DIR is a git repository.  Use 'git pull' to update."
+    exit 1
   fi
 }
 

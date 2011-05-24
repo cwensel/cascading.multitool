@@ -7,13 +7,13 @@ describe "jar.inc"
 before () {
   mt_jar_avoid_exit=1
 
-  TMP_HADOOP=`mktemp -d /tmp/mt-hadoop.XXXXXX`
+  TMP_HADOOP=`mktemp -d /tmp/mt_jar-hadoop-spec.XXXXXX`
   mkdir -p $TMP_HADOOP/bin/
   touch $TMP_HADOOP/bin/hadoop
 
   HADOOP_HOME=$TMP_HADOOP PATH=/usr/bin:/bin:/usr/sbin:/sbin module_depends hadoop
 
-  TMP_JAR=`mktemp -d /tmp/mt-jar.XXXXXX`
+  TMP_JAR=`mktemp -d /tmp/mt_jar-spec.XXXXXX`
   touch $TMP_JAR/multitool-test.jar
 }
 
