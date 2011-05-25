@@ -58,3 +58,15 @@ module_annotate_block ()
     eval _MODULE_$aspect$module=\$\(cat\)
   fi
 }
+
+module_exit ()
+{
+  code=1
+
+  if [ $# -gt 0 ]
+  then
+    echo "* $@"
+  fi
+
+  exit $code
+}

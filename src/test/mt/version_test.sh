@@ -5,8 +5,9 @@
 describe "version.inc"
 
 before () {
-  mt_jar_avoid_exit=1
-  mt_hadoop_avoid_exit=1
+  module_exit () {
+    module_exited=true
+  }
   HADOOP_BIN=echo
   mt_jar_path=/
   module_depends _route version

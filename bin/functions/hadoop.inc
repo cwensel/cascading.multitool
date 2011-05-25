@@ -16,20 +16,10 @@ mt_hadoop()
 
         if [ ! -e "$HADOOP_BIN" ]
         then
-          error "ERROR HADOOP_HOME is set, but $HADOOP_BIN was not found."
-        
-          if [ -z "$mt_hadoop_avoid_exit" ]
-          then
-            exit 1
-          fi
+          module_exit "HADOOP_HOME is set, but $HADOOP_BIN was not found."
         fi
       else
-        error "ERROR HADOOP_HOME was not set and hadoop is not in your PATH"
-
-        if [ -z "$mt_hadoop_avoid_exit" ]
-        then
-          exit 1
-        fi
+        module_exit "HADOOP_HOME was not set and hadoop is not in your PATH"
       fi
     fi
   fi

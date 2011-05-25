@@ -7,10 +7,10 @@ route_before mt_run mt_run_error_argless mt_hadoop mt_jar
 
 mt_run_error_argless ()
 {
-  if [ $# -eq 0 ]; then
+  if [ $# -eq 0 ]
+  then
     mt_help
     echo
-    error "ERROR No arguments specified"
   fi
 }
 
@@ -18,10 +18,7 @@ mt_run ()
 {
   if [ $# -eq 0 ]
   then
-    if [ -z $mt_run_avoid_exit ]
-    then
-      exit 1
-    fi
+    module_exit "No arguments specified"
   else
     $HADOOP_BIN jar $mt_jar_path $@ 2>&1 | while read line; do
       if echo $line | grep INFO > /dev/null; then
@@ -34,7 +31,7 @@ mt_run ()
         stacktrace $line
       elif echo $line | grep "error: invalid argument" > /dev/null; then
         mt_doc_argument_error $line
-        exit 1
+        module_exit
       elif [ -n "$mt_log_verbose" ]; then
         log $line
       fi

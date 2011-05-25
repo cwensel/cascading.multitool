@@ -29,8 +29,7 @@ mt_update_curl ()
 
     if [ -z "$CURL_BIN" ]
     then
-      error "ERROR curl was not found in PATH"
-      exit 1
+      module_exit "curl was not found in PATH"
     fi
   fi
   
@@ -46,11 +45,7 @@ mt_update_reject_git ()
 {
   if [ -d "$MT_PATH/.git" ]
   then
-    error "ERROR $MT_PATH is a git repository.  Use git pull to update."
-    if [ -z "$mt_update_avoid_exit" ]
-    then
-      exit 1
-    fi
+    module_exit "$MT_PATH is a git repository.  Use git pull to update."
   fi
 }
 
@@ -67,20 +62,25 @@ mt_update_parse_latest ()
         break 1
         ;;
       *)
-        error "ERROR Invalid option $1"
-        if [ -z "$mt_update_avoid_exit" ]
-        then
-          exit 1
-        fi
+        module_exit "Invalid option $1"
         ;;
     esac
     shift
   done
-
+  
+  for location in $mt_update_base/multitool-current.txt $mt_update_latest_location
+  do
+    if [ -n "$mt_update_latest" ]
+    then
+      break 1
+    fi
+    info "INFO Parsing version number from $location"
+    mt_update_latest=`mt_update_curl $location | grep "$mt_update_base.*\.tgz" | sed $mt_update_latest_extractor`
+  done
+  
   if [ -z "$mt_update_latest" ]
   then
-    info "INFO Parsing version number from $mt_update_latest_location"
-    mt_update_latest=`mt_update_curl $mt_update_latest_location | grep "$mt_update_base" | sed $mt_update_latest_extractor`
+    module_exit "Cannot get latest multitool."
   fi
 }
 
@@ -93,13 +93,8 @@ mt_update ()
 
   if [ $? -ne 0 ]
   then
-    error "ERROR Could not fetch $mt_update_base/multitool-$mt_update_latest.tgz"
     rm -rf $TMPDIR
-    
-    if [ -z "$mt_update_avoid_exit" ]
-    then
-      exit 1
-    fi
+    module_exit "Could not fetch $mt_update_base/multitool-$mt_update_latest.tgz"
   fi
 
   info "INFO Extracting $TMPDIR/latest.tgz"

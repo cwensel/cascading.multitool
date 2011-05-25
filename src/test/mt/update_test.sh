@@ -6,7 +6,6 @@ describe "update.inc"
 
 before () {
   CURL_BIN="echo"
-  mt_update_avoid_exit=1
   module_depends _route update
 }
 
@@ -28,21 +27,17 @@ it_exits_if_a_git_repo_is_detected () {
   TMPDIR=`mktemp -d /tmp/mt_update-spec.XXXXXX`
   mkdir -p $TMPDIR/.git
   MT_PATH=$TMPDIR
-  
+
+  module_exit () {
+    [ "$*" = "$MT_PATH is a git repository.  Use git pull to update." ] && tested=1
+  }
   mt_update_parse_latest () {
     [ "$tested" = "1" ] && tested=2
   }
   mt_update () {
     [ "$tested" = "2" ] && tested=3
   }
-  error () {
-    case $* in
-      ERROR*)
-        tested=1
-        ;;
-    esac
-  }
-  
+
   route_perform update
   
   rm -rf $TMPDIR

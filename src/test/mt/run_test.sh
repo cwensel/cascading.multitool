@@ -6,7 +6,6 @@ describe "run.inc"
 
 before () {
   color=always
-  mt_run_avoid_exit=1
   HADOOP_BIN=echo
   mt_jar_path=/
   module_depends _route run
@@ -21,8 +20,8 @@ it_routes () {
 }
 
 it_exits_if_no_arguments_are_specified () {
-  error () {
-    [ "$*" = "ERROR No arguments specified" ] && tested=true
+  module_exit () {
+    [ "$*" = "No arguments specified" ] && tested=true
   }
   route_perform
   test "$tested" = "true"

@@ -5,16 +5,15 @@
 describe "jar.inc"
 
 before () {
-  mt_jar_avoid_exit=1
-
   TMP_HADOOP=`mktemp -d /tmp/mt_jar-hadoop-spec.XXXXXX`
   mkdir -p $TMP_HADOOP/bin/
   touch $TMP_HADOOP/bin/hadoop
-
-  HADOOP_HOME=$TMP_HADOOP PATH=/usr/bin:/bin:/usr/sbin:/sbin module_depends hadoop
+  HADOOP_HOME=$TMP_HADOOP
 
   TMP_JAR=`mktemp -d /tmp/mt_jar-spec.XXXXXX`
   touch $TMP_JAR/multitool-test.jar
+
+  module_depends jar
 }
 
 after () {
@@ -22,27 +21,38 @@ after () {
 }
 
 it_runs_silently_if_mt_jar_path_is_set () {
-  module_depends jar
   mt_jar_path=/
-  OUTPUT=`mt_jar`
-  test "$OUTPUT" = ""
+  tested=true
+
+  module_exit () {
+    tested=
+  }
+
+  mt_jar
+  test "$tested" = "true"
 }
 
 it_runs_silently_if_it_finds_multitool_jar () {
-  HERE_PATH=`dirname $(cd ${0%/*}/../../../.. && echo $PWD/${0##*/})`
-  MT_PATH=.
+  MT_PATH=$TMP_JAR
+  tested=true
 
-  OUTPUT=`cd $TMP_JAR && . $HERE_PATH/bin/functions/jar.inc && mt_jar`
-
-  test "$OUTPUT" = ""
+  module_exit () {
+    tested=
+  }
+  
+  mt_jar
+  test "$tested" = "true"
+  test "$mt_jar_path" = "$TMP_JAR/multitool-test.jar"
 }
 
 it_complains_if_it_cannot_find_multitool_jar () {
   rm $TMP_JAR/multitool-test.jar
-  HERE_PATH=`dirname $(cd ${0%/*}/../../../.. && echo $PWD/${0##*/})`
-  MT_PATH=.
+  MT_PATH=$TMP_JAR
 
-  OUTPUT=`cd $TMPDIR && . $HERE_PATH/bin/functions/jar.inc && mt_jar`
-
-  test "$OUTPUT" = "ERROR multitool.jar not found"
+  module_exit () {
+    [ "$*" = "multitool.jar not found" ] && tested=true
+  }
+  
+  mt_jar
+  test "$tested" = "true"
 }

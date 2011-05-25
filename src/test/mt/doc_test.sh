@@ -5,8 +5,6 @@
 describe "doc.inc"
 
 before () {
-  mt_hadoop_avoid_exit=1
-  mt_jar_avoid_exit=1
   HADOOP_BIN=echo
   mt_jar_path=/
   module_depends _route doc

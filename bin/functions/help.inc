@@ -73,8 +73,7 @@ mt_help ()
         echo "Valid Topics:"
         mt_help_module_list
         echo
-        error "ERROR Invalid help topic: $1"
-        exit 1
+        module_exit "Invalid help topic: $1"
       fi
       shift
     done
