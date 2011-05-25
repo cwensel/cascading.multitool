@@ -59,7 +59,7 @@ route_perform ()
   then
     for step in `route_before $ROUTE_DEFAULT`
     do
-      eval $step \$args
+      eval $step \$full
     done
 
     eval $ROUTE_DEFAULT \$full

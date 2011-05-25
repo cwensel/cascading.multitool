@@ -9,21 +9,26 @@ before () {
   route_match "^testing$" do_testing
 }
 
-it_should_create_a_matcher () {
+ensure_foo_bar () {
+  [ $# -eq 2 ] || exit 1
+  [ "$1" = "foo" ] || exit 1
+  [ "$2" = "bar" ] || exit 1
+}
+
+it_creates_a_matcher () {
   test "$ROUTE_do_testing" = "^testing$"
 }
 
-it_should_fetch_a_matcher () {
+it_fetches_a_matcher () {
   test `route_match do_testing` = "^testing$"
 }
 
-it_should_set_a_default_matcher () {
+it_sets_a_default_matcher () {
   route_default defaulted
   test "$ROUTE_DEFAULT" = "defaulted"
 }
 
-it_should_route_a_string () {
-  tested=false
+it_routes () {
   do_testing () {
     tested=true
   }
@@ -31,18 +36,16 @@ it_should_route_a_string () {
   test "$tested" = "true"
 }
 
-it_should_route_a_string_with_arguments () {
+it_routes_with_arguments () {
   ROUTE_do_testing="^testing"
-  tested=false
   do_testing () {
-    [ "$1" = "foo" ] && [ "$2" = "bar" ] && [ "$*" = "foo bar" ] && tested=true
+    ensure_foo_bar $@ && tested=true
   }
   route_perform "testing" foo bar
   test "$tested" = "true"
 }
 
-it_should_route_the_default_matcher () {
-  tested=false
+it_defaults_to_a_function () {
   do_default () {
     tested=true
   }
@@ -51,17 +54,16 @@ it_should_route_the_default_matcher () {
   test "$tested" = "true"
 }
 
-it_should_route_the_default_with_arguments () {
-  tested=false
+it_defaults_with_arguments () {
   do_default () {
-    [ "$*" = "foo bar" ] && tested=true
+    ensure_foo_bar $@ && tested=true
   }
   route_default do_default
   route_perform foo bar
   test "$tested" = "true"
 }
 
-it_should_run_before_filters_before_routing () {
+it_runs_before_functions_and_then_routes () {
   do_pre () {
     did_pre=true
   }
@@ -73,23 +75,33 @@ it_should_run_before_filters_before_routing () {
   test "$tested" = "true"
 }
 
-it_should_run_before_filters_with_arguments () {
+it_runs_befores_with_args () {
   ROUTE_do_testing="^testing"
   do_pre () {
-    [ "$*" = "foo bar" ] && did_pre=true
+    ensure_foo_bar $@ && did_pre=true
   }
   do_testing () {
-    [ "$did_pre" = "true" ] && tested=true
+    ensure_foo_bar $@ && [ "$did_pre" = "true" ] && tested=true
   }
   route_before do_testing do_pre
   route_perform testing foo bar
   test "$tested" = "true"
 }
 
-it_should_run_multiple_before_filters () {
-  did_pre=false
-  did_pre2=false
-  tested=true
+it_defaults_a_before_with_args () {
+  do_pre () {
+    ensure_foo_bar $@ && did_pre=true
+  }
+  do_default () {
+    ensure_foo_bar $@ && [ "$did_pre" = "true" ] && tested=true
+  }
+  route_default do_default
+  route_before do_default do_pre
+  route_perform foo bar
+  test "$tested" = "true"
+}
+
+it_runs_multiple_befores () {
   pre () {
     did_pre=true
   }
@@ -101,4 +113,49 @@ it_should_run_multiple_before_filters () {
   }
   route_before do_testing pre pre2
   route_perform testing
+}
+
+it_defaults_multiple_befores () {
+  pre () {
+    did_pre=true
+  }
+  pre2 () {
+    did_pre2=true
+  }
+  do_default () {
+    [ "$did_pre" = "true" ] && [ "$did_pre2" = "true" ] && tested=true
+  }
+  route_default do_default
+  route_before do_default pre pre2
+  route_perform
+}
+
+it_runs_multiple_befores_with_args () {
+  ROUTE_do_testing="^testing"
+  pre () {
+    ensure_foo_bar $@ && did_pre=true
+  }
+  pre2 () {
+    ensure_foo_bar $@ && did_pre2=true
+  }
+  do_testing () {
+    ensure_foo_bar $@ && [ "$did_pre" = "true" ] && [ "$did_pre2" = "true" ] && tested=true
+  }
+  route_before do_testing pre pre2
+  route_perform testing foo bar
+}
+
+it_defaults_multiple_befores_with_args () {
+  pre () {
+    ensure_foo_bar $@ && did_pre=true
+  }
+  pre2 () {
+    ensure_foo_bar $@ && did_pre2=true
+  }
+  do_default () {
+    ensure_foo_bar $@ && [ "$did_pre" = "true" ] && [ "$did_pre2" = "true" ] && tested=true
+  }
+  route_default do_default
+  route_before do_default pre pre2
+  route_perform foo bar
 }
