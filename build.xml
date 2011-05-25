@@ -216,6 +216,9 @@
 
     <property file="${package.aws.properties}"/>
 
+    <echo message="http://${package.remote.bucket}/multitool/${ant.project.name}-${DSTAMP}.tgz"
+          file="${ant.project.name}-current.txt"/>
+
     <S3Upload verbose="true"
               accessId="${package.aws.accessId}"
               secretKey="${package.aws.secretKey}"
@@ -223,10 +226,8 @@
               prefix="${ant.project.name}/"
               publicRead="true">
       <fileset file="${ant.project.name}-${DSTAMP}.tgz"/>
+      <fileset file="${ant.project.name}-current.txt"/>
     </S3Upload>
-
-    <echo message="http://${package.remote.bucket}/multitool/${ant.project.name}-${DSTAMP}.tgz"
-          file="${ant.project.name}-current.txt"/>
 
     <property name="package.remote.port" value="22"/>
     <scp file="${ant.project.name}-current.txt"
