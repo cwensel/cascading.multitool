@@ -16,10 +16,7 @@ Flags:
   -v|--version - specify the version of Cascading.Multitool to fetch
 USAGE
 
-mt_update_latest=
-mt_update_base="http://files.cascading.org/multitool"
-mt_update_latest_location="http://www.cascading.org/downloads.html"
-mt_update_latest_extractor='s/.*multitool-\([^\.]*\)\.tgz.*/\1/g'
+mt_update_base_url="http://files.cascading.org/multitool"
 
 mt_update_curl ()
 {
@@ -55,10 +52,10 @@ mt_update_parse_latest ()
   do
     case "$1" in
       --version=*)
-        mt_update_latest=`echo $1 | sed 's/--version=\(.*\)/\1/g'`
+        mt_update_latest=$mt_update_base_url/multitool-`echo $1 | sed 's/--version=\(.*\)/\1/g'`.tgz
         ;;
       -v|--version)
-        mt_update_latest=$2
+        mt_update_latest=$mt_update_base_url/multitool-$2.tgz
         break 1
         ;;
       *)
@@ -67,20 +64,16 @@ mt_update_parse_latest ()
     esac
     shift
   done
-  
-  for location in $mt_update_base/multitool-current.txt $mt_update_latest_location
-  do
-    if [ -n "$mt_update_latest" ]
-    then
-      break 1
-    fi
-    info "INFO Parsing version number from $location"
-    mt_update_latest=`mt_update_curl $location | grep "$mt_update_base.*\.tgz" | sed $mt_update_latest_extractor`
-  done
-  
+
   if [ -z "$mt_update_latest" ]
   then
-    module_exit "Cannot get latest multitool."
+    info "INFO Parsing version number from $mt_update_base_url/multitool-current.txt"
+    mt_update_latest=`mt_update_curl $location | grep "$mt_update_base_url.*\.tgz" | sed 's|^\([^ ]*://[^ ]*\).*|\1|g' | head -n1`
+  fi
+
+  if [ -z "$mt_update_latest" ]
+  then
+    module_exit "Cannot get latest multitool from $mt_update_base_url/multitool-current.txt"
   fi
 }
 
@@ -88,13 +81,13 @@ mt_update ()
 {
   TMPDIR=`mktemp -d /tmp/cascading_multitool-mt_update.XXXXXX`
 
-  info "INFO Fetching $mt_update_base/multitool-$mt_update_latest.tgz"
-  mt_update_curl -o $TMPDIR/latest.tgz $mt_update_base/multitool-$mt_update_latest.tgz
+  info "INFO Fetching $mt_update_latest"
+  mt_update_curl -o $TMPDIR/latest.tgz $mt_update_latest
 
   if [ $? -ne 0 ]
   then
     rm -rf $TMPDIR
-    module_exit "Could not fetch $mt_update_base/multitool-$mt_update_latest.tgz"
+    module_exit "Could not fetch $mt_update_latest"
   fi
 
   info "INFO Extracting $TMPDIR/latest.tgz"

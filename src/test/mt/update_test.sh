@@ -51,12 +51,13 @@ it_parses_the_multitool_location () {
   }
   
   test "$mt_update_latest" != "latest"
-  CURL_BIN="echo 'http://files.cascading.org/multitool/multitool-latest.tgz'"
+  testing_url="http://files.cascading.org/multitool/multitool-latest.tgz"
+  CURL_BIN="echo $testing_url"
   mt_update () {
     tested=true
   }
   route_perform update
-  test "$mt_update_latest" = "latest"
+  test "$mt_update_latest" = "$testing_url"
 }
 
 it_allows_a_version_specifier () {
@@ -70,11 +71,10 @@ it_allows_a_version_specifier () {
   }
   
   route_perform update -v latest
-  test "$mt_update_latest" = "latest" && test "$tested" = "true"
-
-  tested=
+  test "$mt_update_latest" = "http://files.cascading.org/multitool/multitool-latest.tgz"
+  
   route_perform update --version=some_other
-  test "$mt_update_latest" = "some_other" && test "$tested" = "true"
+  test "$mt_update_latest" = "http://files.cascading.org/multitool/multitool-some_other.tgz"
 }
 
 it_unpacks_a_tarball_into_position () {
@@ -82,7 +82,7 @@ it_unpacks_a_tarball_into_position () {
     MT_PATH=/does/not/exist
   }
   mt_update_parse_latest () {
-    mt_update_latest="some_version"
+    mt_update_latest="http://files.cascading.org/multitool/multitool-some_version.tgz"
   }
   mt_update_curl () {
     TEMP_DIR=`dirname $2`
