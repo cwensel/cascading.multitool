@@ -39,25 +39,39 @@ it_exits_if_a_git_repo_is_detected () {
   }
 
   route_perform update
-  
   rm -rf $TMPDIR
-  
+
   test "$tested" = "3"
 }
 
-it_parses_the_multitool_location () {
+it_parses_the_latest_multitool_location () {
+  testing_url="http://files.cascading.org/multitool/multitool-latest.tgz"
+  CURL_BIN="echo $testing_url"
   mt_update_reject_git () {
     MT_PATH=/does/not/exist
   }
-  
-  test "$mt_update_latest" != "latest"
-  testing_url="http://files.cascading.org/multitool/multitool-latest.tgz"
-  CURL_BIN="echo $testing_url"
   mt_update () {
     tested=true
   }
+
   route_perform update
-  test "$mt_update_latest" = "$testing_url"
+  test "$mt_update_latest" = "$testing_url" -a "$tested" = "true"
+}
+
+it_complains_if_curl_fails_to_fetch_latest () {
+  CURL_BIN=echo
+  mt_update_reject_git () {
+    MT_PATH=/does/not/exist
+  }
+  module_exit () {
+    [ "$*" = "Cannot get latest multitool from http://files.cascading.org/multitool/multitool-current.txt" ] && tested=1
+  }
+  mt_update () {
+    [ "$tested" = "1" ] && tested=2
+  }
+
+  route_perform update
+  test "$mt_update_latest" = "$testing_url" -a "$tested" = "2"
 }
 
 it_allows_a_version_specifier () {
