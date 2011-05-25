@@ -29,7 +29,7 @@ mt_run ()
         error $line
       elif echo $line | grep Exception > /dev/null; then
         stacktrace $line
-      elif echo $line | grep "error: invalid argument" > /dev/null; then
+      elif echo $line | grep "^error: " > /dev/null; then
         mt_doc_argument_error $line
         module_exit
       elif [ -n "$mt_log_verbose" ]; then
