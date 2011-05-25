@@ -3,15 +3,25 @@
 module_depends log hadoop jar help doc
 
 route_default mt_run
-route_before mt_run mt_hadoop mt_jar
+route_before mt_run mt_run_error_argless mt_hadoop mt_jar
 
-mt_run ()
+mt_run_error_argless ()
 {
   if [ $# -eq 0 ]; then
     mt_help
     echo
     error "ERROR No arguments specified"
+  fi
+}
 
+mt_run ()
+{
+  if [ $# -eq 0 ]
+  then
+    if [ -z $mt_run_avoid_exit ]
+    then
+      exit 1
+    fi
   else
     $HADOOP_BIN jar $mt_jar_path $@ 2>&1 | while read line; do
       if echo $line | grep INFO > /dev/null; then
