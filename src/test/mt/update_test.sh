@@ -28,7 +28,7 @@ it_routes () {
 }
 
 it_exits_if_a_git_repo_is_detected () {
-  TMPDIR=`mktemp -d /tmp/mt_update-spec.XXXXXX`
+  TMPDIR=`mktemp -dt mt_update-spec.XXXXXX`
   mkdir -p $TMPDIR/.git
   MT_PATH=$TMPDIR
 
