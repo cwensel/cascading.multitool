@@ -22,7 +22,7 @@ mt_update_create_temp ()
 {
   mt_update_temp=`mktemp -dt cascading_multitool-mt_update.XXXXX`
 
-  if [ ! -d "$temp_dir" ]
+  if [ ! -d "$mt_update_temp" ]
   then
     module_exit "Could not create temporary directory"
   fi

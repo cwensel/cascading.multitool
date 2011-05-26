@@ -28,7 +28,7 @@ it_routes () {
 }
 
 it_exits_if_a_git_repo_is_detected () {
-  TMPDIR=`mktemp -d /tmp/mt_update-spec.XXXXXX`
+  TMPDIR=`mktemp -dt mt_update-spec.XXXXXX`
   mkdir -p $TMPDIR/.git
   MT_PATH=$TMPDIR
 
@@ -109,7 +109,7 @@ it_allows_a_version_specifier () {
 }
 
 it_updates_an_existing_installation () {
-  TMPDIR=`mktemp -d /tmp/mt_update-spec.XXXXXX`
+  TMPDIR=`mktemp -dt mt_update-spec.XXXXXX`
   mkdir $TMPDIR/mt
   MT_PATH=$TMPDIR/mt
   touch $MT_PATH/foo

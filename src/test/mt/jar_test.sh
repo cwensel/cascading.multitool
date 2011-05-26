@@ -5,12 +5,12 @@
 describe "jar.inc"
 
 before () {
-  TMP_HADOOP=`mktemp -d /tmp/mt_jar-hadoop-spec.XXXXXX`
+  TMP_HADOOP=`mktemp -dt mt_jar-hadoop-spec.XXXXXX`
   mkdir -p $TMP_HADOOP/bin/
   touch $TMP_HADOOP/bin/hadoop
   HADOOP_HOME=$TMP_HADOOP
 
-  TMP_JAR=`mktemp -d /tmp/mt_jar-spec.XXXXXX`
+  TMP_JAR=`mktemp -dt mt_jar-spec.XXXXXX`
   touch $TMP_JAR/multitool-test.jar
 
   module_depends jar

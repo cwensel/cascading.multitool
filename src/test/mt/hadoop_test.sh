@@ -9,7 +9,7 @@ before () {
 }
 
 it_detects_hadoop_if_HADOOP_HOME_is_set () {
-  TMPDIR=`mktemp -d /tmp/mt_hadoop-spec.XXXXXX`
+  TMPDIR=`mktemp -dt mt_hadoop-spec.XXXXXX`
   mkdir -p $TMPDIR/bin/
   touch $TMPDIR/bin/hadoop
   PATH=/usr/bin/:/bin:/usr/sbin:/sbin
