@@ -20,7 +20,7 @@ mt_update_base_url="http://files.cascading.org/multitool"
 
 mt_update_create_temp ()
 {
-  mt_update_temp=`mktemp -d /tmp/cascading_multitool-mt_update.XXXXXX`
+  mt_update_temp=`mktemp -dt cascading_multitool-mt_update.XXXXX`
 
   if [ ! -d "$temp_dir" ]
   then
