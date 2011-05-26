@@ -74,3 +74,16 @@ stacktrace ()
   log $@
   mt_log_stack_depth=$(($mt_log_stack_depth + 1))
 }
+
+# Override module#exit
+module_exit ()
+{
+  code=1
+
+  if [ $# -gt 0 ]
+  then
+    error "ERROR $@"
+  fi
+
+  exit $code
+}

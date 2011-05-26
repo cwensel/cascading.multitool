@@ -4,15 +4,13 @@ module_depends log hadoop
 
 mt_jar ()
 {
-  if [ -z $mt_jar_path ]; then
+  if [ -z $mt_jar_path ]
+  then
     mt_jar_path=`find $MT_PATH -name multitool*.jar | head -n1`
 
-    if [ -z $mt_jar_path ]; then
-      error "ERROR multitool.jar not found"
-    
-      if [ -z $mt_jar_avoid_exit ]; then
-        exit 1
-      fi
+    if [ -z $mt_jar_path ]
+    then
+      module_exit "multitool.jar not found"
     fi
   fi
 }

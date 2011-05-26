@@ -6,14 +6,12 @@ describe "run.inc"
 
 before () {
   color=always
-  
   HADOOP_BIN=echo
   mt_jar_path=/
   module_depends _route run
 }
 
 it_routes () {
-  tested=false
   mt_run () {
     tested=true
   }
@@ -22,13 +20,17 @@ it_routes () {
 }
 
 it_exits_if_no_arguments_are_specified () {
-  OUTPUT=`mt_run`
-
-  test "$OUTPUT" != ""
+  module_exit () {
+    [ "$*" = "No arguments specified" ] && tested=true
+  }
+  route_perform
+  test "$tested" = "true"
 }
 
 it_runs_with_all_specified_arguments () {
-  OUTPUT=`mt_run test=true`
-
-  test "$OUTPUT" = "jar / test=true"
+  do_run_stub () {
+    test "$*" = "jar $mt_jar_path test=true" || exit 1
+  }
+  HADOOP_BIN=do_run_stub
+  route_perform test=true
 }

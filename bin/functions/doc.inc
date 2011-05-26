@@ -9,7 +9,7 @@ module_annotate doc about "describes a Cascading.Multitool command"
 
 mt_doc_table ()
 {
-  names=`mt_jar_avoid_exit=1 mt_jar_usage | tail -n +5 | sed -e 's/^[ \t]*//' | cut -d " " -f1 | sort`
+  names=`mt_jar_usage | tail -n +5 | sed -e 's/^[ \t]*//' | cut -d " " -f1 | sort`
   set -- $names
   while [ $# -gt 0 ]
   do
@@ -62,6 +62,6 @@ mt_doc ()
     mt_doc_argument_usage $request
   else
     mt_doc_argument_error "ERROR Invalid argument: $2"
-    exit 1
+    module_exit
   fi
 }

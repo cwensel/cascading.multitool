@@ -34,10 +34,21 @@ else
   mt_install_bin_destination=
 fi
 
+mt_install_examine_hadoop ()
+{
+  module_exit ()
+  {
+    error ERROR $@
+  }
+
+  mt_hadoop
+  mt_jar
+}
+
 mt_install ()
 {
   mkdir -p $mt_install_destination
-  
+
   for dir in $mt_install_dirs
   do
     info "INFO Installing $mt_install_destination/$dir/*"
@@ -50,8 +61,7 @@ mt_install ()
     cp -f $MT_PATH/$file $mt_install_destination
   done
 
-  mt_hadoop_avoid_exit=1 mt_hadoop
-  mt_jar_avoid_exit=1 mt_jar
+  mt_install_examine_hadoop
 
   if [ -n "$mt_jar_path" ]
   then
