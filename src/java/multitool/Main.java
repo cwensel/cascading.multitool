@@ -154,7 +154,7 @@ public class Main
     System.out.println( "Usage:" );
 
     System.out.println( "options:" );
-    System.out.println( String.format( "  %-25s  %s", "dot", "write a plan DOT file to the given path then exit" ) );
+    System.out.println( String.format( "  %-25s  %s", "-dot=<file>", "filename to write a plan DOT file then exit" ) );
     System.out.println( "taps:" );
     printFactoryUsage( TAP_FACTORIES );
     System.out.println( "operations:" );
