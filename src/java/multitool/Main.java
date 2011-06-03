@@ -108,7 +108,6 @@ public class Main
 
   public static void main( String[] args )
     {
-
     Map<String, String> options = new LinkedHashMap<String, String>();
     List<String[]> params = new LinkedList<String[]>();
 
@@ -154,7 +153,11 @@ public class Main
     System.out.println( "" );
     System.out.println( "Usage:" );
 
+    System.out.println( "options:" );
+    System.out.println( String.format( "  %-25s  %s", "dot", "write a plan DOT file to the given path then exit" ) );
+    System.out.println( "taps:" );
     printFactoryUsage( TAP_FACTORIES );
+    System.out.println( "operations:" );
     printFactoryUsage( PIPE_FACTORIES );
 
     System.exit( 1 );
@@ -228,10 +231,10 @@ public class Main
     {
     for( Factory factory : factories )
       {
-      System.out.println( String.format( "  %-10s  %s", factory.getAlias(), factory.getUsage() ) );
+      System.out.println( String.format( "  %-25s  %s", factory.getAlias(), factory.getUsage() ) );
 
       for( String[] strings : factory.getParametersAndUsage() )
-        System.out.println( String.format( "  %-10s  %s", strings[ 0 ], strings[ 1 ] ) );
+        System.out.println( String.format( "  %-25s  %s", strings[ 0 ], strings[ 1 ] ) );
       }
     }
 
@@ -313,14 +316,22 @@ public class Main
       Flow flow = plan( getDefaultProperties() );
 
       if( options.containsKey( "-dot" ) )
+        {
         flow.writeDOT( options.get( "-dot" ) );
+        System.out.println( "wrote DOT file to: " + options.get( "-dot" ) );
+        System.out.println( "exiting" );
+        return;
+        }
 
       flow.complete();
       }
     catch( PlannerException exception )
       {
       if( options.containsKey( "-dot" ) )
+        {
         exception.writeDOT( options.get( "-dot" ) );
+        System.out.println( "wrote DOT file to: " + options.get( "-dot" ) );
+        }
 
       throw exception;
       }
@@ -328,7 +339,6 @@ public class Main
 
   public Flow plan( Properties properties )
     {
-
     Map<String, Pipe> pipes = new HashMap<String, Pipe>();
     Map<String, Tap> sources = new HashMap<String, Tap>();
     Map<String, Tap> sinks = new HashMap<String, Tap>();
