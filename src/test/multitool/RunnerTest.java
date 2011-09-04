@@ -29,8 +29,8 @@ import java.util.regex.Pattern;
 
 import cascading.CascadingTestCase;
 import cascading.flow.Flow;
-import cascading.scheme.TextLine;
-import cascading.tap.Hfs;
+import cascading.scheme.hadoop.TextLine;
+import cascading.tap.hadoop.Hfs;
 import cascading.tuple.TupleEntryIterator;
 
 /**

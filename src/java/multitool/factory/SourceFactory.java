@@ -27,10 +27,10 @@ import cascading.operation.Identity;
 import cascading.operation.expression.ExpressionFilter;
 import cascading.pipe.Each;
 import cascading.pipe.Pipe;
-import cascading.scheme.SequenceFile;
-import cascading.scheme.TextLine;
-import cascading.tap.Hfs;
+import cascading.scheme.hadoop.SequenceFile;
+import cascading.scheme.hadoop.TextLine;
 import cascading.tap.Tap;
+import cascading.tap.hadoop.Hfs;
 import cascading.tuple.Fields;
 
 /**

@@ -36,7 +36,8 @@ import java.util.Properties;
 import cascading.cascade.Cascade;
 import cascading.flow.Flow;
 import cascading.flow.FlowConnector;
-import cascading.flow.PlannerException;
+import cascading.flow.hadoop.HadoopFlowConnector;
+import cascading.flow.planner.PlannerException;
 import cascading.pipe.Pipe;
 import cascading.tap.Tap;
 import multitool.factory.CoGroupFactory;
@@ -381,7 +382,7 @@ public class Main
     if( sinks.isEmpty() )
       throw new IllegalArgumentException( "error: must have one sink" );
 
-    return new FlowConnector( properties ).connect( "multitool", sources, sinks, currentPipe );
+    return new HadoopFlowConnector( properties ).connect( "multitool", sources, sinks, currentPipe );
     }
 
   private Map<String, String> getSubParams( String key, ListIterator<String[]> iterator )
