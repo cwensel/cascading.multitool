@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2011 Concurrent, Inc. All Rights Reserved.
+ * Copyright (c) 2007-2011 Concurrent, Inc. All Rights Reserved.
  *
  * Project and contact information: http://www.cascading.org/
  *
@@ -62,7 +62,7 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getIdentifier().toString() ) );
     validateLength( iterator, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){11}$" ) ); // we removed one line
     iterator.close();
     }
@@ -83,7 +83,7 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getIdentifier().toString() ) );
     validateLength( iterator, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
     iterator.close();
     }
@@ -105,7 +105,7 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getIdentifier().toString() ) );
     validateLength( iterator, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){1}$" ) ); // we removed one line
     iterator.close();
     }
@@ -129,7 +129,7 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getIdentifier().toString() ) );
     validateLength( iterator, 2, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){11}$" ) ); // we removed one line
     iterator.close();
     }
@@ -156,7 +156,7 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getIdentifier().toString() ) );
     validateLength( iterator, 16, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){12}file:.*/data/track.100.txt$" ) ); // we removed one line
     iterator.close();
     }
@@ -178,7 +178,7 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getIdentifier().toString() ) );
     validateLength( iterator, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){11}$" ) ); // we removed one line
     iterator.close();
     }
@@ -201,7 +201,7 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getIdentifier().toString() ) );
     validateLength( iterator, 99, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*)$" ) ); // we removed one line
     iterator.close();
     }
@@ -226,7 +226,7 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getIdentifier().toString() ) );
     validateLength( iterator, 395, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
     iterator.close();
     }
@@ -251,7 +251,7 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getIdentifier().toString() ) );
     validateLength( iterator, 4, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
     iterator.close();
     }
@@ -295,7 +295,7 @@ public class RunnerTest extends CascadingTestCase
 
     flow.complete();
 
-    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getPath().toString() ) );
+    TupleEntryIterator iterator = flow.openTapForRead( new Hfs( new TextLine(), flow.getSink().getIdentifier().toString() ) );
     validateLength( iterator, 5, 2, Pattern.compile( "^[0-9]+(\\t[^\\t]*){2}$" ) ); // we removed one line
     iterator.close();
     }
