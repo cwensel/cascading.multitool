@@ -11,12 +11,15 @@ mt_doc_table ()
 {
   names=`mt_jar_usage | tail -n +5 | sed -e 's/^[ \t]*//' | cut -d " " -f1 | sort`
   set -- $names
-  while [ $# -gt 0 ]
+  while [ $# -gt 3 ]
   do
     printf "  %-25s%-25s%-25s" "$1" "$2" "$3"
     echo
     shift 3
   done
+  
+  printf "  %-25s%-25s%-25s" "$1" "$2" "$3"
+  echo
 }
 
 module_annotate_block doc usage <<EOF
