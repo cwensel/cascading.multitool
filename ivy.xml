@@ -1,3 +1,23 @@
+<!--
+  ~ Copyright (c) 2007-2011 Concurrent, Inc. All Rights Reserved.
+  ~
+  ~ Project and contact information: http://www.cascading.org/
+  ~
+  ~ This file is part of the Cascading project.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <ivy-module version="2.0">
   <info organisation="cascading" module="cascading-multitool" revision="${cascading.release.full}">
 
@@ -16,8 +36,9 @@
   </configurations>
 
   <dependencies>
-    <dependency org="cascading" name="cascading-core" rev="1.2.3" conf="default"/>
-    <dependency org="cascading" name="cascading-test" rev="1.2.3" conf="test->default"/>
+    <dependency org="cascading" name="cascading-core" rev="2-wip-dev" conf="default"/>
+    <dependency org="cascading" name="cascading-hadoop" rev="2-wip-dev" conf="default"/>
+    <dependency org="cascading" name="cascading-test" rev="2-wip-dev" conf="test->default"/>
 
     <dependency org="org.apache.hadoop" name="hadoop-core" rev="0.20.2" conf="test->default">
       <exclude org="ant"/>

@@ -1,22 +1,21 @@
 /*
- * Copyright (c) 2009-2011 Concurrent, Inc. All Rights Reserved.
+ * Copyright (c) 2007-2011 Concurrent, Inc. All Rights Reserved.
  *
  * Project and contact information: http://www.cascading.org/
  *
  * This file is part of the Cascading project.
  *
- * Cascading is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * Cascading is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with Cascading.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package multitool;
@@ -45,6 +44,7 @@ import multitool.factory.ConcatFactory;
 import multitool.factory.CountFactory;
 import multitool.factory.CutFactory;
 import multitool.factory.DebugFactory;
+import multitool.factory.DiscardFactory;
 import multitool.factory.ExpressionFactory;
 import multitool.factory.Factory;
 import multitool.factory.FileNameFactory;
@@ -55,9 +55,9 @@ import multitool.factory.ParserGenFactory;
 import multitool.factory.PipeFactory;
 import multitool.factory.RejectFactory;
 import multitool.factory.ReplaceFactory;
+import multitool.factory.RetainFactory;
 import multitool.factory.SelectExpressionFactory;
 import multitool.factory.SelectFactory;
-import multitool.factory.ShapeFactory;
 import multitool.factory.SinkFactory;
 import multitool.factory.SourceFactory;
 import multitool.factory.SumFactory;
@@ -81,7 +81,8 @@ public class Main
 
   static PipeFactory[] PIPE_FACTORIES = new PipeFactory[]{new RejectFactory( "reject" ), new SelectFactory( "select" ),
                                                           new CutFactory( "cut" ), new ParserFactory( "parse" ),
-                                                          new ShapeFactory( "shape" ),
+                                                          new RetainFactory( "retain" ),
+                                                          new DiscardFactory( "discard" ),
                                                           new ParserGenFactory( "pgen" ),
                                                           new ReplaceFactory( "replace" ),
                                                           new GroupByFactory( "group" ), new CoGroupFactory( "join" ),
