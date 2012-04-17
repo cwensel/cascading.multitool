@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007-2011 Concurrent, Inc. All Rights Reserved.
+ * Copyright (c) 2007-2012 Concurrent, Inc. All Rights Reserved.
  *
  * Project and contact information: http://www.cascading.org/
  *
@@ -34,10 +34,10 @@ import java.util.Properties;
 
 import cascading.cascade.Cascade;
 import cascading.flow.Flow;
-import cascading.flow.FlowConnector;
 import cascading.flow.hadoop.HadoopFlowConnector;
 import cascading.flow.planner.PlannerException;
 import cascading.pipe.Pipe;
+import cascading.property.AppProps;
 import cascading.tap.Tap;
 import multitool.factory.CoGroupFactory;
 import multitool.factory.ConcatFactory;
@@ -279,7 +279,7 @@ public class Main
     {
     Properties properties = new Properties();
 
-    FlowConnector.setApplicationJarClass( properties, Main.class );
+    AppProps.setApplicationJarClass( properties, Main.class );
 
     properties.setProperty( "mapred.output.compression.codec", GzipCodec.class.getName() );
     properties.setProperty( "mapred.child.java.opts", "-server -Xmx512m" );
